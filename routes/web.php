@@ -28,3 +28,7 @@ Route::post('/login', [EmployeeController::class, 'login'])->name('login.submit'
 
 // Dashboard route
 Route::get('/dashboard', [EmployeeController::class, 'showDashboard'])->name('dashboard');
+
+
+//Admin Login
+Route::view('/admin', 'admin/login');
