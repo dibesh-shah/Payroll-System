@@ -19,7 +19,7 @@
   <div class="flex items-center justify-center h-screen">
     <div class="text-center">
       <h1 class="text-5xl font-bold mb-8">Payroll Management System</h1>
-      <a class="text-white bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-md text-lg" href="register">Get Started</a>
+      <a class="text-white bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-md text-lg" href="{{route('employees.create')}}">Get Started</a>
     </div>
   </div>
 

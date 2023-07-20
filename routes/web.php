@@ -16,7 +16,7 @@ use App\Models\Employee;
 */
 
 Route::get('/', function () {
-    return view('user/welcome');
+    return view('employees/welcome');
 });
 //register
 Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
