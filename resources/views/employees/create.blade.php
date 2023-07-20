@@ -17,7 +17,7 @@
   <nav class="bg-gray-900 text-white px-8 py-4">
     <div class="container mx-auto flex justify-between items-center">
       <a class="text-xl font-bold" href="#">Payroll System</a>
-      <button class="text-white bg-custom-blue hover:bg-blue-800 px-4 py-4 rounded-md">Login</button>
+      <a href="{{ route('login') }}" class="text-white bg-custom-blue hover:bg-blue-800 px-4 py-4 rounded-md" >Login</a>
     </div>
   </nav>
 
