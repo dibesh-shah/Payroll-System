@@ -25,3 +25,5 @@ Route::get('/register', function () {
 Route::view('/login', 'user/login');
 
 Route::view('/admin', 'admin/login');
+
+Route::view('/admin/dashboard', 'admin/dashboard');
