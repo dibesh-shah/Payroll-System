@@ -27,6 +27,10 @@
     <div class="text-green-500 mb-4">
         {{ session('success') }}
     </div>
+@else
+<div class="text-red-500 mb-4">
+Employee creation failed.
+</div>
 @endif
     </br>
     <form class="grid grid-cols-2 gap-6" action="{{ route('employees.store') }}" method="POST">
@@ -42,6 +46,9 @@
       <div>
         <label class="block mb-2">Email:</label>
         <input type="email" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your email address" name="email" required>
+    @error('email')
+
+        @enderror
       </div>
       <div>
         <label class="block mb-2">Phone:</label>
