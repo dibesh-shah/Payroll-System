@@ -27,3 +27,6 @@ Route::view('/login', 'user/login');
 Route::view('/admin', 'admin/login');
 
 Route::view('/admin/dashboard', 'admin/dashboard');
+
+Route::view('/admin/approve', 'admin/approve');
+Route::view('/admin/approvedetails', 'admin/approvedetails')->name('approvedetail');
