@@ -52,6 +52,9 @@ class EmployeeController extends Controller
     }
     public function showDashboard()
     {
-        return view('dashboard');
+        return view('admin/dashboard');
+    }
+    public function showApprove(){
+        return view('admin/approve');
     }
 }
