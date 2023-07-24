@@ -30,6 +30,7 @@ Route::post('/login', [EmployeeController::class, 'login'])->name('login.submit'
 Route::get('/admin/dashboard', [EmployeeController::class, 'showDashboard']);
 Route::get('/admin/approve', [EmployeeController::class, 'showApprove'])->name('showApprove');
 Route::view('/admin/approvedetails', 'admin/approvedetails')->name('approvedetail');
+Route::view('/admin/department', 'admin/department')->name('department');
 
 
 //Admin Login
