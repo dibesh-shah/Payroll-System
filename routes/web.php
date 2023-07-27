@@ -18,3 +18,5 @@ Route::view('/admin/dashboard', 'admin/dashboard');
 Route::view('/admin/approve', 'admin/approve');
 Route::view('/admin/approvedetails', 'admin/approvedetails')->name('approvedetail');
 Route::view('/admin/department', 'admin/department');
+Route::view('/admin/allowance', 'admin/allowance');
+Route::view('/admin/deduction', 'admin/deduction');
