@@ -42,5 +42,8 @@ Route::put('/admin/departments/{department}', [DepartmentController::class, 'upd
 Route::delete('/admin/departments/{department}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
 
 
+Route::view('/admin/allowance', 'admin/allowance')->name('allowance');
+Route::view('/admin/deduction', 'admin/deduction')->name('deduction');
+
 //Admin Login
 Route::view('/admin', 'admin/login');
