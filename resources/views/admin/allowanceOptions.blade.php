@@ -6,15 +6,16 @@
      <div class="container mx-auto mt-5">
          <h1 class="text-3xl font-bold mb-4">Add Allowance</h1>
          <div class="max-w  bg-white p-6 rounded-lg shadow-lg">
-             <form>
+             <form action="{{route('allowanceOptions.store')}}" method="POST">
+                @csrf
                  <div class="grid grid-cols-2 gap-6">
                      <div>
                          <label for="type" class="block text-gray-700 font-semibold mb-2">Allowance Type:</label>
-                         <input type="text" id="type" name="type" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter allowance type" required>
+                         <input type="text" id="type" name="name" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter allowance type" required>
                      </div>
                      <div>
                          <label for="description" class="block text-gray-700 font-semibold mb-2">Description:</label>
-                         <input id="description" name="description" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="Enter allowance description" required></input>
+                         <input id="description" name="description" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="Enter allowance description" required>
                      </div>
                  </div>
                  <div class="flex justify-end mt-4">
@@ -25,6 +26,15 @@
 
          <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
              <h2 class="text-xl font-bold mb-4">Allowance List</h2>
+             @if(session('success'))
+             <div class="text-green-500 mb-4">
+                 {{ session('success') }}
+             </div>
+         @else
+         <div class="text-red-500 mb-4">
+         Allowance creation failed.
+         </div>
+         @endif
              <table class="w-full border-collapse">
                  <thead>
                      <tr>
@@ -38,45 +48,23 @@
                  </thead>
                  <tbody>
                      <!-- Sample Data (Replace with dynamic data from backend) -->
+                     @foreach ($allowanceOptions as $allowanceOption)
                      <tr>
-                         <td class="py-2 px-4 text-center">1</td>
-                         <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white" value="Travel Allowance" disabled></td>
-                         <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white" value="Travel Allowance Description" disabled></td>
-                         <td class="py-2 px-4 text-center">2023-07-19</td>
-                         <td class="py-2 px-4 text-center">2023-07-19</td>
-                         <td class="py-2 px-4 text-center">
-                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn"> Edit</button>
-                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
-                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
+                        <td class="py-2 px-4 text-center">{{$allowanceOption->id}}</td>
+                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white"  disabled>{{$allowanceOption->name}}</td>
+                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white" disabled>{{$allowanceOption->description}}</td>
+                        <td class="py-2 px-4 text-center">{{$allowanceOption->created_at}}</td>
+                        <td class="py-2 px-4 text-center">{{$allowanceOption->updated_at}}</td>
+                        <td class="py-2 px-4 text-center">
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn"> Edit</button>
+                            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
+                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
 
-                         </td>
-                     </tr>
-                     <tr>
-                         <td class="py-2 px-4 text-center">1</td>
-                         <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white" value="Travel Allowance" disabled></td>
-                         <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white" value="Travel Allowance Description" disabled></td>
-                         <td class="py-2 px-4 text-center">2023-07-19</td>
-                         <td class="py-2 px-4 text-center">2023-07-19</td>
-                         <td class="py-2 px-4 text-center">
-                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
-                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
-                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
+                        </td>
+                    </tr>
+                     @endforeach
 
-                         </td>
-                     </tr>
-                     <tr>
-                         <td class="py-2 px-4 text-center">1</td>
-                         <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white" value="Travel Allowance" disabled></td>
-                         <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white" value="Travel Allowance Description" disabled></td>
-                         <td class="py-2 px-4 text-center">2023-07-19</td>
-                         <td class="py-2 px-4 text-center">2023-07-19</td>
-                         <td class="py-2 px-4 text-center">
-                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
-                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
-                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
 
-                         </td>
-                     </tr>
 
                  </tbody>
              </table>

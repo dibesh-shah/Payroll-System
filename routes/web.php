@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\AllowanceController;
+use App\Http\Controllers\AllowanceOptionController;
+use App\Http\Controllers\DeductionController;
+use App\Http\Controllers\DeductionOptionController;
+use App\Http\Controllers\ApproveEmployeeController;
 
 
 /*
@@ -29,7 +34,10 @@ Route::post('/login', [EmployeeController::class, 'login'])->name('login.submit'
 
 // Dashboard route
 Route::get('/admin/dashboard', [EmployeeController::class, 'showDashboard']);
-Route::get('/admin/approve', [EmployeeController::class, 'showApprove'])->name('showApprove');
+Route::get('/admin/approveEmployees', [ApproveEmployeeController::class, 'index'])->name('approveEmployees.index');
+Route::get('/employees/approve/{id}', [ApproveEmployeeController::class, 'approveEmployee'])->name('employees.approve');
+Route::get('/employees/reject/{id}', [ApproveEmployeeController::class, 'rejectEmployee'])->name('employees.reject');
+
 Route::view('/admin/approvedetails', 'admin/approvedetails')->name('approvedetail');
 
 
@@ -41,9 +49,27 @@ Route::get('/admin/departments/{department}/edit', [DepartmentController::class,
 Route::put('/admin/departments/{department}', [DepartmentController::class, 'update'])->name('departments.update');
 Route::delete('/admin/departments/{department}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
 
+//Allowance routes
+// Route::get('/admin/allowance', [AllowanceController::class, 'index'])->name('allowance.index');
 
-Route::view('/admin/allowance', 'admin/allowance')->name('allowance');
-Route::view('/admin/deduction', 'admin/deduction')->name('deduction');
+//AllowanceOption routes
+Route::get('/admin/allowanceOptions', [AllowanceOptionController::class, 'index'])->name('allowanceOptions.index');
+Route::get('/admin/allowanceOptions/create', [AllowanceOptionController::class, 'create'])->name('allowanceOptions.create');
+Route::post('/admin/allowanceOptions', [AllowanceOptionController::class, 'store'])->name('allowanceOptions.store');
+
+
+
+//Deduction Routes
+// Route::get('/admin/deduction', [DeductionController::class, 'index'])->name('deduction.index');
+
+//DeductionOption Routes
+Route::get('/admin/deductionOptions', [DeductionOptionController::class, 'index'])->name('deductionOptions.index');
+Route::get('/admin/deductionOptions/create', [DeductionOptionController::class, 'create'])->name('deductionOptions.create');
+Route::post('/admin/deductionOptions', [DeductionOptionController::class, 'store'])->name('deductionOptions.store');
+
+
+
+
 
 //Admin Login
 Route::view('/admin', 'admin/login');

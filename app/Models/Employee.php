@@ -23,5 +23,9 @@ class Employee extends Model
     protected $dates = [
         'date_of_birth',
     ];
+    public function approval()
+    {
+        return $this->hasOne(ApproveEmployee::class);
+    }
 }
 

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ApproveEmployee;
 
 class EmployeeController extends Controller
 {
+
     public function create()
     {
         return view('employees.create');
@@ -29,6 +31,10 @@ class EmployeeController extends Controller
         Employee::create($validatedData);
 
         return redirect()->route('employees.create')->with('success', 'Employee registered successfully!');
+        ApproveEmployee::create([
+            'employee_id' => $request('id'),
+            'is_approved' => false, // Set the default approval status to false
+        ]);
     }
     // Login method
     public function showLoginForm()
@@ -54,7 +60,5 @@ class EmployeeController extends Controller
     {
         return view('admin/dashboard');
     }
-    public function showApprove(){
-        return view('admin/approve');
-    }
+
 }
