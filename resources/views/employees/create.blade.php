@@ -46,7 +46,7 @@ Employee creation failed.
       <div>
         <label class="block mb-2">Email:</label>
         <input type="email" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your email address" name="email" required>
-    @error('email')
+     @error('email')
 
         @enderror
       </div>

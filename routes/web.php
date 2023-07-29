@@ -35,10 +35,11 @@ Route::post('/login', [EmployeeController::class, 'login'])->name('login.submit'
 // Dashboard route
 Route::get('/admin/dashboard', [EmployeeController::class, 'showDashboard']);
 Route::get('/admin/approveEmployees', [ApproveEmployeeController::class, 'index'])->name('approveEmployees.index');
-Route::get('/employees/approve/{id}', [ApproveEmployeeController::class, 'approveEmployee'])->name('employees.approve');
-Route::get('/employees/reject/{id}', [ApproveEmployeeController::class, 'rejectEmployee'])->name('employees.reject');
+Route::get('/admin/approveEmployees/{id}',[ApproveEmployeeController::class, 'show'])->name('approveEmployees.show');
+Route::get('/admin/approveEmployees/approve/{id}', [ApproveEmployeeController::class, 'approveEmployee'])->name('employees.approve');
+Route::get('/admin/approveEmployees/reject/{id}', [ApproveEmployeeController::class, 'rejectEmployee'])->name('employees.reject');
 
-Route::view('/admin/approvedetails', 'admin/approvedetails')->name('approvedetail');
+
 
 
 //Department routes
@@ -73,3 +74,6 @@ Route::post('/admin/deductionOptions', [DeductionOptionController::class, 'store
 
 //Admin Login
 Route::view('/admin', 'admin/login');
+
+Route::view('/admin/calendar', 'admin/calendar')->name('calender');
+Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
