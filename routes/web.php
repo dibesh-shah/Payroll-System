@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HolidayController;
 
 
 
@@ -20,3 +21,5 @@ Route::view('/admin/approvedetails', 'admin/approvedetails')->name('approvedetai
 Route::view('/admin/department', 'admin/department');
 Route::view('/admin/allowance', 'admin/allowance');
 Route::view('/admin/deduction', 'admin/deduction');
+Route::view('/admin/calendar', 'admin/calendar');
+Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);

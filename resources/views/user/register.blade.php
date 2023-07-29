@@ -21,7 +21,7 @@
     </div>
   </nav>
 
-  <div class="container mx-auto px-4 py-8 sm:px-8 md:px-16 lg:px-24">
+  <div class="container mx-auto px-4 py-8 sm:px-8 md:px-16 lg:px-24 ">
     <h1 class="text-3xl font-bold mb-6">Employee Registration</h1>
   </br>
     <form class="grid grid-cols-1 gap-6 sm:grid-cols-2">

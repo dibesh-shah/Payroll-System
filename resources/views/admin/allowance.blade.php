@@ -36,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Sample Data (Replace with dynamic data from backend) -->
+                    
                     <tr>
                         <td class="py-2 px-4 text-center">1</td>
                         <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white" value="Travel Allowance" disabled></td>
