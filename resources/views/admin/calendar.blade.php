@@ -87,9 +87,12 @@
                         divcell.setAttribute('id', d);
                         if(d==today){
                             
-                            divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-gray-200 hover:bg-red-300" ;
+                            divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-gray-200 " ;
                         }else{
                             divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center " ;
+                        }
+                        if(j==6){
+                            divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none"
                         }
                         day++;
                     } else {
@@ -130,6 +133,7 @@
 
     let selectedHolidayType = '';
     let selectedDivs = [];
+    
 
     // Function to add/remove the selected-holiday class
     function toggleSelectedClass(div) {
@@ -185,33 +189,58 @@
     });
 
     // Add click event listener to the save button
-    saveButton.addEventListener('click', () => {
-      // Here, you can send the selectedDivs and selectedHolidayType to the backend
-      // using AJAX (e.g., Fetch API or Axios) for further processing and database insertion.
-      console.log('Selected Holiday Type:', selectedHolidayType);
-      console.log('Selected Divs:', selectedDivs);
-      // For example, you can make a POST request to your backend endpoint to handle the data.
-      // Replace the URL below with your actual backend endpoint.
-    //   fetch('save-holidays', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'X-CSRF-TOKEN': '{{ csrf_token() }}',
-    //     },
-    //     body: JSON.stringify({ holidayType: selectedHolidayType, selectedDates: selectedDivs }),
-    //   })
-    //   .then(response => response.json())
-    //   .then(result => {
-    //     // Handle the response from the backend if needed
-    //     console.log(result);
-    //   })
-    //   .catch((error) => {
-    //         // Handle any errors that occurred during the request
-    //         // console.error('Error:', error);
-    //     });
+    // saveButton.addEventListener('click', () => {
+    //   // Here, you can send the selectedDivs and selectedHolidayType to the backend
+    //   // using AJAX (e.g., Fetch API or Axios) for further processing and database insertion.
+    //   console.log('Selected Holiday Type:', selectedHolidayType);
+    //   console.log('Selected Divs:', selectedDivs);
+    //   // For example, you can make a POST request to your backend endpoint to handle the data.
+    //   // Replace the URL below with your actual backend endpoint.
+    // //   fetch('save-holidays', {
+    // //     method: 'POST',
+    // //     headers: {
+    // //       'Content-Type': 'application/json',
+    // //       'X-CSRF-TOKEN': '{{ csrf_token() }}',
+    // //     },
+    // //     body: JSON.stringify({ holidayType: selectedHolidayType, selectedDates: selectedDivs }),
+    // //   })
+    // //   .then(response => response.json())
+    // //   .then(result => {
+    // //     // Handle the response from the backend if needed
+    // //     console.log(result);
+    // //   })
+    // //   .catch((error) => {
+    // //         // Handle any errors that occurred during the request
+    // //         // console.error('Error:', error);
+    // //     });
 
-      // After successfully saving, reset the selection
-      resetSelection();
+    //   // After successfully saving, reset the selection
+    //   resetSelection();
+    // });
+  </script>
+  <script >
+
+    const customHeaders = {
+        'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+    };
+    $('#saveButton').click(function() {
+
+      $.ajax({
+        type:"POST",
+        url:"save-holidays",
+        headers:customHeaders,
+        data:{
+            holidayType:selectedHolidayType,
+            selectedDates:selectedDivs.toString(),
+        },
+        cache:false,
+        success:function(data){
+            alert(data)
+        },
+        error:function(){
+
+        }
+      });
     });
   </script>
 
