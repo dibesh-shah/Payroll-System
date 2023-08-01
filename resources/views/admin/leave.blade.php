@@ -75,20 +75,7 @@
                             
                         </td>
                     </tr>
-                    <tr>
-                        <td class="py-2 px-4 text-center">1</td>
-                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="Annual Leave" disabled></td>
-                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white text-center" value="10" disabled></td>
-                        <td class="py-2 px-4"><select class="w-full p-4 bg-white text-center" disabled><option>Paid</option><option>Unpaid</option></select></td>
-                        <td class="py-2 px-4 text-center">2023-07-19</td>
-                        <td class="py-2 px-4 text-center">2023-07-19</td>
-                        <td class="py-2 px-4 text-center">
-                            <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
-                            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
-                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
-                            
-                        </td>
-                    </tr>
+                    
                     
                 </tbody>
             </table>
@@ -103,13 +90,59 @@
         const inputFields = row.querySelectorAll('input,select');
         const updateBtn = row.querySelector('.update-btn');
 
-        inputFields.forEach((field) => {
+        var previousLeaveType="";
+        var previousDays="";
+        var previousPaid="";
+        var newLeaveType="";
+        var newDays="";
+        var newPaid="";
+        inputFields.forEach((field,index) => {
             if (isEdit) {
                 field.removeAttribute('disabled');
                 field.classList.add('border', 'border-gray-300');
+                if (index === 0) {
+                    previousLeaveType = field.value;
+                } else if (index === 1) {
+                    previousDays = field.value;
+                } else if (index === 2) {
+                    previousPaid = field.value;
+                }
             } else {
+                
                 field.setAttribute('disabled', 'disabled');
                 field.classList.remove('border', 'border-gray-300');
+                if (index === 0) {
+                    newLeaveType = field.value;
+                } else if (index === 1) {
+                    newDays = field.value;
+                } else if (index === 2) {
+                    newPaid = field.value;
+                }
+
+                if(previousLeaveType===newLeaveType && previousDays===newDays && previousPaid===newPaid){
+                    console.log("no change");
+                }else{
+                    const customHeaders = {
+                        'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+                    };
+                    $.ajax({
+                        type:"POST",
+                        url:"update-leave",
+                        headers:customHeaders,
+                        data:{
+                            leaveType:newLeaveType,
+                            days:newDays,
+                            paid:newPaid
+                        },
+                        cache:false,
+                        success:function(data){
+                            alert("hello")
+                        },
+                        error:function(){
+
+                        }
+                    });
+                }
             }
         });
 
@@ -138,4 +171,13 @@
         });
     });
 </script>
+
+<script >
+
+    
+    $('.edit-btn').click(function() {
+
+      
+    });
+  </script>
 @include('admin.footer')
