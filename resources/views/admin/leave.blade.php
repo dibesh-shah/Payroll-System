@@ -57,7 +57,7 @@
                         <td class="py-2 px-4 text-center">
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
-                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
+                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn">Delete</button>
                             
                         </td>
                     </tr>
@@ -71,10 +71,25 @@
                         <td class="py-2 px-4 text-center">
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
-                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
+                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn">Delete</button>
                             
                         </td>
                     </tr>
+                    <tr>
+                        <td class="py-2 px-4 text-center">1</td>
+                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="Annual Leave" disabled></td>
+                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white text-center" value="10" disabled></td>
+                        <td class="py-2 px-4"><select class="w-full p-4 bg-white text-center" disabled><option>Paid</option><option>Unpaid</option></select></td>
+                        <td class="py-2 px-4 text-center">2023-07-19</td>
+                        <td class="py-2 px-4 text-center">2023-07-19</td>
+                        <td class="py-2 px-4 text-center">
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
+                            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
+                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn">Delete</button>
+                            
+                        </td>
+                    </tr>
+                    
                     
                     
                 </tbody>
@@ -85,17 +100,18 @@
    </div>
 </div>
 <script>
+    
+    var previousLeaveType="";
+    var previousDays="";
+    var previousPaid="";
+    var newLeaveType="";
+    var newDays="";
+    var newPaid="";
     // Function to enable/disable input and textarea fields
     function toggleEditFields(row, isEdit) {
         const inputFields = row.querySelectorAll('input,select');
         const updateBtn = row.querySelector('.update-btn');
 
-        var previousLeaveType="";
-        var previousDays="";
-        var previousPaid="";
-        var newLeaveType="";
-        var newDays="";
-        var newPaid="";
         inputFields.forEach((field,index) => {
             if (isEdit) {
                 field.removeAttribute('disabled');
@@ -119,30 +135,7 @@
                     newPaid = field.value;
                 }
 
-                if(previousLeaveType===newLeaveType && previousDays===newDays && previousPaid===newPaid){
-                    console.log("no change");
-                }else{
-                    const customHeaders = {
-                        'X-CSRF-TOKEN' : '{{ csrf_token() }}'
-                    };
-                    $.ajax({
-                        type:"POST",
-                        url:"update-leave",
-                        headers:customHeaders,
-                        data:{
-                            leaveType:newLeaveType,
-                            days:newDays,
-                            paid:newPaid
-                        },
-                        cache:false,
-                        success:function(data){
-                            alert("hello")
-                        },
-                        error:function(){
-
-                        }
-                    });
-                }
+                
             }
         });
 
@@ -168,16 +161,48 @@
         button.addEventListener('click', (event) => {
             const row = event.target.closest('tr');
             toggleEditFields(row, false);
+            if(previousLeaveType===newLeaveType && previousDays===newDays && previousPaid===newPaid){
+                    console.log("no change");
+                }else{
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = now.getMonth();
+
+                    const today = year+"-"+(month+1)+"-"+(now.getDate()) ;
+                    alert(today)
+                    const customHeaders = {
+                        'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+                    };
+                    $.ajax({
+                        type:"POST",
+                        url:"update-leave",
+                        headers:customHeaders,
+                        data:{
+                            leaveType:newLeaveType,
+                            days:newDays,
+                            paid:newPaid,
+                            modifiedDate:today
+                        },
+                        cache:false,
+                        success:function(data){
+                            
+                        },
+                        error:function(){
+
+                        }
+                    });
+                }
+        });
+    });
+
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            const row = event.target.closest('tr');
+            row.classList.add("hidden");
+            
         });
     });
 </script>
 
-<script >
-
-    
-    $('.edit-btn').click(function() {
-
-      
-    });
-  </script>
 @include('admin.footer')
