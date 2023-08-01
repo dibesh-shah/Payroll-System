@@ -9,17 +9,17 @@ class HolidayController extends Controller
 {
     public function saveHolidays(Request $request)
     {
-        echo "hello";
-        // $selectedDates = $request->input('selectedDates', []);
-        // $selectedHolidayType = $request->input('holidayType', '');
+        $selectedDates = $request->input('selectedDates', '');
+        $selectedHolidayType = $request->input('holidayType', '');
+        return $selectedDates;
 
         // foreach ($selectedDates as $date) {
+            // echo $date;
         //     Holiday::create([
         //         'holiday_date' => $date,
         //         'holiday_type' => $selectedHolidayType,
         //     ]);
         // }
 
-        // return response()->json(['message' => 'Holidays saved successfully']);
     }
 }

@@ -22,4 +22,5 @@ Route::view('/admin/department', 'admin/department');
 Route::view('/admin/allowance', 'admin/allowance');
 Route::view('/admin/deduction', 'admin/deduction');
 Route::view('/admin/calendar', 'admin/calendar');
+Route::view('/admin/view_employee', 'admin/view_employee');
 Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
