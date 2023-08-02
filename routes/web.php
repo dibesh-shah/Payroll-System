@@ -8,6 +8,8 @@ use App\Http\Controllers\AllowanceOptionController;
 use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\DeductionOptionController;
 use App\Http\Controllers\ApproveEmployeeController;
+use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\HolidayController;
 
 
 /*
@@ -49,6 +51,15 @@ Route::post('/admin/departments', [DepartmentController::class, 'store'])->name(
 Route::get('/admin/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('departments.edit');
 Route::put('/admin/departments/{department}', [DepartmentController::class, 'update'])->name('departments.update');
 Route::delete('/admin/departments/{department}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
+
+
+//Leave Type routes
+Route::get('/admin/leaveTypes', [LeaveTypeController::class, 'index'])->name('leaveTypes.index');
+Route::get('/admin/leaveTypes/create', [LeaveTypeController::class, 'create'])->name('leaveTypes.create');
+Route::post('/admin/leaveTypes', [LeaveTypeController::class, 'store'])->name('leaveTypes.store');
+// Route::get('/admin/leaveTypes/{leaveType}/edit', [LeaveTypeController::class, 'edit'])->name('leaveTypes.edit');
+Route::put('/admin/leaveTypes/{leaveType}', [LeaveTypeController::class, 'update'])->name('leaveTypes.update');
+Route::delete('/admin/leaveTypes/{leaveType}', [LeaveTypeController::class, 'destroy'])->name('leaveTypes.destroy');
 
 //Allowance routes
 // Route::get('/admin/allowance', [AllowanceController::class, 'index'])->name('allowance.index');

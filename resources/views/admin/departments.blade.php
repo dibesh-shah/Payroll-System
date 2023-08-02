@@ -27,10 +27,7 @@
                 <div class="text-green-500 mb-4">
                     {{ session('success') }}
                 </div>
-            @else
-            <div class="text-red-500 mb-4">
-            Employee creation failed.
-            </div>
+
             @endif
                 </br>
                 @foreach ($departments as $department)
