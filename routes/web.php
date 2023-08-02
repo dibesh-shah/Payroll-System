@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\AjaxController;
 
 
 
@@ -25,3 +26,4 @@ Route::view('/admin/calendar', 'admin/calendar');
 Route::view('/admin/view_employee', 'admin/view_employee');
 Route::view('/admin/leave', 'admin/leave');
 Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
+Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name('ajax.endpoint');

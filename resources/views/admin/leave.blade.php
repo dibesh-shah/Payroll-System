@@ -169,13 +169,12 @@
                     const month = now.getMonth();
 
                     const today = year+"-"+(month+1)+"-"+(now.getDate()) ;
-                    alert(today)
                     const customHeaders = {
                         'X-CSRF-TOKEN' : '{{ csrf_token() }}'
                     };
                     $.ajax({
                         type:"POST",
-                        url:"update-leave",
+                        url:'{{ route("ajax.endpoint") }}',
                         headers:customHeaders,
                         data:{
                             leaveType:newLeaveType,
@@ -185,7 +184,7 @@
                         },
                         cache:false,
                         success:function(data){
-                            
+                            console.log(data)
                         },
                         error:function(){
 
