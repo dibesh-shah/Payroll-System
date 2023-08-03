@@ -58,7 +58,8 @@ class LeaveTypeController extends Controller
     public function edit(LeaveType $leaveType)
     {
         //
-        return view('leaveTypes.edit', compact('leaveType'));
+        dd($leaveType);
+        // return route('leaveTypes.edit', compact('leaveType'));
 
     }
 
@@ -68,13 +69,13 @@ class LeaveTypeController extends Controller
     public function update(Request $request, LeaveType $leaveType)
     {
         //
-        $request->validate([
-            'name' => 'required|max:255|unique:leave_types,name,' . $leaveType->id,
+        $data = $request->validate([
+            'name' => 'required|max:255|unique:leave_types',
             'days' => 'required|integer',
             'type' => 'required|in:paid,unpaid',
         ]);
 
-        $leaveType->update($request->all());
+        $leaveType->update($data);
         return redirect()->route('leaveTypes.index')->with('success', 'Leave Type updated successfully.');
     }
 

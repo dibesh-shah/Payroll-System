@@ -5,23 +5,23 @@
     <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
         <div class="container mx-auto mt-5">
             <!-- Rest of the content... -->
-            <h1 class="text-3xl font-bold mb-4">Add Leave</h1>
+            <h1 class="text-3xl font-bold mb-4">Edit Leave</h1>
             <div class="max-w  bg-white p-6 rounded-lg shadow-lg">
-                <form action="{{route('leaveTypes.store')}}" method="POST">
+                <form action="{{route('leaveTypes.update',  ['leaveType'=> $leaveType])}}" method="POST">
                    @csrf
                     <div class="grid grid-cols-3 gap-6">
                         <div>
                             <label for="type" class="block text-gray-700 font-semibold mb-2">Leave Type:</label>
-                            <input type="text" id="type" name="name" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Leave type" required>
+                            <input type="text" id="type" name="name" class="form-input w-full p-4 border-zinc-800 border-2" value="{{$leaveType->name}}"  placeholder="Enter Leave type" required>
                         </div>
                         <div>
                             <label for="number" class="block text-gray-700 font-semibold mb-2">No. of Days:</label>
-                            <input id="leavedays" name="days" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="Enter no. of leave days" required>
+                            <input id="leavedays" name="days" class="form-input w-full p-4  border-zinc-800 border-2" value="{{$leaveType->days}}" placeholder="Enter no. of leave days" required>
                         </div>
                         <div>
                             <label for="paid" class="block text-gray-700 font-semibold mb-2">Paid:</label>
 
-                             <select class=" w-full p-4  border-zinc-800 border-2" name="type">
+                             <select class=" w-full p-4  border-zinc-800 border-2" name="type" value="{{$leaveType->type}}" >
                                 <option value="paid">Paid</option>
                                 <option value="unpaid">Unpaid</option>
                              </select>
@@ -51,22 +51,27 @@
                             <th class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Paid/Unpaid</th>
                             <th class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Created Date</th>
                             <th class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Modified Date</th>
-                            <th  class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Actions</th>
+                            <th colspan="2" class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($leaveTypes as $leaveType)
                         <tr>
-
-                                <td class="py-2 px-4 text-center">{{$leaveType->id}}</td>
-                                <td class="py-2 px-4 "> {{$leaveType->name}}</td>
-                                <td class="py-2 px-4">{{$leaveType->days}}</td>
-                                <td class="py-2 px-4">{{$leaveType->type}}</td>
+                            <form action="{{ route('leaveTypes.store', ['leaveType'=> $leaveType]) }}" method="POST">
+                                @csrf
+                                @method('put')
+                                <td class="py-2 px-4 text-center">1</td>
+                                <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="{{$leaveType->name}}" disabled name="name"></td>
+                                <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white text-center" value="{{$leaveType->days}}" disabled name="days"></td>
+                                <td class="py-2 px-4"><select class="w-full p-4 bg-white text-center" value="{{$leaveType->type}}" disabled type="type"><option>Paid</option><option>Unpaid</option></select></td>
                                 <td class="py-2 px-4 text-center">{{ $leaveType->created_at }}</td>
                                 <td class="py-2 px-4 text-center">{{ $leaveType->updated_at }}</td>
-                                <td class="py-2 px-4 text-center">
-                                    <a href="{{route('leaveTypes.edit', $leaveType->id)}}" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</a>
-
+                                <td class="py-2 px-4 ml-1  text-center justify-center">
+                                    <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
+                                    <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
+                                </td>
+                            </form>
+                            <td class="py-2 px-1 text-center justify-center">
                                 <form action="{{ route('leaveTypes.destroy', $leaveType->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -126,3 +131,4 @@
 </script>
 
  @endsection
+

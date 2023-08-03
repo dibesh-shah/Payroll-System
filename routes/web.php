@@ -57,7 +57,7 @@ Route::delete('/admin/departments/{department}', [DepartmentController::class, '
 Route::get('/admin/leaveTypes', [LeaveTypeController::class, 'index'])->name('leaveTypes.index');
 Route::get('/admin/leaveTypes/create', [LeaveTypeController::class, 'create'])->name('leaveTypes.create');
 Route::post('/admin/leaveTypes', [LeaveTypeController::class, 'store'])->name('leaveTypes.store');
-// Route::get('/admin/leaveTypes/{leaveType}/edit', [LeaveTypeController::class, 'edit'])->name('leaveTypes.edit');
+Route::get('/admin/editLeaveTypes/{leaveType}/edit', [LeaveTypeController::class, 'edit'])->name('leaveTypes.edit');
 Route::put('/admin/leaveTypes/{leaveType}', [LeaveTypeController::class, 'update'])->name('leaveTypes.update');
 Route::delete('/admin/leaveTypes/{leaveType}', [LeaveTypeController::class, 'destroy'])->name('leaveTypes.destroy');
 
