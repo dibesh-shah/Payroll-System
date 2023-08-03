@@ -25,5 +25,7 @@ Route::view('/admin/deduction', 'admin/deduction');
 Route::view('/admin/calendar', 'admin/calendar');
 Route::view('/admin/view_employee', 'admin/view_employee');
 Route::view('/admin/leave', 'admin/leave');
+Route::view('/admin/leave_request', 'admin/leave_request');
+Route::view('/admin/leave_detail', 'admin/leave_detail');
 Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
 Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name('ajax.endpoint');

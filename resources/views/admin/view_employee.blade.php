@@ -70,4 +70,8 @@
     });
 </script>
 
+<script>
+  
+</script>
+
 @include('admin.footer')
