@@ -15,7 +15,7 @@
                      </div>
                      <div>
                          <label for="description" class="block text-gray-700 font-semibold mb-2">Description:</label>
-                         <input id="description" name="description" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="Enter allowance description" required>>
+                         <input id="description" name="description" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="Enter allowance description" required>
                      </div>
                  </div>
                  <div class="flex justify-end mt-4">
@@ -30,10 +30,7 @@
              <div class="text-green-500 mb-4">
                  {{ session('success') }}
              </div>
-         @else
-         <div class="text-red-500 mb-4">
-         Deduction creation failed.
-         </div>
+
          @endif
 
              <table class="w-full border-collapse">
@@ -53,15 +50,18 @@
                      @foreach ($deductionOptions as $deductionOption)
                      <tr>
                         <td class="py-2 px-4 text-center">{{$deductionOption->id}}</td>
-                        <td class="py-2 px-4  "><input type="text" class="w-full p-4 bg-white text-center"  disabled>{{ $deductionOption->name }}</td>
-                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center"  disabled>{{ $deductionOption->description }}</td>
+                        <td class="py-2 px-4  "><input type="text" class="w-full p-4 bg-white text-center" value="{{ $deductionOption->name }}" disabled name="name"></td>
+                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center"  disabled value="{{ $deductionOption->description }}" name="description"></td>
                         <td class="py-2 px-4 text-center">{{$deductionOption->created_at}}</td>
                         <td class="py-2 px-4 text-center">{{$deductionOption->updated_at}}</td>
                         <td class="py-2 px-4 text-center">
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
+                            <form action="{{ route('deductionOptions.destroy', $deductionOption->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
-
+                            </form>
                         </td>
                     </tr>
                      @endforeach
@@ -75,18 +75,36 @@
     </div>
  </div>
  <script>
+
+     var previousDeductionType="";
+     var previousDescription="";
+     var newDeductionType="";
+     var newDescription="";
      // Function to enable/disable input and textarea fields
      function toggleEditFields(row, isEdit) {
-         const inputFields = row.querySelectorAll('input');
+         const inputFields = row.querySelectorAll('input,select');
          const updateBtn = row.querySelector('.update-btn');
 
-         inputFields.forEach((field) => {
+         inputFields.forEach((field,index) => {
              if (isEdit) {
                  field.removeAttribute('disabled');
                  field.classList.add('border', 'border-gray-300');
+                 if (index === 0) {
+                    previousDeductionType = field.value;
+                 } else if (index === 1) {
+                    previousDescription = field.value;
+                 }
              } else {
+
                  field.setAttribute('disabled', 'disabled');
                  field.classList.remove('border', 'border-gray-300');
+                 if (index === 0) {
+                    newDeductionType = field.value;
+                 } else if (index === 1) {
+                     newDescription = field.value;
+                 }
+
+
              }
          });
 
@@ -112,7 +130,48 @@
          button.addEventListener('click', (event) => {
              const row = event.target.closest('tr');
              toggleEditFields(row, false);
+             if(previousDeductionType===newDeductionType && previousDescription===newDescription){
+                     console.log("no change");
+                 }else{
+                     const now = new Date();
+                     const year = now.getFullYear();
+                     const month = now.getMonth();
+
+                     const today = year+"-"+(month+1)+"-"+(now.getDate()) ;
+                     const customHeaders = {
+                         'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+                     };
+                     $.ajax({
+                         type:"POST",
+                         url:'deductionOptions/edit',
+                         headers:customHeaders,
+                         data:{
+                            id:{{$deductionOption->id}},
+
+                             name:newDeductionType,
+                             description:newDescription,
+                            //  modifiedDate:today
+                         },
+                         cache:false,
+                         success:function(data){
+                             console.log(data)
+                         },
+                         error:function(){
+
+                         }
+                     });
+                 }
          });
      });
+
+     // const deleteButtons = document.querySelectorAll('.delete-btn');
+     // deleteButtons.forEach((button) => {
+     //     button.addEventListener('click', (event) => {
+     //         const row = event.target.closest('tr');
+     //         row.classList.add("hidden");
+
+     //     });
+     // });
  </script>
+
  @endsection

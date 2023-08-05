@@ -8,7 +8,9 @@
           <div class="flex items-center justify-between mb-6">
               <h1 class="text-3xl font-bold">Employee Approval</h1>
           </div>
+
             @foreach($employees as $employee)
+            {{-- @if($employee->status== 'pending') --}}
             <div class="border p-4 rounded-md bg-white shadow-md flex justify-between ">
 
                     <div class="flex flex-col">
@@ -17,31 +19,35 @@
                     </div>
                     <!-- Add other employee details as needed -->
 
-                    @if($employee->approval)
-                        @if($employee->approval->is_approved)
+                    @if($employee->status== 'approved')
                         <p class="text-white bg-green-600 font-medium rounded-full px-4 py-2 self-center text-center"> Approved</p>
-                        @else
-                        <p class="text-white bg-red-600 font-medium rounded-full px-4 py-2 self-center text-center">Pending </p>
-                        @endif
-                        @else
-                        <p class="text-white bg-purple-600 font-medium rounded-full px-4 py-2 self-center text-center">Not Submitted for Approval</p>
-                        @endif
-             <a class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 self-center  rounded-md text-center" href="{{route('approveEmployees.show', $employee->id)}}">See More</a>
+                        @elseif($employee->status== 'pending')
+                        <p class="text-white bg-red-600 font-medium rounded-full px-4 py-2 self-center text-center" >Pending </p>
+                        @elseif($employee->status == 'rejected')
 
+                        <p class="text-white bg-purple-600 font-medium rounded-full px-4 py-2 self-center text-center">Rejected</p>
+                        @endif
+
+             <a class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 self-center  rounded-md text-center" href="{{route('employees.show', $employee->id)}}">See More</a>
+{{--
                      <div class="mt-4 flex justify-between">
-                        @if($employee->approveEmployee && !$employee->approveEmployee->is_approved)
-                        <form action="{{ route('employees.approve', $employee->approveEmployee->id) }}" method="POST">
+
+                        <form  method="POST">
+                            action="{{ route('employees.approve', $employee->approveEmployee->id) }}"
                             @csrf
                             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">Approve</button>
                         </form>
-                        <form action="{{ route('employees.reject', $employee->approveEmployee->id) }}" method="POST">
+                        <form  method="POST">
+                            action="{{ route('employees.reject', $employee->approveEmployee->id) }}"
                             @csrf
                             <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">Reject</button>
                         </form>
                         @endif
-                    </div>
+                    </div> --}}
             </div>
+            {{-- @endif --}}
             @endforeach
+
 
 
 

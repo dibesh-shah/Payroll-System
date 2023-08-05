@@ -8,16 +8,35 @@ class CreateEmployeesTable extends Migration
     public function up()
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->id();
+            $table->string('emp_id')->unique()->nullable();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
+            $table->string('password')->nullable();
             $table->string('phone');
             $table->date('date_of_birth');
             $table->text('address');
             $table->string('bank_account_number');
-            $table->string('tax_identification_number');
+            $table->string('status')->default('pending');
+            $table->enum('gender',['male', 'female']);
+            $table->string('bank_name');
+            $table->string('tax_payer_id');
+            $table->string('documents')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('department_id')->nullable();
+
+            $table->foreign('department_id')
+                  ->references('id')
+                  ->on('departments')
+                  ->onDelete('set null');
+
+
+            $employees = \App\Models\Employee::all();
+        $counter = 101;
+        foreach ($employees as $employee) {
+            $employee->emp_id = 'E-' . $counter++;
+            $employee->save();
+        }
         });
     }
 
@@ -25,5 +44,6 @@ class CreateEmployeesTable extends Migration
     {
         Schema::dropIfExists('employees');
     }
+
 }
 

@@ -6,6 +6,11 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ApproveEmployee;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmployeeCredentialsMail;
+use Illuminate\Support\Str;
+
 
 class EmployeeController extends Controller
 {
@@ -17,6 +22,7 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -25,16 +31,18 @@ class EmployeeController extends Controller
             'date_of_birth' => 'required|date',
             'address' => 'required|string',
             'bank_account_number' => 'required|string|max:255',
-            'tax_identification_number' => 'required|string|max:255',
+            'bank_name' => 'required|string|max:255',
+            'gender' => 'required|in:male,female',
+            // 'department_id' =>'required',
+            'documents' => 'string',
+            'tax_payer_id' => 'required|string|max:255',
+            'status' => 'required|string',
         ]);
 
         Employee::create($validatedData);
 
         return redirect()->route('employees.create')->with('success', 'Employee registered successfully!');
-        ApproveEmployee::create([
-            'employee_id' => $request('id'),
-            'is_approved' => false, // Set the default approval status to false
-        ]);
+
     }
     // Login method
     public function showLoginForm()
@@ -42,19 +50,71 @@ class EmployeeController extends Controller
         return view('employees.login');
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //     ]);
 
-        if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            return redirect()->route('dashboard');
-        } else {
-            return back()->withErrors(['message' => 'Invalid credentials']);
-        }
+    //     if (Auth::attempt($credentials)) {
+    //         // Authentication passed...
+    //         return redirect()->route('dashboard');
+    //     } else {
+    //         return back()->withErrors(['message' => 'Invalid credentials']);
+    //     }
+    // }
+    public function show($id){
+        $employee = Employee::findOrfail($id);
+
+        return view('/admin/showApproveEmployee', compact('employee'));
+    }
+
+    public function index(Employee $employee){
+        $employees = Employee::where('status', 'pending')->get();
+        return view('/admin/approveEmployees',  ['employees' => $employees]);
+    }
+
+    public function viewEmployee(Request $request){
+        $search = $request->input('search');
+
+        $employees = Employee::where('status', 'approved')
+            ->where(function ($query) use ($search) {
+                $query->where('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+                // Add more columns if you want to search on additional fields
+            })->paginate(10);
+
+        return view('/admin/view_employee',  ['employees' => $employees, 'search' => $search]);
+    }
+
+    public function approveEmployee($id)
+    {
+        $approveEmployee = Employee::findOrFail($id);
+        $approveEmployee->status = 'approved';
+        $approveEmployee->save();
+
+         // Generate a random password
+    $randomPassword = Str::random(10); // You can adjust the length of the password
+
+    // Update the employee's password in the database
+    $approveEmployee->password = Hash::make($randomPassword);
+    $approveEmployee->save();
+
+    // Send the email to the employee with the randomly generated password
+    Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword));
+        return redirect('/admin/approveEmployees')->with('success', 'Employee approved successfully. Email with login credentials sent.');
+    }
+
+    public function rejectEmployee($id)
+    {
+        $approveEmployee = Employee::findOrFail($id);
+        $approveEmployee->status = 'rejected';
+        $approveEmployee->save();
+        return redirect('/admin/approveEmployees');
+
+        // Redirect or show success message
+        // ...
     }
     public function showDashboard()
     {

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Employee extends Model
 {
     use HasFactory;
+    use Notifiable;
 
     protected $fillable = [
         'first_name',
@@ -18,14 +20,16 @@ class Employee extends Model
         'address',
         'bank_account_number',
         'tax_identification_number',
+        'status'
     ];
 
     protected $dates = [
         'date_of_birth',
     ];
-    public function approval()
+
+    public function department()
     {
-        return $this->hasOne(ApproveEmployee::class);
+        return $this->belongsTo(Department::class);
     }
 }
 

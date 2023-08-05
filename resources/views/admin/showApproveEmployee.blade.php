@@ -63,16 +63,18 @@
                     </div>
                 </div>
                 <div class="mt-4 flex justify-between">
-                    @if($employee->approval && !$employee->approval->is_approved)
-                    <form action="{{ route('employees.approve', $employee->approval->id) }}" method="POST">
+                    {{-- @if($employee->approval && !$employee->approval->is_approved) --}}
+                    <form action="{{route('employees.approve', $employee->id)}}" method="POST">
+                        {{-- action="{{ route('employees.approve', $employee->approval->id) }}"  --}}
                         @csrf
                         <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">Approve</button>
                     </form>
-                    <form action="{{ route('employees.reject', $employee->approval->id) }}" method="POST">
+                    <form action="{{route('employees.reject', $employee->id)}}" method="POST">
+                        {{-- action="{{ route('employees.reject', $employee->approval->id) }}" --}}
                         @csrf
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">Reject</button>
                     </form>
-                    @endif
+                    {{-- @endif --}}
 
                 </div>
 

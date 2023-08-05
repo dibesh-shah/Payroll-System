@@ -55,11 +55,29 @@ class LeaveTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LeaveType $leaveType)
+    public function edit(Request $request, LeaveType $leaveType)
     {
         //
-        dd($leaveType);
+        // dd($leaveType);
         // return route('leaveTypes.edit', compact('leaveType'));
+          // Access the data sent via Ajax
+        //   $data = $request->all();
+        //   $leavetype->update(['value' => $data]);
+
+        //   return $data;
+          // Process the data (optional)
+          // ...
+
+          // Return a response (optional)
+          // return response()->json(['message' => 'Data received successfully']);
+          $id = $request->input('id');
+        $dataToUpdate = $request->only(['name', 'days', 'type']); // Get the fields to update from the request
+
+        // Find the user by ID and update the data
+        $user = LeaveType::findOrFail($id);
+        $user->update($dataToUpdate);
+
+        return response()->json(['message' => 'Data updated successfully']);
 
     }
 
@@ -69,14 +87,14 @@ class LeaveTypeController extends Controller
     public function update(Request $request, LeaveType $leaveType)
     {
         //
-        $data = $request->validate([
-            'name' => 'required|max:255|unique:leave_types',
-            'days' => 'required|integer',
-            'type' => 'required|in:paid,unpaid',
-        ]);
+        // $data = $request->validate([
+        //     'name' => 'required|max:255|unique:leave_types',
+        //     'days' => 'required|integer',
+        //     'type' => 'required|in:paid,unpaid',
+        // ]);
 
-        $leaveType->update($data);
-        return redirect()->route('leaveTypes.index')->with('success', 'Leave Type updated successfully.');
+        // $leaveType->update($data);
+        // return redirect()->route('leaveTypes.index')->with('success', 'Leave Type updated successfully.');
     }
 
     /**

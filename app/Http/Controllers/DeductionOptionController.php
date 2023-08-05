@@ -58,9 +58,17 @@ class DeductionOptionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, DeductionOption $deductionOption)
     {
         //
+        $id = $request->input('id');
+        $dataToUpdate = $request->only(['name', 'description']); // Get the fields to update from the request
+
+        // Find the user by ID and update the data
+        $user = DeductionOption::findOrFail($id);
+        $user->update($dataToUpdate);
+
+        return response()->json(['message' => 'Data updated successfully']);
     }
 
     /**
@@ -74,8 +82,11 @@ class DeductionOptionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(DeductionOption $deductionOption)
     {
-        //
+    $deductionOption->delete();
+    return redirect()->route('deductionOptions.index')->with('success', 'Deduction Type deleted successfully.');
+
+
     }
 }

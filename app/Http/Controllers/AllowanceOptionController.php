@@ -57,9 +57,16 @@ class AllowanceOptionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, AllowanceOption $allowanceOption)
     {
-        //
+        $id = $request->input('id');
+        $dataToUpdate = $request->only(['name', 'description']); // Get the fields to update from the request
+
+        // Find the user by ID and update the data
+        $user = AllowanceOption::findOrFail($id);
+        $user->update($dataToUpdate);
+
+        return response()->json(['message' => 'Data updated successfully']);
     }
 
     /**
@@ -73,8 +80,10 @@ class AllowanceOptionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(AllowanceOption $allowanceOption)
     {
         //
+        $allowanceOption->delete();
+    return redirect()->route('allowanceOptions.index')->with('success', 'Allowance Type deleted successfully.');
     }
 }

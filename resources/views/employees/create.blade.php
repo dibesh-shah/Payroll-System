@@ -68,7 +68,7 @@ Employee creation failed.
       </div>
       <div>
         <label class="block mb-2">Tax Identification Number:</label>
-        <input type="text" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your tax identification number"  name="tax_identification_number" required>
+        <input type="text" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your tax identification number"  name="tax_payer_id" required>
       </div>
       <div class="col-span-2 flex justify-end">
         <button class="text-white bg-blue-800 hover:bg-blue-600 px-6 py-3 rounded-md" type="submit">Register</button>

@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ApproveEmployee extends Model
 {
     use HasFactory;
-    protected $fillable = ['employee_id', 'is_approved', 'comments'];
+    // protected $fillable = ['employee_id', 'is_approved', 'comments'];
 
-    public function employee()
-    {
-        return $this->belongsTo(Employee::class);
-    }
+    // public function employee()
+    // {
+    //     return $this->belongsTo(Employee::class);
+    // }
 }

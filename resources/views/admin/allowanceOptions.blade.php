@@ -30,10 +30,7 @@
              <div class="text-green-500 mb-4">
                  {{ session('success') }}
              </div>
-         @else
-         <div class="text-red-500 mb-4">
-         Allowance creation failed.
-         </div>
+
          @endif
              <table class="w-full border-collapse">
                  <thead>
@@ -51,15 +48,18 @@
                      @foreach ($allowanceOptions as $allowanceOption)
                      <tr>
                         <td class="py-2 px-4 text-center">{{$allowanceOption->id}}</td>
-                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white"  disabled>{{$allowanceOption->name}}</td>
-                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white" disabled>{{$allowanceOption->description}}</td>
+                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white" value="{{$allowanceOption->name}}" disabled name="name"></td>
+                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white" value="{{$allowanceOption->description}}" disabled name="description"></td>
                         <td class="py-2 px-4 text-center">{{$allowanceOption->created_at}}</td>
                         <td class="py-2 px-4 text-center">{{$allowanceOption->updated_at}}</td>
-                        <td class="py-2 px-4 text-center">
+                        <td class="py-2 px-4 text-center flex flex-wrap ">
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn"> Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
+                            <form action="{{ route('allowanceOptions.destroy', $allowanceOption->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
-
+                            </form>
                         </td>
                     </tr>
                      @endforeach
@@ -74,18 +74,35 @@
     </div>
  </div>
  <script>
+      var previousAllowanceType="";
+     var previousDescription="";
+     var newAllowanceType="";
+     var newDescription="";
      // Function to enable/disable input and textarea fields
      function toggleEditFields(row, isEdit) {
-         const inputFields = row.querySelectorAll('input');
+         const inputFields = row.querySelectorAll('input,select');
          const updateBtn = row.querySelector('.update-btn');
 
-         inputFields.forEach((field) => {
+         inputFields.forEach((field,index) => {
              if (isEdit) {
                  field.removeAttribute('disabled');
                  field.classList.add('border', 'border-gray-300');
+                 if (index === 0) {
+                    previousAllowanceType = field.value;
+                 } else if (index === 1) {
+                    previousDescription = field.value;
+                 }
              } else {
+
                  field.setAttribute('disabled', 'disabled');
                  field.classList.remove('border', 'border-gray-300');
+                 if (index === 0) {
+                    newAllowanceType = field.value;
+                 } else if (index === 1) {
+                     newDescription = field.value;
+                 }
+
+
              }
          });
 
@@ -111,6 +128,36 @@
          button.addEventListener('click', (event) => {
              const row = event.target.closest('tr');
              toggleEditFields(row, false);
+             if(previousAllowanceType===newAllowanceType && previousDescription===newDescription){
+                     console.log("no change");
+                 }else{
+                     const now = new Date();
+                     const year = now.getFullYear();
+                     const month = now.getMonth();
+
+                     const today = year+"-"+(month+1)+"-"+(now.getDate()) ;
+                     const customHeaders = {
+                         'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+                     };
+                     $.ajax({
+                         type:"POST",
+                         url:'allowanceOptions/edit',
+                         headers:customHeaders,
+                         data:{
+                            id:{{$allowanceOption->id}},
+                             name:newAllowanceType,
+                             description:newDescription,
+                            //  modifiedDate:today
+                         },
+                         cache:false,
+                         success:function(data){
+                             console.log(data)
+                         },
+                         error:function(){
+
+                         }
+                     });
+                 }
          });
      });
  </script>

@@ -36,10 +36,13 @@ Route::post('/login', [EmployeeController::class, 'login'])->name('login.submit'
 
 // Dashboard route
 Route::get('/admin/dashboard', [EmployeeController::class, 'showDashboard']);
-Route::get('/admin/approveEmployees', [ApproveEmployeeController::class, 'index'])->name('approveEmployees.index');
-Route::get('/admin/approveEmployees/{id}',[ApproveEmployeeController::class, 'show'])->name('approveEmployees.show');
-Route::get('/admin/approveEmployees/approve/{id}', [ApproveEmployeeController::class, 'approveEmployee'])->name('employees.approve');
-Route::get('/admin/approveEmployees/reject/{id}', [ApproveEmployeeController::class, 'rejectEmployee'])->name('employees.reject');
+Route::get('/admin/approveEmployees', [EmployeeController::class, 'index'])->name('employees.index');
+Route::post('/admin/approveEmployees/approve/{id}', [EmployeeController::class, 'approveEmployee'])->name('employees.approve');
+Route::post('/admin/approveEmployees/reject/{id}', [EmployeeController::class, 'rejectEmployee'])->name('employees.reject');
+Route::get('/admin/approveEmployees/{id}',[EmployeeController::class, 'show'])->name('employees.show');
+Route::get('/admin/view_employee', [EmployeeController::class, 'viewEmployee'])->name('employees.viewEmployee');
+
+
 
 
 
@@ -54,11 +57,13 @@ Route::delete('/admin/departments/{department}', [DepartmentController::class, '
 
 
 //Leave Type routes
+
 Route::get('/admin/leaveTypes', [LeaveTypeController::class, 'index'])->name('leaveTypes.index');
 Route::get('/admin/leaveTypes/create', [LeaveTypeController::class, 'create'])->name('leaveTypes.create');
 Route::post('/admin/leaveTypes', [LeaveTypeController::class, 'store'])->name('leaveTypes.store');
-Route::get('/admin/editLeaveTypes/{leaveType}/edit', [LeaveTypeController::class, 'edit'])->name('leaveTypes.edit');
-Route::put('/admin/leaveTypes/{leaveType}', [LeaveTypeController::class, 'update'])->name('leaveTypes.update');
+Route::post('/admin/leaveTypes/edit', [LeaveTypeController::class,'edit'])->name('leaveTypes.edit');
+// Route::get('/admin/leaveTypes/{leaveType}/edit', [LeaveTypeController::class, 'edit'])->name('leaveTypes.edit');
+// Route::put('/admin/leaveTypes/{leaveType}', [LeaveTypeController::class, 'update'])->name('leaveTypes.update');
 Route::delete('/admin/leaveTypes/{leaveType}', [LeaveTypeController::class, 'destroy'])->name('leaveTypes.destroy');
 
 //Allowance routes
@@ -68,6 +73,9 @@ Route::delete('/admin/leaveTypes/{leaveType}', [LeaveTypeController::class, 'des
 Route::get('/admin/allowanceOptions', [AllowanceOptionController::class, 'index'])->name('allowanceOptions.index');
 Route::get('/admin/allowanceOptions/create', [AllowanceOptionController::class, 'create'])->name('allowanceOptions.create');
 Route::post('/admin/allowanceOptions', [AllowanceOptionController::class, 'store'])->name('allowanceOptions.store');
+Route::post('/admin/allowanceOptions/edit', [AllowanceOptionController::class,'edit'])->name('allowanceOptions.edit');
+
+Route::delete('/admin/allowanceOptions/{allowanceOption}', [AllowanceOptionController::class, 'destroy'])->name('allowanceOptions.destroy');
 
 
 
@@ -78,7 +86,9 @@ Route::post('/admin/allowanceOptions', [AllowanceOptionController::class, 'store
 Route::get('/admin/deductionOptions', [DeductionOptionController::class, 'index'])->name('deductionOptions.index');
 Route::get('/admin/deductionOptions/create', [DeductionOptionController::class, 'create'])->name('deductionOptions.create');
 Route::post('/admin/deductionOptions', [DeductionOptionController::class, 'store'])->name('deductionOptions.store');
+Route::post('/admin/deductionOptions/edit', [DeductionOptionController::class,'edit'])->name('deductionOptions.edit');
 
+Route::delete('/admin/deductionOptions/{deductionOption}', [DeductionOptionController::class, 'destroy'])->name('deductionOptions.destroy');
 
 
 
@@ -88,3 +98,6 @@ Route::view('/admin', 'admin/login');
 
 Route::view('/admin/calendar', 'admin/calendar')->name('calender');
 Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
+// Route::view('/admin/leave', 'admin/leave');
+Route::view('/admin/leave_request', 'admin/leave_request');
+Route::view('/admin/leave_detail', 'admin/leave_detail');
