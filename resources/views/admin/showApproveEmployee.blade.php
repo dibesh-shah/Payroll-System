@@ -39,8 +39,8 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <!-- Employee details here (dummy data) -->
                 <div class="border p-4 rounded-md bg-white shadow-md">
-                    <h2 class="text-lg font-bold mb-2">Address </h2>
-                    <p class="mb-2">{{$employee->address}}</p>
+                    <h2 class="text-lg font-bold mb-2">Gender </h2>
+                    <p class="mb-2">{{$employee->gender}}</p>
                     <!-- Add more details here as needed -->
                 </div>
                 <div class="border p-4 rounded-md bg-white shadow-md">
@@ -52,13 +52,26 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Employee details here (dummy data) -->
                     <div class="border p-4 rounded-md bg-white shadow-md">
+                        <h2 class="text-lg font-bold mb-2">Bank Name</h2>
+                        <p class="mb-2">{{$employee->bank_name}}</p>
+                        <!-- Add more details here as needed -->
+                    </div>
+                    <div class="border p-4 rounded-md bg-white shadow-md">
                         <h2 class="text-lg font-bold mb-2">Bank Account Number </h2>
                         <p class="mb-2">{{$employee->bank_account_number}}</p>
                         <!-- Add more details here as needed -->
                     </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Employee details here (dummy data) -->
                     <div class="border p-4 rounded-md bg-white shadow-md">
-                        <h2 class="text-lg font-bold mb-2">Tax Identification Number </h2>
-                        <p class="mb-2">{{$employee->tax_identification_number}}</p>
+                        <h2 class="text-lg font-bold mb-2">Address</h2>
+                        <p class="mb-2">{{$employee->address}}</p>
+                        <!-- Add more details here as needed -->
+                    </div>
+                    <div class="border p-4 rounded-md bg-white shadow-md">
+                        <h2 class="text-lg font-bold mb-2">Tax Payer Id </h2>
+                        <p class="mb-2">{{$employee->tax_payer_id}}</p>
                         <!-- Add more details here as needed -->
                     </div>
                 </div>

@@ -24,6 +24,11 @@
   <div class="container mx-auto h-screen flex justify-center items-center ">
     <div class="bg-gray-200 p-8 rounded-md shadow-md w-96">
       <h1 class="text-3xl font-bold mb-6">Login</h1>
+      @if(session('success'))
+      <div class="text-green-500 mb-4">
+          {{ session('success') }}
+      </div>
+      @endif
       <form action="{{ route('login.submit') }}" method="POST">
         @csrf
         <div class="mb-4">

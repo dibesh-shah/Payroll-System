@@ -14,6 +14,7 @@
             <div class="border p-4 rounded-md bg-white shadow-md flex justify-between ">
 
                     <div class="flex flex-col">
+                        <h2 class="text-lg font-bold mb-2">{{$employee->id}}</h2>
                         <h2 class="text-lg font-bold mb-2">{{ $employee->first_name }} {{$employee->last_name}}</h2>
                         <p class="mb-2 font-bold text-sm text-purple-600"> {{ $employee->email }}</p>
                     </div>

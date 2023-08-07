@@ -18,8 +18,14 @@ class Employee extends Model
         'phone',
         'date_of_birth',
         'address',
+        'bank_name',
         'bank_account_number',
-        'tax_identification_number',
+        'tax_payer_id',
+        'password',
+        'department_id',
+        'gender',
+        'documents',
+
         'status'
     ];
 
@@ -27,9 +33,9 @@ class Employee extends Model
         'date_of_birth',
     ];
 
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
+    // public function department()
+    // {
+    //     return $this->belongsTo(Department::class,'department_id');
+    // }
 }
 

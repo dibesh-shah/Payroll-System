@@ -5,7 +5,6 @@ Hello,
 
 Your account credentials have been approved. Here are your login details:
 
-Email: {{ $userEmail }}
 Password: {{ $password }}
 
 Please use the above credentials to log in to our website.
