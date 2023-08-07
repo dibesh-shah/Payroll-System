@@ -11,6 +11,8 @@ class AjaxController extends Controller
         // Access the data sent via Ajax
         $data = $request->all();
         return $data;
+
+      
         // Process the data (optional)
         // ...
 

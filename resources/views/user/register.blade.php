@@ -50,6 +50,10 @@
         <input class="w-full px-4 py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your address" required>
       </div>
       <div>
+        <label class="block mb-2">Bank:</label>
+        <input type="text" class="w-full px-4 py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank " required>
+      </div>
+      <div>
         <label class="block mb-2">Bank Account Number:</label>
         <input type="text" class="w-full px-4 py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank account number" required>
       </div>

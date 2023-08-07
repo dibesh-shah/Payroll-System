@@ -8,7 +8,16 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
 
+  <style>
+   .textarea-no-scrollbar::-webkit-scrollbar {
+     width: 0.5rem; /* Adjust the width as needed */
+     background-color: transparent;
+   }
  
+   .textarea-no-scrollbar::-webkit-scrollbar-thumb {
+     background-color: transparent;
+   }
+ </style>
 </head>
 
 <body class="bg-gray-100">

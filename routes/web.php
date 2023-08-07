@@ -29,3 +29,5 @@ Route::view('/admin/leave_request', 'admin/leave_request');
 Route::view('/admin/leave_detail', 'admin/leave_detail');
 Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
 Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name('ajax.endpoint');
+
+Route::view('/admin/inbox', 'admin/inbox');

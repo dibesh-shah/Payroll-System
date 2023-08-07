@@ -66,6 +66,7 @@
         inputFields.forEach((input) => {
             input.disabled = false;
             input.classList.add('px-4');
+            input.classList.add('border', 'border-gray-300');
       });
     });
 </script>
