@@ -78,10 +78,10 @@
         const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         for (let i = 0; i < 7; i++) {
             const th = document.createElement('th');
-            th.className="w-20 ";
+            // th.className="w-20 ";
             const divth = document.createElement('div');
             divth.textContent = daysOfWeek[i];
-            divth.className=" bg-white shadow-md p-2 m-2 rounded-2xl";
+            divth.className=" bg-white shadow-md  rounded-2xl w-16 h-10";
             th.appendChild(divth);
             headerRow.appendChild(th);
         }
