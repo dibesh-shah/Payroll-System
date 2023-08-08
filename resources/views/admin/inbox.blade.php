@@ -171,6 +171,7 @@
                   <!-- Employee/Admin Message Container -->
                 <div class="flex-1 p-4 border-b border-gray-200 overflow-y-auto flex flex-col-reverse mt-auto" id="messageContainer">
                   <!-- Employee message -->
+                  {{-- this container will be the lastest for employee --}}
                   <div class="flex items-start mb-2">
                     <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mr-4">
                       JD
@@ -178,15 +179,17 @@
                     <div class="bg-blue-100 p-2 rounded-lg">
                       <p class="font-bold ">John Doe</p>
                       <p class="max-w-lg">Employee message hghghhere...Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...</p>
+                      <p class="text-xs text-gray-400 text-right">June 23.12:34 PM</p>
                     </div>
                   </div>
           
                   <!-- Admin message -->
+                  {{-- this container will be latest for admin --}}
                   <div class="flex items-end justify-end mb-2">
                     <div class="bg-gray-100 p-2 rounded-lg">
                       <p class="font-bold">You (Admin)</p>
                       <p class="max-w-lg">Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...</p>
-
+                      <p class="text-xs text-gray-400 text-right">June 23.12:34 PM</p>
                     </div>
                     <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold ml-4">
                       AD
@@ -457,7 +460,7 @@
 
 
 
-  setInterval(getMessage, 5000);
+  // setInterval(getMessage, 5000);
 </script>
   
   
