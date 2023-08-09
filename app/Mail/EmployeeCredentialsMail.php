@@ -13,16 +13,19 @@ class EmployeeCredentialsMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $password;
+    public $password, $email, $first_name;
 
     /**
      * Create a new message instance.
      *
      * @param string $password The randomly generated password.
      */
-    public function __construct($password)
+    public function __construct($password, $email, $first_name)
     {
         $this->password = $password;
+        $this->email = $email;
+        $this->first_name = $first_name;
+
     }
 
     /**

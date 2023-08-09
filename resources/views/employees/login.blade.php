@@ -21,7 +21,7 @@
     </div>
   </nav>
 
-  <div class="container mx-auto h-screen flex justify-center items-center ">
+  {{-- <div class="container mx-auto h-screen flex justify-center items-center ">
     <div class="bg-gray-200 p-8 rounded-md shadow-md w-96">
       <h1 class="text-3xl font-bold mb-6">Login</h1>
       @if(session('success'))
@@ -42,10 +42,39 @@
         <button class="w-full text-white bg-blue-800 hover:bg-blue-600 py-2 rounded-md" type="submit">Login</button>
       </form>
       <p class="mt-4 text-center">
-        Don't have an account? <a href="{{ route('employees.create') }}">Register here</a>
+        Don't have an account? <a href="{{ route('employees.create') }}" class="text-blue-800">Register here</a>
       </p>
     </div>
-  </div>
+  </div> --}}
+  <div class="container mx-auto h-screen flex justify-center items-center">
+    <div class="bg-gray-200 p-8 rounded-md shadow-md w-96">
+        <h1 class="text-3xl font-bold mb-6">Login</h1>
+        @if(session('success'))
+        <div class="text-green-500 mb-4">
+            {{ session('success') }}
+        </div>
+        @endif
+        <form action="{{ route('login.submit') }}" method="POST">
+            @csrf
+            <div class="mb-4">
+                <label class="block mb-2">Email:</label>
+                <input type="email" name="email"
+                    class="w-full px-4 py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"
+                    placeholder="Enter your email" required>
+            </div>
+            <div class="mb-6">
+                <label class="block mb-2">Password:</label>
+                <input type="password" name="password"
+                    class="w-full px-4 py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"
+                    placeholder="Enter your password" required>
+            </div>
+            <button class="w-full text-white bg-blue-800 hover:bg-blue-600 py-2 rounded-md" type="submit">Login</button>
+        </form>
+        <p class="mt-4 text-center">
+            Don't have an account? <a href="{{ route('employees.create') }}" class="text-blue-800">Register here</a>
+        </p>
+    </div>
+</div>
 </body>
 
 </html>

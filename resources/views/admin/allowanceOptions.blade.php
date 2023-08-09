@@ -47,7 +47,7 @@
                      <!-- Sample Data (Replace with dynamic data from backend) -->
                      @foreach ($allowanceOptions as $allowanceOption)
                      <tr>
-                        <td class="py-2 px-4 text-center">{{$allowanceOption->id}}</td>
+                        <td class="py-2 px-4 text-center"><span>{{$allowanceOption->id}}</span></td>
                         <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white" value="{{$allowanceOption->name}}" disabled name="name"></td>
                         <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white" value="{{$allowanceOption->description}}" disabled name="description"></td>
                         <td class="py-2 px-4 text-center">{{$allowanceOption->created_at}}</td>
@@ -78,6 +78,7 @@
      var previousDescription="";
      var newAllowanceType="";
      var newDescription="";
+
      // Function to enable/disable input and textarea fields
      function toggleEditFields(row, isEdit) {
          const inputFields = row.querySelectorAll('input,select');
@@ -128,6 +129,8 @@
          button.addEventListener('click', (event) => {
              const row = event.target.closest('tr');
              toggleEditFields(row, false);
+             const $row = $(row);
+             var id = $row.find('span').text();
              if(previousAllowanceType===newAllowanceType && previousDescription===newDescription){
                      console.log("no change");
                  }else{
@@ -139,12 +142,13 @@
                      const customHeaders = {
                          'X-CSRF-TOKEN' : '{{ csrf_token() }}'
                      };
+
                      $.ajax({
                          type:"POST",
                          url:'allowanceOptions/edit',
                          headers:customHeaders,
                          data:{
-                            id:{{$allowanceOption->id}},
+                            id:id,
                              name:newAllowanceType,
                              description:newDescription,
                             //  modifiedDate:today
