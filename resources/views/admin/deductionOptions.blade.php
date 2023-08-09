@@ -49,7 +49,7 @@
 
                      @foreach ($deductionOptions as $deductionOption)
                      <tr>
-                        <td class="py-2 px-4 text-center">{{$deductionOption->id}}</td>
+                        <td class="py-2 px-4 text-center"><span>{{$deductionOption->id}}</span></td>
                         <td class="py-2 px-4  "><input type="text" class="w-full p-4 bg-white text-center" value="{{ $deductionOption->name }}" disabled name="name"></td>
                         <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center"  disabled value="{{ $deductionOption->description }}" name="description"></td>
                         <td class="py-2 px-4 text-center">{{$deductionOption->created_at}}</td>
@@ -130,6 +130,8 @@
          button.addEventListener('click', (event) => {
              const row = event.target.closest('tr');
              toggleEditFields(row, false);
+             const $row = $(row);
+             var id = $row.find('span').text();
              if(previousDeductionType===newDeductionType && previousDescription===newDescription){
                      console.log("no change");
                  }else{
@@ -146,7 +148,7 @@
                          url:'deductionOptions/edit',
                          headers:customHeaders,
                          data:{
-                            id:{{$deductionOption->id}},
+                            id:id,
 
                              name:newDeductionType,
                              description:newDescription,

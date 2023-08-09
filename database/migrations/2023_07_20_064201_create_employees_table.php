@@ -18,11 +18,10 @@ class CreateEmployeesTable extends Migration
             $table->date('date_of_birth');
             $table->text('address');
             $table->string('bank_account_number');
-            $table->string('status')->default('pending');
-            $table->enum('gender',['male', 'female'])->default('male');
             $table->string('bank_name');
+            $table->enum('gender',['male', 'female'])->default('male');
             $table->string('tax_payer_id');
-            $table->string('documents')->nullable();
+            $table->string('status')->default('pending');
             $table->timestamps();
             // $table->unsignedBigInteger('department_id')->nullable();
 

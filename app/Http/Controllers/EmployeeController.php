@@ -36,10 +36,10 @@ class EmployeeController extends Controller
             'tax_payer_id' => 'required|string|max:255',
             'status' => 'required|string',
         ]);
-        // dd($validatedData);
-        Employee::create($validatedData);
+        dd($validatedData);
+        // Employee::create($validatedData);
 
-        return redirect()->route('employees.create')->with('success', 'Employee registered successfully!');
+        // return redirect()->route('employees.create')->with('success', 'Employee registered successfully!');
 
     }
     // Login method

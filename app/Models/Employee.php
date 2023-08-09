@@ -18,13 +18,13 @@ class Employee extends Model
         'phone',
         'date_of_birth',
         'address',
-        'bank_name',
         'bank_account_number',
+        'bank_name',
+        'gender',
         'tax_payer_id',
         'password',
-        'department_id',
-        'gender',
-        'documents',
+
+
 
         'status'
     ];

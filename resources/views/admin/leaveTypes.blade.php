@@ -160,6 +160,8 @@
         button.addEventListener('click', (event) => {
             const row = event.target.closest('tr');
             toggleEditFields(row, false);
+            const $row = $(row);
+             var id = $row.find('span').text();
             if(previousLeaveType===newLeaveType && previousDays===newDays && previousPaid===newPaid){
                     console.log("no change");
                 }else{
@@ -172,7 +174,7 @@
                         url:'leaveTypes/edit',
                         headers:customHeaders,
                         data:{
-                            id:{{$leaveType->id}},
+                            id:id,
                             name:newLeaveType,
                             days:newDays,
                             type:newPaid,

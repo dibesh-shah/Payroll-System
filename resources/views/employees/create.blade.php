@@ -27,10 +27,9 @@
     <div class="text-green-500 mb-4">
         {{ session('success') }}
     </div>
-    @else
-    HELLO
+
 @endif
-    <form class="grid grid-cols-2 gap-6" action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="grid grid-cols-2 gap-6" action="{{ route('employees.store') }}" method="POST" >
         @csrf
       <div>
         <label class="block mb-2">First Name:</label>
@@ -95,10 +94,10 @@
             <div class="text-sm text-red-700">{{ $message }}</div>
             @enderror
         </div>
-        <div>
+        {{-- <div>
             <label class="block mb-2">Documents</label>
             <input type="file" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your tax identification number"  name="documents" >
-        </div>
+        </div> --}}
         <div>
           <label class="block mb-2">Address:</label>
           <textarea type="text" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  placeholder="Enter your address" name="address" required></textarea>
