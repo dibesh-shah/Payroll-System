@@ -1,5 +1,5 @@
-@include("admin.sidenav")
-
+@extends('layouts.app')
+@section('content')
 <div class="p-4 sm:ml-64">
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
     <div class="container mx-auto mt-5">
@@ -29,24 +29,24 @@
                               <button class="px-4 py-2 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-200" type="button">Deny</button>
                             </div>
                           </div>
-                          
+
                     </div>
                     <div class="col-span-1">
                         <h2 class="text-3xl font-bold mb-4 text-center" id="month"></h2>
                         <div id="calendarContainer" class="w-80">
-                            
-                            <!-- The calendar table will be generated here -->
-                        </div> 
-                    </div>
-                    
 
-                      
+                            <!-- The calendar table will be generated here -->
+                        </div>
+                    </div>
+
+
+
                 </div>
         </div>
 
-        
+
     </div>
-    
+
    </div>
 </div>
 <script >
@@ -61,7 +61,7 @@
         const today = year+"-"+(month+1)+"-"+(now.getDate()) ;
         const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
         document.getElementById("month").textContent = months[month] +"  "+ year;
-        
+
         // Get the first day of the month (e.g., 1 for Sunday, 2 for Monday, ...)
         const firstDay = new Date(year, month, 1).getDay();
 
@@ -72,7 +72,7 @@
         const table = document.createElement('table');
         table.className="table-auto mx-auto";
         const headerRow = document.createElement('tr');
-        
+
 
         // Add the day names (Sunday, Monday, ..., Saturday) to the header row
         const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -97,18 +97,18 @@
             for (let j = 0; j < 7; j++) {
                 const cell = document.createElement('td');
                 const divcell = document.createElement('div');
-                
+
                 if (i === 0 && j < firstDay) {
                     // Empty cells before the first day of the month
                     divcell.textContent = '';
-                    
+
 
                 } else if (day <= totalDays) {
                     divcell.textContent = day;
                     var d = getDateId(year, month, day);
                     divcell.setAttribute('id', d);
                     if(d==today){
-                        
+
                         divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-gray-200 " ;
                     }else{
                         divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center " ;
@@ -133,7 +133,7 @@
             calendarContainer.removeChild(calendarContainer.firstChild);
         }
         calendarContainer.appendChild(table);
-        
+
     }
 
     // Helper function to get a unique ID for a given date
@@ -144,7 +144,7 @@
 
     // Generate the calendar when the page loads
     generateCalendar();
-        
+
 </script>
 
-@include('admin.footer')
+@endsection

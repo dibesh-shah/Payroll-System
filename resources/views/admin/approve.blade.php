@@ -1,5 +1,5 @@
-@include("admin.sidenav")
-
+@extends('layouts.app')
+@section('content')
 <div class="p-4 sm:ml-64">
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
       <div class="container mx-auto py-8">
@@ -33,10 +33,10 @@
                      <button class="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md ">See More</button>
 
                  </div>
-                 
+
          </div>
      </div>
    </div>
 </div>
 
-@include('admin.footer')
+@endsection

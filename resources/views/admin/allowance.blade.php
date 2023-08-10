@@ -1,5 +1,5 @@
-@include("admin.sidenav")
-
+@extends('layouts.app')
+@section('content')
 <div class="p-4 sm:ml-64">
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
     <div class="container mx-auto mt-5">
@@ -36,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     <tr>
                         <td class="py-2 px-4 text-center">1</td>
                         <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white" value="Travel Allowance" disabled></td>
@@ -47,7 +47,7 @@
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn"> Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
-                            
+
                         </td>
                     </tr>
                     <tr>
@@ -60,7 +60,7 @@
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
-                            
+
                         </td>
                     </tr>
                     <tr>
@@ -73,15 +73,15 @@
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded">Delete</button>
-                            
+
                         </td>
                     </tr>
-                    
+
                 </tbody>
             </table>
         </div>
     </div>
-    
+
    </div>
 </div>
 <script>
@@ -125,4 +125,4 @@
         });
     });
 </script>
-@include('admin.footer')
+@endsection

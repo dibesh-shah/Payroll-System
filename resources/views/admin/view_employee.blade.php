@@ -1,5 +1,5 @@
-@include("admin.sidenav")
-
+@extends('layouts.app')
+@section('content')
 <div class="p-4 sm:ml-64">
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
       <div class="container mx-auto py-8">
@@ -10,7 +10,7 @@
             <div class="flex items-center mb-4">
                 <input type="text" class="w-80 px-4 py-2 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500" placeholder="Enter Employee ID" name="emp_id">
                 <button class="ml-4 px-4 py-3 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">View</button>
-            </div>  
+            </div>
          </div>
          <div class="mt-8 bg-white p-6 rounded-lg shadow-lg" id="myDiv">
             <form class="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -72,7 +72,7 @@
 </script>
 
 <script>
-  
+
 </script>
 
-@include('admin.footer')
+@endsection

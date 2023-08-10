@@ -1,5 +1,5 @@
-@include("admin.sidenav")
-
+@extends('layouts.app')
+@section('content')
 <div class="p-4 sm:ml-64">
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
     <div class="container mx-auto mt-5">
@@ -17,7 +17,7 @@
                     </div>
                     <div>
                         <label for="paid" class="block text-gray-700 font-semibold mb-2">Paid:</label>
-                        
+
                          <select class=" w-full p-4  border-zinc-800 border-2">
                             <option name="paid">Paid</option>
                             <option name="unpaid">Unpaid</option>
@@ -58,7 +58,7 @@
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn">Delete</button>
-                            
+
                         </td>
                     </tr>
                     <tr>
@@ -72,7 +72,7 @@
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn">Delete</button>
-                            
+
                         </td>
                     </tr>
                     <tr>
@@ -86,21 +86,21 @@
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
                             <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn">Delete</button>
-                            
+
                         </td>
                     </tr>
-                    
-                    
-                    
+
+
+
                 </tbody>
             </table>
         </div>
     </div>
-    
+
    </div>
 </div>
 <script>
-    
+
     var previousLeaveType="";
     var previousDays="";
     var previousPaid="";
@@ -124,7 +124,7 @@
                     previousPaid = field.value;
                 }
             } else {
-                
+
                 field.setAttribute('disabled', 'disabled');
                 field.classList.remove('border', 'border-gray-300');
                 if (index === 0) {
@@ -135,7 +135,7 @@
                     newPaid = field.value;
                 }
 
-                
+
             }
         });
 
@@ -199,9 +199,9 @@
         button.addEventListener('click', (event) => {
             const row = event.target.closest('tr');
             row.classList.add("hidden");
-            
+
         });
     });
 </script>
 
-@include('admin.footer')
+@endsection

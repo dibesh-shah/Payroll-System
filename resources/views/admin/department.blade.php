@@ -1,91 +1,185 @@
-@include("admin.sidenav")
+@extends('layouts.app')
+@section('content')
 
-<div class="p-4 sm:ml-64">
+
+
+ <div class="p-4 sm:ml-64">
     <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
-        <div class="container mx-auto mt-5">
-            <h1 class="text-3xl font-bold mb-4">Department Details</h1>
-            <button id="addDepartmentBtn" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded float-right mb-3">Add Department</button>
-            <div id="departmentFormContainer" class="mb-3 hidden">
-                <form id="departmentForm" class="flex">
-                    <input type="text" class="form-input mr-2" placeholder="Department Name" required>
-                    <input type="text" class="form-input mr-2" placeholder="Description">
-                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">Add</button>
-                </form>
-            </div>
-            <div id="departmentList" class="mt-16">
-                <div class="border p-4 rounded-md bg-white shadow-md flex justify-between items-center">
-                    <h2 class="text-lg font-bold mb-2">Employee Name</h2>
-                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded" aria-expanded="false" data-dropdown-toggle="dropdown-department">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                          </svg>
-                    </button>
+     <div class="container mx-auto mt-5">
+         <h1 class="text-3xl font-bold mb-4">Add Leave</h1>
+         <div class="max-w  bg-white p-6 rounded-lg shadow-lg">
+             <form action="{{ route('departments.store') }}" method="POST">
+                 @csrf
+                  <div class="grid grid-cols-3 gap-6">
+                      <div>
+                          <label for="type" class="block text-gray-700 font-semibold mb-2">Department Name</label>
+                          <input type="text" id="name" name="name" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter department name" required>
+                      </div>
+                      <div>
+                          <label for="number" class="block text-gray-700 font-semibold mb-2">Description</label>
+                          <textarea id="leavedays"
+                          type="text" name="description" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="description" required></textarea>
+                      </div>
 
-                </div>
-                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-department">
-                    
-                    <ul class="py-1" role="none">
-                      <li class="">
-                        
-                        <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-                              </svg>
-                              &nbsp;Edit</a>
-                      </li>
-                      <li>
-                        <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                              </svg>
-                              &nbsp;Delete</a>
-                      </li>
-                      
-                    </ul>
                   </div>
-                
-                
-            </div>
-        </div>
-    
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        
-        <script>
-            $(document).ready(function () {
-                $("#addDepartmentBtn").click(function () {
-                    $("#departmentFormContainer").toggle();
-                });
-    
-                // // AJAX to submit the department form
-                // $("#departmentForm").submit(function (e) {
-                //     e.preventDefault();
-    
-                //     const formData = $(this).serialize();
-                //     $.post("/add-department", formData, function (data) {
-                //         // Process the response and update the department list
-                //         const department = JSON.parse(data);
-                //         const departmentElement = `
-                //             <div class="bg-white shadow-md rounded mb-2 p-4">
-                //                 <h5 class="text-lg font-bold mb-2">${department.name}</h5>
-                //                 <p class="mb-2">${department.description}</p>
-                //                 <div class="dropdown float-right">
-                //                     <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded" type="button" data-toggle="dropdown">
-                //                         Options
-                //                     </button>
-                //                     <div class="dropdown-menu">
-                //                         <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="#">Edit</a>
-                //                         <a class="block px-4 py-2 text-gray-800 hover:bg-gray-200" href="#">Delete</a>
-                //                     </div>
-                //                 </div>
-                //             </div>
-                //         `;
-                //         $("#departmentList").prepend(departmentElement);
-                //     });
-                // });
-            });
-        </script>
-       
+                  <div class="flex justify-end mt-4">
+                      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Add Leave</button>
+                  </div>
+
+              </form>
+         </div>
+
+         <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
+             <h2 class="text-xl font-bold mb-4">Leave List</h2>
+             @if(session('success'))
+                 <div class="text-green-500 mb-4">
+                     {{ session('success') }}
+                 </div>
+
+             @endif
+             <table class="w-full border-collapse">
+                 <thead>
+                     <tr>
+                         <th class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">ID</th>
+                         <th class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Department</th>
+                         <th class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Description</th>
+                         <th class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Created Date</th>
+                         <th class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Modified Date</th>
+                         <th class="py-2 px-4 bg-gray-200 font-semibold text-gray-700">Actions</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <!-- Sample Data (Replace with dynamic data from backend) -->
+                     @foreach($departments as $department)
+                     <tr>
+                         <td class="py-2 px-4 text-center"><span>{{$department->id}}</span></td>
+                         <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="{{$department->name}}" disabled name="name"></td>
+                         <td class="py-2 px-4"><textarea type="text" class="w-full p-4 bg-white text-center" value="{{$department->days}}" disabled name="description"></textarea></td>
+                         <td class="py-2 px-4 text-center">{{ $department->created_at }}</td>
+                         <td class="py-2 px-4 text-center">{{ $department->updated_at }}</td>
+                         <td class="py-2 px-4 text-center flex flex-wrap">
+                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
+                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
+                             <form action="{{ route('departments.destroy', $department->id) }}" method="POST">
+                                 @csrf
+                                 @method('DELETE')
+                                 <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn" type="submit">Delete</button>
+                             </form>
+
+                         </td>
+                     </tr>
+                     @endforeach
+
+
+
+
+                 </tbody>
+             </table>
+         </div>
+     </div>
+
     </div>
  </div>
+ <script>
 
-@include('admin.footer')
+     var previousDepartment="";
+     var previousDescription="";
+     var newDepartment="";
+     var newDescription="";
+     // Function to enable/disable input and textarea fields
+     function toggleEditFields(row, isEdit) {
+         const inputFields = row.querySelectorAll('input,textarea');
+         const updateBtn = row.querySelector('.update-btn');
+
+         inputFields.forEach((field,index) => {
+             if (isEdit) {
+                 field.removeAttribute('disabled');
+                 field.classList.add('border', 'border-gray-300');
+                 alert(field.value)
+                 if (index === 0) {
+                    previousDepartment = field.value;
+                 } else if (index === 1) {
+                    previousDescription = field.value;
+                 }
+
+             } else {
+
+                 field.setAttribute('disabled', 'disabled');
+                 field.classList.remove('border', 'border-gray-300');
+                 if (index === 0) {
+                    newDepartment = field.value;
+                 } else if (index === 1) {
+                     newDays = field.value;
+                 } else if (index === 2) {
+                     newDescription = field.value;
+                 }
+
+
+             }
+         });
+
+         // Toggle the "Update" and "Edit" buttons
+         updateBtn.style.display = isEdit ? 'inline' : 'none';
+         row.querySelector('.edit-btn').style.display = isEdit ? 'none' : 'inline';
+     }
+
+     // Event listener for "Edit" button click
+     const editButtons = document.querySelectorAll('.edit-btn');
+
+     editButtons.forEach((button) => {
+         button.addEventListener('click', (event) => {
+             const row = event.target.closest('tr');
+             toggleEditFields(row, true);
+         });
+     });
+
+     // Event listener for "Update" button click
+     const updateButtons = document.querySelectorAll('.update-btn');
+
+     updateButtons.forEach((button) => {
+         button.addEventListener('click', (event) => {
+             const row = event.target.closest('tr');
+             toggleEditFields(row, false);
+             const $row = $(row);
+              var id = $row.find('span').text();
+             if(previousDepartment===newDepartment && previousDescription===newDescription){
+                     console.log("no change");
+                 }else{
+
+                     const customHeaders = {
+                         'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+                     };
+                     $.ajax({
+                         type:"POST",
+                         url:'departments/edit',
+                         headers:customHeaders,
+                         data:{
+                             id:id,
+                             name:newDepartment,
+                             description:newDescription,
+
+                         },
+                         cache:false,
+                         success:function(data){
+                             console.log(data)
+                         },
+                         error:function(){
+
+                         }
+                     });
+                 }
+         });
+     });
+
+     // const deleteButtons = document.querySelectorAll('.delete-btn');
+     // deleteButtons.forEach((button) => {
+     //     button.addEventListener('click', (event) => {
+     //         const row = event.target.closest('tr');
+     //         row.classList.add("hidden");
+
+     //     });
+     // });
+ </script>
+
+
+@endsection

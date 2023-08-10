@@ -3,18 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\AjaxController;
-
-
+use App\Http\Controllers\EmployeeController;
 
 Route::get('/', function () {
     return view('user/welcome');
 });
+//register
+Route::get('/user/register', [EmployeeController::class, 'create'])->name('employees.create');
+Route::post('/user', [EmployeeController::class, 'store'])->name('employees.store');
 
-Route::get('/register', function () {
-    return view('user/register');
-});
+// Login routes
+Route::get('/login', [EmployeeController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [EmployeeController::class, 'login'])->name('login.submit');
 
-Route::view('/login', 'user/login');
+Route::view('/login', 'user/login')->name('login');
 Route::view('/admin', 'admin/login');
 Route::view('/admin/dashboard', 'admin/dashboard');
 Route::view('/admin/approve', 'admin/approve');

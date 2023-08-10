@@ -1,5 +1,5 @@
-@include("admin.sidenav")
-
+@extends('layouts.app')
+@section('content')
 <div class="p-4 sm:ml-64">
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
     <div class="container mx-auto mt-5 p-4 bg-white">
@@ -8,10 +8,10 @@
             <div id="calendarContainer">
                 <!-- The calendar table will be generated here -->
             </div>
-            
+
         </div>
         <div class="max-w  p-6 rounded-lg shadow-lg mt-6">
-            
+
             <select id="holidayType">
                 <option value="">Select Holiday Type</option>
                 <option value="Public Holiday">Public Holiday</option>
@@ -21,9 +21,9 @@
             <textarea class="w-100 " id="selectedDates" readonly></textarea>
             <button class="text-white bg-blue-800 hover:bg-blue-600 px-6 py-3 rounded-md" id="saveButton">Save Selected Dates</button>
         </div>
-        
+
     </div>
-    
+
    </div>
 </div>
 
@@ -39,7 +39,7 @@
             const today = year+"-"+(month+1)+"-"+(now.getDate()) ;
             const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
             document.getElementById("month").textContent = months[month] +"  "+ year;
-            
+
             // Get the first day of the month (e.g., 1 for Sunday, 2 for Monday, ...)
             const firstDay = new Date(year, month, 1).getDay();
 
@@ -50,7 +50,7 @@
             const table = document.createElement('table');
             table.className="table-auto mx-auto";
             const headerRow = document.createElement('tr');
-            
+
 
             // Add the day names (Sunday, Monday, ..., Saturday) to the header row
             const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -75,18 +75,18 @@
                 for (let j = 0; j < 7; j++) {
                     const cell = document.createElement('td');
                     const divcell = document.createElement('div');
-                    
+
                     if (i === 0 && j < firstDay) {
                         // Empty cells before the first day of the month
                         divcell.textContent = '';
-                        
+
 
                     } else if (day <= totalDays) {
                         divcell.textContent = day;
                         var d = getDateId(year, month, day);
                         divcell.setAttribute('id', d);
                         if(d==today){
-                            
+
                             divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-gray-200 " ;
                         }else{
                             divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center " ;
@@ -111,7 +111,7 @@
                 calendarContainer.removeChild(calendarContainer.firstChild);
             }
             calendarContainer.appendChild(table);
-            
+
         }
 
         // Helper function to get a unique ID for a given date
@@ -122,7 +122,7 @@
 
         // Generate the calendar when the page loads
         generateCalendar();
-            
+
 </script>
 
 <script>
@@ -133,7 +133,7 @@
 
     let selectedHolidayType = '';
     let selectedDivs = [];
-    
+
 
     // Function to add/remove the selected-holiday class
     function toggleSelectedClass(div) {
@@ -141,7 +141,7 @@
         div.classList.remove('selected-holiday');
         div.classList.remove('bg-red-400');
       } else {
-        
+
         div.classList.add('selected-holiday');
         div.classList.add('bg-red-400');
       }
@@ -245,4 +245,4 @@
   </script>
 
 
-@include('admin.footer')
+@endsection
