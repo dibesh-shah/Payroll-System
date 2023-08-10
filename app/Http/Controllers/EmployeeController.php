@@ -22,24 +22,30 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
+        //  $validatedData =
+        try {
+            $validatedData = $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|email|unique:employees',
+                'phone' => 'required|string|max:20',
+                'date_of_birth' => 'required|date',
+                'address' => 'required|string',
+                'bank_account_number' => 'required|string|max:255',
+                'bank_name' => 'required|string|max:255',
+                'gender' => 'required|in:male,female',
+                'tax_payer_id' => 'required|string|max:255',
 
-        $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:employees',
-            'phone' => 'required|string|max:20',
-            'date_of_birth' => 'required|date',
-            'address' => 'required|string',
-            'bank_account_number' => 'required|string|max:255',
-            'bank_name' => 'required|string|max:255',
-            'gender' => 'required|in:male,female',
-            'tax_payer_id' => 'required|string|max:255',
-            'status' => 'required|string',
-        ]);
-        dd($validatedData);
-        // Employee::create($validatedData);
+            ]);
+            $validatedData['status'] = 'pending';
 
-        // return redirect()->route('employees.create')->with('success', 'Employee registered successfully!');
+            Employee::create($validatedData);
+
+            return redirect()->route('employees.create')->with('success', 'Employee registered successfully!');
+        } catch (\Exception $e) {
+            // Log or print out the exception message
+            dd($e->getMessage());
+        }
 
     }
     // Login method

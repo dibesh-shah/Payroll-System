@@ -17,7 +17,7 @@
   <nav class="bg-gray-900 text-white px-8 py-4">
     <div class="container mx-auto flex justify-between items-center">
       <a class="text-xl font-bold" href="/">Payroll System</a>
-      <a class="text-white bg-blue-800 px-4 py-2 rounded-md" href="register">Register</a>
+      <a class="text-white bg-blue-800 px-4 py-2 rounded-md" href="{{route('employees.create')}}">Register</a>
     </div>
   </nav>
 
