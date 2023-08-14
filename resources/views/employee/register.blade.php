@@ -77,18 +77,16 @@
         <label class="block mb-2">Department</label>
         <select class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="department_id" required>
             <option value="">Select a department</option>
-            {{-- @foreach($departments as $department) --}}
-            {{-- value="{{ $department->id }}"
-            {{ $department->name }} --}}
+            @foreach($departments as $department)
 
-                <option>a</option>
-                <option>a</option>
-                <option>a</option>
-            {{-- @endforeach --}}
+
+            <option value="{{ $department->id }}"> {{ $department->name }} </option>
+
+            @endforeach
         </select>
-        {{-- @error('department_id')
+        @error('department_id')
         <div class="text-sm text-red-700">{{ $message }}</div>
-        @enderror --}}
+        @enderror
     </div>
       <div>
           <label class="block mb-2">Bank Name</label>

@@ -17,13 +17,13 @@
                       </div>
                       <div>
                           <label for="number" class="block text-gray-700 font-semibold mb-2">Description</label>
-                          <textarea id="leavedays"
-                          type="text" name="description" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="description" required></textarea>
+                          <input id="leavedays"
+                          type="text" name="description" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="description" required>
                       </div>
 
                   </div>
                   <div class="flex justify-end mt-4">
-                      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Add Leave</button>
+                      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Add Department</button>
                   </div>
 
               </form>
@@ -54,7 +54,7 @@
                      <tr>
                          <td class="py-2 px-4 text-center"><span>{{$department->id}}</span></td>
                          <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="{{$department->name}}" disabled name="name"></td>
-                         <td class="py-2 px-4"><textarea type="text" class="w-full p-4 bg-white text-center" value="{{$department->days}}" disabled name="description"></textarea></td>
+                         <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white text-center" value="{{$department->description}}" disabled name="description"></td>
                          <td class="py-2 px-4 text-center">{{ $department->created_at }}</td>
                          <td class="py-2 px-4 text-center">{{ $department->updated_at }}</td>
                          <td class="py-2 px-4 text-center flex flex-wrap">
@@ -88,14 +88,14 @@
      var newDescription="";
      // Function to enable/disable input and textarea fields
      function toggleEditFields(row, isEdit) {
-         const inputFields = row.querySelectorAll('input,textarea');
+         const inputFields = row.querySelectorAll('input,select');
          const updateBtn = row.querySelector('.update-btn');
 
          inputFields.forEach((field,index) => {
              if (isEdit) {
                  field.removeAttribute('disabled');
                  field.classList.add('border', 'border-gray-300');
-                 alert(field.value)
+
                  if (index === 0) {
                     previousDepartment = field.value;
                  } else if (index === 1) {

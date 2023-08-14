@@ -13,7 +13,8 @@ class DeductionController extends Controller
      */
     public function index()
     {
-        //
+        $deductions = Deduction::all();
+        return view('/admin/deduction', compact('deductions'));
     }
 
     /**
@@ -21,7 +22,7 @@ class DeductionController extends Controller
      */
     public function create()
     {
-        //
+        return view('decuction.create');
     }
 
     /**
@@ -29,7 +30,15 @@ class DeductionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:deductions|max:20',
+            'description' => 'nullable',
+
+
+        ]);
+
+        Deduction::create($request->all());
+        return redirect()->route('deduction.index')->with('success', 'Deduction created successfully.');
     }
 
     /**
@@ -43,9 +52,16 @@ class DeductionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Deduction $deduction)
+    public function edit(Request $request,Deduction $deduction)
     {
-        //
+        $id = $request->input('id');
+        $dataToUpdate = $request->only(['name', 'description']); // Get the fields to update from the request
+
+        // Find the user by ID and update the data
+        $user = Deduction::findOrFail($id);
+        $user->update($dataToUpdate);
+
+        return response()->json(['message' => 'Data updated successfully']);
     }
 
     /**
@@ -61,6 +77,7 @@ class DeductionController extends Controller
      */
     public function destroy(Deduction $deduction)
     {
-        //
+        $deduction->delete();
+        return redirect()->route('deduction.index')->with('success', 'Deduction Type deleted successfully.');
     }
 }

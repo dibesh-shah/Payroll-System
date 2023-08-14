@@ -8,21 +8,20 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         //
+        $departments = Department::all();
+        // dd('departments');
+        return view('admin/department',  compact('departments'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         $departments = Department::all(); // Fetch all departments
-        return view('/user/register', ['departments' => $departments]);
+        return view('employee/register', ['departments' => $departments]);
     }
 
     /**
@@ -39,7 +38,7 @@ class DepartmentController extends Controller
         // Create the department record
         Department::create($validatedData);
 
-        return redirect()->route('departments.create')->with('success', 'Department created successfully!');
+        return back()->with('success', 'Department created successfully!');
     }
 
     /**
@@ -53,9 +52,17 @@ class DepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Department $department)
+    public function edit(Request $request,Department $department)
     {
         //
+        $id = $request->input('id');
+        $dataToUpdate = $request->only(['name', 'description']); // Get the fields to update from the request
+
+        // Find the user by ID and update the data
+        $user = Department::findOrFail($id);
+        $user->update($dataToUpdate);
+
+        return response()->json(['message' => 'Data updated successfully']);
     }
 
     /**
@@ -72,5 +79,7 @@ class DepartmentController extends Controller
     public function destroy(Department $department)
     {
         //
+        $department->delete();
+        return redirect()->route('departments.index')->with('success', 'Department deleted successfully.');
     }
 }

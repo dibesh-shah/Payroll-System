@@ -14,6 +14,9 @@ class LeaveController extends Controller
     public function index()
     {
         //
+        $leaves = Leave::all();
+
+        return view('admin/leave', ['leaves' => $leaves]);
     }
 
     /**
@@ -22,6 +25,7 @@ class LeaveController extends Controller
     public function create()
     {
         //
+        return view('leave.create');
     }
 
     /**
@@ -29,7 +33,13 @@ class LeaveController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:leaves',
+            'days' => 'required|integer',
+            'type' => 'required|in:paid,unpaid',
+        ]);
+        Leave::create($request->all());
+        return redirect()->route('leave.index')->with('success', 'Leave Type created successfully.');
     }
 
     /**
@@ -43,9 +53,16 @@ class LeaveController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Leave $leave)
+    public function edit(Request $request,Leave $leave)
     {
-        //
+        $id = $request->input('id');
+        $dataToUpdate = $request->only(['name', 'days', 'type']); // Get the fields to update from the request
+
+        // Find the user by ID and update the data
+        $user = Leave::findOrFail($id);
+        $user->update($dataToUpdate);
+
+        return response()->json(['message' => 'Data updated successfully']);
     }
 
     /**
@@ -61,6 +78,7 @@ class LeaveController extends Controller
      */
     public function destroy(Leave $leave)
     {
-        //
+        $leave->delete();
+        return redirect()->route('leave.index')->with('success', 'Leave Type deleted successfully.');
     }
 }

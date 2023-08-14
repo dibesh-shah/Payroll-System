@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('leaves', function (Blueprint $table) {
+        Schema::create('salary_structures', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('days');
-            $table->enum('type', ['paid', 'unpaid'])->default('paid');
             $table->timestamps();
         });
     }
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('leaves');
+        Schema::dropIfExists('salary_structures');
     }
 };

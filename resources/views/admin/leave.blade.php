@@ -1,38 +1,46 @@
 @extends('layouts.app')
+
 @section('content')
 <div class="p-4 sm:ml-64">
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
     <div class="container mx-auto mt-5">
         <h1 class="text-3xl font-bold mb-4">Add Leave</h1>
         <div class="max-w  bg-white p-6 rounded-lg shadow-lg">
-            <form>
-                <div class="grid grid-cols-3 gap-6">
-                    <div>
-                        <label for="type" class="block text-gray-700 font-semibold mb-2">Leave Type:</label>
-                        <input type="text" id="type" name="type" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Leave type" required>
-                    </div>
-                    <div>
-                        <label for="number" class="block text-gray-700 font-semibold mb-2">No. of Days:</label>
-                        <input id="leavedays" name="leavedays" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="Enter no. of leave days" required></input>
-                    </div>
-                    <div>
-                        <label for="paid" class="block text-gray-700 font-semibold mb-2">Paid:</label>
+            <form action="{{route('leave.store')}}" method="POST">
+                @csrf
+                 <div class="grid grid-cols-3 gap-6">
+                     <div>
+                         <label for="type" class="block text-gray-700 font-semibold mb-2">Leave Type:</label>
+                         <input type="text" id="type" name="name" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Leave type" required>
+                     </div>
+                     <div>
+                         <label for="number" class="block text-gray-700 font-semibold mb-2">No. of Days:</label>
+                         <input id="leavedays" name="days" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="Enter no. of leave days" required>
+                     </div>
+                     <div>
+                         <label for="paid" class="block text-gray-700 font-semibold mb-2">Paid:</label>
 
-                         <select class=" w-full p-4  border-zinc-800 border-2">
-                            <option name="paid">Paid</option>
-                            <option name="unpaid">Unpaid</option>
-                         </select>
+                          <select class=" w-full p-4  border-zinc-800 border-2" name="type">
+                             <option value="paid">Paid</option>
+                             <option value="unpaid">Unpaid</option>
+                          </select>
 
-                    </div>
-                </div>
-                <div class="flex justify-end mt-4">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Add Leave</button>
-                </div>
-            </form>
+                     </div>
+                 </div>
+                 <div class="flex justify-end mt-4">
+                     <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Add Leave</button>
+                 </div>
+             </form>
         </div>
 
         <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-xl font-bold mb-4">Leave List</h2>
+            @if(session('success'))
+                <div class="text-green-500 mb-4">
+                    {{ session('success') }}
+                </div>
+
+            @endif
             <table class="w-full border-collapse">
                 <thead>
                     <tr>
@@ -47,48 +55,34 @@
                 </thead>
                 <tbody>
                     <!-- Sample Data (Replace with dynamic data from backend) -->
+                    @foreach($leaves as $leave)
                     <tr>
-                        <td class="py-2 px-4 text-center">1</td>
-                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="Annual Leave" disabled></td>
-                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white text-center" value="10" disabled></td>
-                        <td class="py-2 px-4"><select class="w-full p-4 bg-white text-center" disabled><option>Paid</option><option>Unpaid</option></select></td>
-                        <td class="py-2 px-4 text-center">2023-07-19</td>
-                        <td class="py-2 px-4 text-center">2023-07-19</td>
-                        <td class="py-2 px-4 text-center">
+                        <td class="py-2 px-4 text-center"><span>{{$leave->id}}</span></td>
+                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="{{$leave->name}}" disabled name="name"></td>
+                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white text-center" value="{{$leave->days}}" disabled name="days"></td>
+                        <td class="py-2 px-4">
+                            <select class="w-full p-4 bg-white text-center"  disabled name="type">
+                                <option value="paid" @if($leave->type === 'paid') selected @endif>Paid</option>
+                                <option value="unpaid" @if($leave->type === 'unpaid') selected @endif>Unpaid</option>
+
+
+                            </select>
+                        </td>
+                        <td class="py-2 px-4 text-center">{{ $leave->created_at }}</td>
+                        <td class="py-2 px-4 text-center">{{ $leave->updated_at }}</td>
+                        <td class="py-2 px-4 text-center flex flex-wrap">
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
-                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn">Delete</button>
+                            <form action="{{ route('leave.destroy', $leave->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn" type="submit">Delete</button>
+                            </form>
 
                         </td>
                     </tr>
-                    <tr>
-                        <td class="py-2 px-4 text-center">1</td>
-                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="Annual Leave" disabled></td>
-                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white text-center" value="10" disabled></td>
-                        <td class="py-2 px-4"><select class="w-full p-4 bg-white text-center" disabled><option>Paid</option><option>Unpaid</option></select></td>
-                        <td class="py-2 px-4 text-center">2023-07-19</td>
-                        <td class="py-2 px-4 text-center">2023-07-19</td>
-                        <td class="py-2 px-4 text-center">
-                            <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
-                            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
-                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn">Delete</button>
+                    @endforeach
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-4 text-center">1</td>
-                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="Annual Leave" disabled></td>
-                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white text-center" value="10" disabled></td>
-                        <td class="py-2 px-4"><select class="w-full p-4 bg-white text-center" disabled><option>Paid</option><option>Unpaid</option></select></td>
-                        <td class="py-2 px-4 text-center">2023-07-19</td>
-                        <td class="py-2 px-4 text-center">2023-07-19</td>
-                        <td class="py-2 px-4 text-center">
-                            <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
-                            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
-                            <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded delete-btn">Delete</button>
-
-                        </td>
-                    </tr>
 
 
 
@@ -101,12 +95,13 @@
 </div>
 <script>
 
-    var previousLeaveType="";
+    var previousLeave="";
     var previousDays="";
     var previousPaid="";
-    var newLeaveType="";
+    var newLeave="";
     var newDays="";
     var newPaid="";
+    var id="";
     // Function to enable/disable input and textarea fields
     function toggleEditFields(row, isEdit) {
         const inputFields = row.querySelectorAll('input,select');
@@ -116,19 +111,23 @@
             if (isEdit) {
                 field.removeAttribute('disabled');
                 field.classList.add('border', 'border-gray-300');
+
                 if (index === 0) {
-                    previousLeaveType = field.value;
+                    previousLeave = field.value;
                 } else if (index === 1) {
                     previousDays = field.value;
                 } else if (index === 2) {
                     previousPaid = field.value;
+                // } else if (index === 3) {
+                //     id = field.value;
                 }
+
             } else {
 
                 field.setAttribute('disabled', 'disabled');
                 field.classList.remove('border', 'border-gray-300');
                 if (index === 0) {
-                    newLeaveType = field.value;
+                    newLeave = field.value;
                 } else if (index === 1) {
                     newDays = field.value;
                 } else if (index === 2) {
@@ -161,26 +160,25 @@
         button.addEventListener('click', (event) => {
             const row = event.target.closest('tr');
             toggleEditFields(row, false);
-            if(previousLeaveType===newLeaveType && previousDays===newDays && previousPaid===newPaid){
+            const $row = $(row);
+             var id = $row.find('span').text();
+            if(previousLeave===newLeave && previousDays===newDays && previousPaid===newPaid){
                     console.log("no change");
                 }else{
-                    const now = new Date();
-                    const year = now.getFullYear();
-                    const month = now.getMonth();
 
-                    const today = year+"-"+(month+1)+"-"+(now.getDate()) ;
                     const customHeaders = {
                         'X-CSRF-TOKEN' : '{{ csrf_token() }}'
                     };
                     $.ajax({
                         type:"POST",
-                        url:'{{ route("ajax.endpoint") }}',
+                        url:'leave/edit',
                         headers:customHeaders,
                         data:{
-                            leaveType:newLeaveType,
+                            id:id,
+                            name:newLeave,
                             days:newDays,
-                            paid:newPaid,
-                            modifiedDate:today
+                            type:newPaid,
+                            // modifiedDate:
                         },
                         cache:false,
                         success:function(data){
@@ -194,14 +192,14 @@
         });
     });
 
-    const deleteButtons = document.querySelectorAll('.delete-btn');
-    deleteButtons.forEach((button) => {
-        button.addEventListener('click', (event) => {
-            const row = event.target.closest('tr');
-            row.classList.add("hidden");
+    // const deleteButtons = document.querySelectorAll('.delete-btn');
+    // deleteButtons.forEach((button) => {
+    //     button.addEventListener('click', (event) => {
+    //         const row = event.target.closest('tr');
+    //         row.classList.add("hidden");
 
-        });
-    });
+    //     });
+    // });
 </script>
 
-@endsection
+ @endsection

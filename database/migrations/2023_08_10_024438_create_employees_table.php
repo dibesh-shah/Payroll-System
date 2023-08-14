@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('document')->nullable();
             $table->unsignedBigInteger('department_id');
             $table->string('status')->default('pending');
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }

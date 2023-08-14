@@ -24,6 +24,11 @@
   <div class="container mx-auto h-screen flex justify-center items-center ">
     <div class="bg-gray-200 p-8 rounded-md shadow-md w-96">
       <h1 class="text-3xl font-bold mb-6">Login</h1>
+      @if(session('success'))
+      <div class="text-green-500 mb-4">
+          {{ session('success') }}
+      </div>
+        @endif
       <form>
         <div class="mb-4">
           <label class="block mb-2">Email:</label>
@@ -36,7 +41,7 @@
         <button class="w-full text-white bg-blue-800 hover:bg-blue-600 py-2 rounded-md" type="submit">Login</button>
       </form>
       <p class="mt-4 text-center">
-        Don't have an account? <a href="register">Register here</a>
+        Don't have an account? <a href="{{route('employees.register')}}">Register here</a>
       </p>
     </div>
   </div>
