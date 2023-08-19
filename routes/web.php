@@ -31,3 +31,9 @@ Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
 Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name('ajax.endpoint');
 
 Route::view('/admin/inbox', 'admin/inbox');
+
+
+Route::view('/dashboard', 'user/dashboard');
+Route::view('/inbox', 'user/inbox');
+Route::view('/calendar', 'user/calendar');
+Route::view('/attendance', 'user/attendance');

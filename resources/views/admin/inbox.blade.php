@@ -460,7 +460,7 @@
 
 
 
-  // setInterval(getMessage, 5000);
+  setInterval(getMessage, 5000);
 </script>
   
   
