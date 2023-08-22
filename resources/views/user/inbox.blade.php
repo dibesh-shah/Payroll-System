@@ -1,4 +1,4 @@
-@include("admin.sidenav")
+@include("user.sidenav")
 
 <div class="p-4 sm:ml-64 " style="height: 100vh;">
    <div class="border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14  " style="height: 90%">
@@ -193,6 +193,6 @@
   
   
 
-@include('admin.footer')
+@include('user.footer')
 
 

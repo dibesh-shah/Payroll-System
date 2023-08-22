@@ -28,6 +28,7 @@ Route::view('/admin/leave', 'admin/leave');
 Route::view('/admin/leave_request', 'admin/leave_request');
 Route::view('/admin/leave_detail', 'admin/leave_detail');
 Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
+
 Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name('ajax.endpoint');
 
 Route::view('/admin/inbox', 'admin/inbox');
@@ -37,3 +38,6 @@ Route::view('/dashboard', 'user/dashboard');
 Route::view('/inbox', 'user/inbox');
 Route::view('/calendar', 'user/calendar');
 Route::view('/attendance', 'user/attendance');
+Route::view('/leave_apply', 'user/leave_apply');
+Route::view('/leave_balance', 'user/leave_balance');
+Route::view('/leave_history', 'user/leave_history');
