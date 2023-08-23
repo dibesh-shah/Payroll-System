@@ -75,34 +75,56 @@
               </svg>
             <h1 class="text-xl font-semibold"> Admin fillable </h1>
         </div>
+
+
+
         <form action="{{ route('employees.approve', $employee->id) }}" method="POST">
             @csrf
-            <label for="date_of_joining">Date of Joining:</label>
-            <input type="date" id="date_of_joining" name="date_of_joining" required>
+            {{-- <label for="date_of_joining">Date of Joining:</label>
+            <input type="date" id="date_of_joining" name="date_of_joining" required> --}}
             <br>
-            <h3>Allowances:</h3>
-            @foreach ($allowances as $allowance)
-                <label for="allowance_{{ $allowance->id }}">{{ $allowance->name }}</label>
-                <input type="checkbox" id="allowance_{{ $allowance->id }}" name="allowances[]" value="{{ $allowance->id }}">
-                <input type="text" id="allowance_value_{{ $allowance->id }}" name="allowance_values[]" placeholder="Amount/Percentage">
-                <select name="allowance_types[]">
-                    <option value="percentage">Percentage</option>
-                    <option value="amount">Amount</option>
-                </select>
-                <br>
-            @endforeach
-            <br>
-            <h3>Deductions:</h3>
-            @foreach ($deductions as $deduction)
-                <label for="deduction_{{ $deduction->id }}">{{ $deduction->name }}</label>
-                <input type="checkbox" id="deduction_{{ $deduction->id }}" name="deductions[]" value="{{ $deduction->id }}">
-                <input type="text" id="deduction_value_{{ $deduction->id }}" name="deduction_values[]" placeholder="Amount/Percentage">
-                <select name="deduction_types[]">
-                    <option value="percentage">Percentage</option>
-                    <option value="amount">Amount</option>
-                </select>
-                <br>
-            @endforeach
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
+                <div class="border p-4 rounded-md bg-white shadow-md">
+                    <h3>Allowances:</h3>
+                    @foreach ($allowances as $allowance)
+                        <div class="flex items-center  mb-2">
+                            <label class="flex items-center pr-4" for="allowance_{{ $allowance->id }}">
+                                {{ $allowance->name }}
+                            </label>
+                            <input class="h-6 w-6" type="checkbox" id="allowance_{{ $allowance->id }}" name="allowances[]" value="{{ $allowance->id }}">
+                        </div>
+                        <div class="flex items-center mb-2">
+                            <input class="mr-2 px-2 py-1 border rounded" type="text" id="allowance_value_{{ $allowance->id }}" name="allowance_values[]" placeholder="Amount/Percentage">
+                            <select class="w-1/3 px-2 py-1 border rounded" name="allowance_types[]" required>
+                                <option value="percentage">Percentage</option>
+                                <option value="amount">Amount</option>
+                            </select>
+                        </div>
+                    @endforeach
+                </div>
+
+
+
+                <div class="border p-4 rounded-md bg-white shadow-md">
+
+                    <h3>Deductions:</h3>
+                    @foreach ($deductions as $deduction)
+                    <div class="flex items-center  mb-2">
+                        <label for="deduction_{{ $deduction->id }}" class="flex items-center pr-4">{{ $deduction->name }}</label>
+                        <input  class="h-6 w-6" type="checkbox" id="deduction_{{ $deduction->id }}" name="deductions[]" value="{{ $deduction->id }}">
+                    </div>
+
+                        <div class="flex items-center mb-2">
+                        <input type="text"  class="mr-2 px-2 py-1 border rounded" id="deduction_value_{{ $deduction->id }}" name="deduction_values[]" placeholder="Amount/Percentage">
+
+                        <select name="deduction_types[]" class="w-1/3 px-2 py-1 border rounded">
+                            <option value="percentage">Percentage</option>
+                            <option value="amount">Amount</option>
+                        </select>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">Approve</button>
         </form>
 

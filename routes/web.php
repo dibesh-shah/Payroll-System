@@ -7,6 +7,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AllowanceController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DeductionController;
 
 Route::get('/', function () {
@@ -15,7 +16,7 @@ Route::get('/', function () {
 
 
 // Employee routes
-Route::prefix('employee')->group(function () {
+Route::middleware(['guest'])->prefix('employee')->group(function () {
     Route::get('/register', [EmployeeController::class, 'createWithDepartment'])->name('employees.register');
     Route::post('/register', [EmployeeController::class, 'store'])->name('employees.store');
     Route::get('/login', [EmployeeController::class, 'showLoginForm'])->name('login');
@@ -78,3 +79,19 @@ Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
 Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name('ajax.endpoint');
 
 Route::view('/admin/inbox', 'admin/inbox');
+
+// Protect other routes with the auth middleware
+// Route::middleware(['auth'])->group(function () {
+Route::view('/dashboard', 'employee/dashboard')->name('employees.dashboard');
+Route::view('/inbox', 'employee/inbox');
+Route::view('/calendar', 'employee/calendar');
+// Route::view('/attendance', 'employee/attendance');
+Route::get('/employee/attendance', [AttendanceController::class, 'index'])->name('employee.attendance');
+Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
+Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
+Route::view('/leave_apply', 'employee/leave_apply');
+Route::view('/leave_balance', 'employee/leave_balance');
+Route::view('/leave_history', 'employee/leave_history');
+Route::post('/logout', [EmployeeController::class, 'logout'])->name('logout');
+
+// });

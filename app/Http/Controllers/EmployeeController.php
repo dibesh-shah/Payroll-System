@@ -57,22 +57,25 @@ class EmployeeController extends Controller
         }
 
         // Create the employee record
-       $employee = Employee::create($validatedData);
+        $employee = Employee::create($validatedData);
         $employee->department()->associate($request->input('department_id'));
         $employee->save();
 
         return redirect()->route('employees.register')->with('success', 'Employee registered successfully! Wait for admins approval. Your credentials will be emailed after inspection');
-
     }
 
-      // Login method
-      public function showLoginForm()
-      {
-          return view('employee.login');
-      }
+    // Login method
+    public function showLoginForm()
+    {
+        return view('employee.login');
+    }
 
     public function login(Request $request)
     {
+            // Check if the user is already logged in
+        if (auth()->check()) {
+            return redirect()->route('employees.dashboard');
+        }
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -82,50 +85,60 @@ class EmployeeController extends Controller
 
         if ($employee && Hash::check($credentials['password'], $employee->password)) {
             session(['employee_id' => $employee->id]);
-            return back()->with('success', 'Logged in Successfully!');
+            return redirect()->route('employees.dashboard')->with('success', 'Logged in Successfully!');
         } else {
             return back()->withErrors(['message' => 'Invalid credentials']);
         }
     }
-      public function show($id){
-          $employee = Employee::findOrfail($id);
-          $allowances = Allowance::all();
-          $deductions = Deduction::all();
-
-
-          return view('/admin/approvedetails', compact('employee' , 'allowances', 'deductions'));
-
-      }
-
-      public function index(Employee $employee){
-          $employees = Employee::where('status', 'pending')->get();
-          return view('/admin/approve',  ['employees' => $employees]);
-      }
-
-      public function viewEmployee(Request $request){
-          $search = $request->input('search');
-
-          $employees = Employee::where('status', 'approved')
-              ->where(function ($query) use ($search) {
-                  $query->where('first_name', 'like', '%' . $search . '%')
-                      ->orWhere('email', 'like', '%' . $search . '%');
-              })->paginate(10);
-
-          return view('/admin/view_employee',  ['employees' => $employees, 'search' => $search]);
-      }
-
-
-      public function approveEmployee($id, Request $request)
+    public function logout(Request $request)
         {
-            $approveEmployee = Employee::findOrFail($id);
+            $request->session()->forget('employee_id');
+            $request->session()->regenerate();
 
-            if ($approveEmployee->status !== 'approved') {
-                $approveEmployee->status = 'approved';
-                 // Add date of joining
+            return redirect()->route('login')->with('success', 'Logged out successfully.');
+        }
+    public function show($id)
+    {
+        $employee = Employee::findOrfail($id);
+        $allowances = Allowance::all();
+        $deductions = Deduction::all();
+
+
+        return view('/admin/approvedetails', compact('employee', 'allowances', 'deductions'));
+    }
+
+    public function index(Employee $employee)
+    {
+        $employees = Employee::where('status', 'pending')->get();
+        return view('/admin/approve',  ['employees' => $employees]);
+    }
+
+    public function viewEmployee(Request $request)
+    {
+        $search = $request->input('search');
+
+        $employees = Employee::where('status', 'approved')
+            ->where(function ($query) use ($search) {
+                $query->where('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            })->paginate(10);
+
+        return view('/admin/view_employee',  ['employees' => $employees, 'search' => $search]);
+    }
+
+
+
+    public function approveEmployee($id, Request $request)
+{
+    $approveEmployee = Employee::findOrFail($id);
+
+    if ($approveEmployee->status !== 'approved') {
+        $approveEmployee->status = 'approved';
+        // Add date of joining
         $approveEmployee->date_of_joining = $request->input('date_of_joining');
-                $approveEmployee->save();
+        $approveEmployee->save();
 
-                 // Fetch selected allowances and calculate amounts or percentages
+        // Fetch selected allowances and calculate amounts or percentages
         $selectedAllowances = $request->input('allowances', []);
         $allowanceValues = $request->input('allowance_values', []);
         $allowanceTypes = $request->input('allowance_types', []);
@@ -143,57 +156,57 @@ class EmployeeController extends Controller
                 $allowanceAmount = $allowanceValues[$key];
             }
 
-            $allowances[$allowanceId] = ['amount' => $allowanceAmount];
+            $allowances[$allowanceId] = ['value' => $allowanceAmount, 'type' => $allowanceTypes[$key]];
         }
 
         $approveEmployee->allowances()->sync($allowances);
 
-         // Fetch selected deductions and calculate amounts or percentages
-         $selectedDeductions = $request->input('deductions', []);
-         $deductionValues = $request->input('deduction_values', []);
-         $deductionTypes = $request->input('deduction_types', []);
+        // Fetch selected deductions and calculate amounts or percentages
+        $selectedDeductions = $request->input('deductions', []);
+        $deductionValues = $request->input('deduction_values', []);
+        $deductionTypes = $request->input('deduction_types', []);
 
-         $deductions = [];
-         foreach ($selectedDeductions as $key => $deductionId) {
-             $deduction = Deduction::findOrFail($deductionId);
+        $deductions = [];
+        foreach ($selectedDeductions as $key => $deductionId) {
+            $deduction = Deduction::findOrFail($deductionId);
 
-             if ($deductionTypes[$key] === 'percentage') {
-                 // Calculate deduction amount as percentage of basic salary
-                 $basicSalary = $approveEmployee->salary;
-                 $deductionAmount = ($basicSalary * $deductionValues[$key]) / 100;
-             } else {
-                 // Use the provided deduction amount
-                 $deductionAmount = $deductionValues[$key];
-             }
-
-             $deductions[$deductionId] = ['amount' => $deductionAmount];
-         }
-
-         $approveEmployee->deductions()->sync($deductions);
-
-
-                if (empty($approveEmployee->password)) {
-                    $randomPassword = Str::random(10);
-
-                    $approveEmployee->password = Hash::make($randomPassword);
-                    $approveEmployee->save();
-
-                    Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
-                }
+            if ($deductionTypes[$key] === 'percentage') {
+                // Calculate deduction amount as percentage of basic salary
+                $basicSalary = $approveEmployee->salary;
+                $deductionAmount = ($basicSalary * $deductionValues[$key]) / 100;
+            } else {
+                // Use the provided deduction amount
+                $deductionAmount = $deductionValues[$key];
             }
 
-            return redirect('/admin/approve')->with('success', 'Employee approved successfully. Email with login credentials sent.');
-         }
+            $deductions[$deductionId] = ['value' => $deductionAmount, 'type' => $deductionTypes[$key]];
+        }
 
-      public function rejectEmployee($id)
-      {
-          $approveEmployee = Employee::findOrFail($id);
-          $approveEmployee->status = 'rejected';
-          $approveEmployee->save();
-          return redirect('/admin/approve')->with('success', 'Employee rejected successfully');
-      }
-      public function showDashboard()
-      {
-          return view('admin/dashboard');
-      }
+        $approveEmployee->deductions()->sync($deductions);
+
+        if (empty($approveEmployee->password)) {
+            $randomPassword = Str::random(10);
+
+            $approveEmployee->password = Hash::make($randomPassword);
+            $approveEmployee->save();
+
+            Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
+        }
+    }
+
+    return redirect('/admin/approve')->with('success', 'Employee approved successfully. Email with login credentials sent.');
+}
+
+
+    public function rejectEmployee($id)
+    {
+        $approveEmployee = Employee::findOrFail($id);
+        $approveEmployee->status = 'rejected';
+        $approveEmployee->save();
+        return redirect('/admin/approve')->with('success', 'Employee rejected successfully');
+    }
+    public function showDashboard()
+    {
+        return view('admin/dashboard');
+    }
 }
