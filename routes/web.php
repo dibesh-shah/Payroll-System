@@ -41,3 +41,6 @@ Route::view('/attendance', 'user/attendance');
 Route::view('/leave_apply', 'user/leave_apply');
 Route::view('/leave_balance', 'user/leave_balance');
 Route::view('/leave_history', 'user/leave_history');
+Route::view('/profile', 'user/profile');
+Route::view('/update', 'user/update');
+Route::view('/password', 'user/password');
