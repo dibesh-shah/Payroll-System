@@ -86,12 +86,17 @@ Route::view('/dashboard', 'employee/dashboard')->name('employees.dashboard');
 Route::view('/inbox', 'employee/inbox');
 Route::view('/calendar', 'employee/calendar');
 // Route::view('/attendance', 'employee/attendance');
+// Route::middleware(['auth'])->group(function () {
 Route::get('/employee/attendance', [AttendanceController::class, 'index'])->name('employee.attendance');
 Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
 Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
+// });
+Route::get('/attendance', [AttendanceController::class, 'showAttendance'])->name('attendance.show');
+
+
 Route::view('/leave_apply', 'employee/leave_apply');
 Route::view('/leave_balance', 'employee/leave_balance');
 Route::view('/leave_history', 'employee/leave_history');
 Route::post('/logout', [EmployeeController::class, 'logout'])->name('logout');
 
-// });
+
