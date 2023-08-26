@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->decimal('basic_salary', 10, 2);
-            $table->decimal('net_pay', 10, 2);
+            $table->decimal('net_pay', 10, 2)->nullable();
+
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->timestamps();
         });
     }

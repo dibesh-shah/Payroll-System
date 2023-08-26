@@ -69,12 +69,12 @@
 
       </div>
       <div class="container mx-auto ">
-        <div class="flex items-center mt-2 mb-3 px-4 gap-x-3">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-              </svg>
-            <h1 class="text-xl font-semibold"> Admin fillable </h1>
-        </div>
+        <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
+            <div class=" bg-white p-6 rounded-lg shadow-lg" >
+            <fieldset class="border p-4 rounded w-full">
+                <legend class="font-semibold mb-4 text-xl">Admin fillable</legend>
+
+
 
 
 
@@ -82,7 +82,18 @@
             @csrf
             {{-- <label for="date_of_joining">Date of Joining:</label>
             <input type="date" id="date_of_joining" name="date_of_joining" required> --}}
-            <br>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
+            <div class="mb-4">
+                <label class="block font-bold mb-1" for="date_of_joining">Date of Joining</label>
+                <input type="date" id="date_of_joining" name="date_of_joining" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
+            </div>
+            <!-- Basic Salary -->
+            <div class="mb-4">
+                <label class="block font-bold mb-1" for="basic_salary">Basic Salary</label>
+                <input type="text" id="basic_salary" name="basic_salary" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
+            </div>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
                 <div class="border p-4 rounded-md bg-white shadow-md">
                     <h3>Allowances:</h3>
@@ -137,7 +148,8 @@
 
               </div>
 
-
+            </fieldset>
+            </div></div>
     </div>
     </div>
  </div>

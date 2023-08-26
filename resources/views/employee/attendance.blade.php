@@ -18,44 +18,7 @@
 
             @endif
             </div>
-
-
-            <!-- Attendance Records Table -->
-              <!-- Year and Month Selects -->
-              <form method="get" action="{{ route('attendance.show') }}">
-                <select name="year" class="px-4 py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue">
-                    @foreach($years as $yearOption)
-                        <option value="{{ $yearOption }}" {{ $year == $yearOption ? 'selected' : '' }}>{{ $yearOption }}</option>
-                    @endforeach
-                </select>
-                <select name="month" class="px-4 py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue">
-                    @foreach($months as $monthKey => $monthName)
-                        <option value="{{ $monthKey }}" {{ $month == $monthKey ? 'selected' : '' }}>{{ $monthName }}</option>
-                    @endforeach
-                </select>
-                <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">View</button>
-            </form>
-
-    <!-- Attendance Records Table -->
-    <table class="w-full mt-4">
-        <thead>
-            <tr>
-                <th class="py-2 px-4 bg-gray-200 text-left">Date</th>
-                <th class="py-2 px-4 bg-gray-200 text-left">Clock In</th>
-                <th class="py-2 px-4 bg-gray-200 text-left">Clock Out</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{-- @foreach($attendanceData as $attendance)
-                <tr>
-                    <td>{{ $attendance->date }}</td>
-                    <td>{{ $attendance->clock_in }}</td>
-                    <td>{{ $attendance->clock_out ?: '-' }}</td>
-                </tr>
-            @endforeach --}}
-        </tbody>
-    </table>
-        {{-- <table class="w-full mt-4 " id="todayTable">
+        <table class="w-full mt-4 " id="todayTable">
             <thead>
                 <tr>
                 <th class="py-2 px-4 bg-gray-200 text-left w-1/3">Date</th>
@@ -64,11 +27,19 @@
                 </tr>
             </thead>
             <tbody id="attendanceRecords ">
-                <td class="py-2 px-4 " id="todayDate"></td>
-                <td class="py-2 px-4" id="clockInTimeToday"></td>
-                <td class="py-2 px-4" id="clockOutTimeToday"></td>
+                <td class="py-2 px-4 " id="todayDate">{{ today()->format('Y-m-d') }}<br>
+                <p class="text-sm text-emerald-700">(today)</p></td>
+                <td class="py-2 px-4" id="clockInTimeToday">{{ $todayAttendance ? $todayAttendance->clock_in : '-' }}</td>
+                <td class="py-2 px-4" id="clockOutTimeToday">
+                    @if($todayAttendance && $todayAttendance->clock_out)
+                    {{ $todayAttendance->clock_out }}
+                @else
+                    -
+                @endif
+                </td>
               </tbody>
         </table>
+
          </div>
 
         <div class="max-w mt-2 bg-white p-6 rounded-lg shadow-lg">
@@ -81,13 +52,18 @@
                     <th class="py-2 px-4 bg-gray-200 text-left w-1/3" >Clock Out</th>
                     </tr>
                 </thead>
-                <tbody >
-                    <td class="py-2 px-4 " ></td>
-                    <td class="py-2 px-4" ></td>
-                    <td class="py-2 px-4" ></td>
-                  </tbody>
+                <tbody>
+                    @foreach($attendanceData as $attendance)
+                    <tr>
+                        <td class="py-2 px-4">{{ $attendance->date }}</td>
+                        <td class="py-2 px-4">{{ $attendance->clock_in }}</td>
+                        <td class="py-2 px-4">{{ $attendance->clock_out }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
                 </table>
-        </div> --}}
+
+        </div>
    </div>
 </div>
 
@@ -183,6 +159,7 @@
   }
 
 
+
   clockInButton.addEventListener("click", clockIn);
   clockOutButton.addEventListener("click", clockOut);
 });
@@ -191,15 +168,3 @@
 </script>
 
 @endsection
-
-
-{{-- CREATE TABLE attendance (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT,
-    date DATE,
-    clock_in TIME,
-    clock_out TIME,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-); --}}

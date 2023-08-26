@@ -25,6 +25,7 @@ class Employee extends Model
         'document',
         'status', // You can set the default value for this field in the controller
         'password',
+        'salary',
     ];
     protected $dates = [
         'date_of_birth',
@@ -45,7 +46,7 @@ class Employee extends Model
     public function deductions()
     {
         return $this->belongsToMany(Deduction::class,'employee_deduction')
-        ->withPivot(['amount', 'percentage'])
+        ->withPivot(['value', 'type'])
         ->withTimestamps();
     }
 

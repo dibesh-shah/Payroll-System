@@ -92,11 +92,18 @@ Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.
 Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
 // });
 Route::get('/attendance', [AttendanceController::class, 'showAttendance'])->name('attendance.show');
+// Route::get('/attendance/get-today-clock', [AttendanceController::class, 'getTodayClock'])->name('attendance.getTodayClock');
+// Route::get('/attendance/get-monthly-attendance', [AttendanceController::class, 'getMonthlyAttendance'])->name('attendance.getMonthlyAttendance');
 
 
 Route::view('/leave_apply', 'employee/leave_apply');
 Route::view('/leave_balance', 'employee/leave_balance');
 Route::view('/leave_history', 'employee/leave_history');
-Route::post('/logout', [EmployeeController::class, 'logout'])->name('logout');
+Route::post('/employee/logout', [EmployeeController::class, 'logout'])->name('logout');
+
+// Route::view('/profile', 'employee/profile');
+Route::get('/employee/profile', [EmployeeController::class, 'profile'])->name('employee.profile');
+Route::view('/update', 'employee/update');
+Route::view('/password', 'employee/password');
 
 

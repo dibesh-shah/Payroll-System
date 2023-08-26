@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\EmployeeCredentialsMail;
 use App\Models\Allowance;
 use App\Models\Deduction;
+use App\Models\Payroll;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class EmployeeController extends Controller
@@ -129,74 +131,70 @@ class EmployeeController extends Controller
 
 
     public function approveEmployee($id, Request $request)
-{
-    $approveEmployee = Employee::findOrFail($id);
+    {
+        $approveEmployee = Employee::findOrFail($id);
 
-    if ($approveEmployee->status !== 'approved') {
-        $approveEmployee->status = 'approved';
-        // Add date of joining
-        $approveEmployee->date_of_joining = $request->input('date_of_joining');
-        $approveEmployee->save();
-
-        // Fetch selected allowances and calculate amounts or percentages
-        $selectedAllowances = $request->input('allowances', []);
-        $allowanceValues = $request->input('allowance_values', []);
-        $allowanceTypes = $request->input('allowance_types', []);
-
-        $allowances = [];
-        foreach ($selectedAllowances as $key => $allowanceId) {
-            $allowance = Allowance::findOrFail($allowanceId);
-
-            if ($allowanceTypes[$key] === 'percentage') {
-                // Calculate allowance amount as percentage of basic salary
-                $basicSalary = $approveEmployee->salary;
-                $allowanceAmount = ($basicSalary * $allowanceValues[$key]) / 100;
-            } else {
-                // Use the provided allowance amount
-                $allowanceAmount = $allowanceValues[$key];
-            }
-
-            $allowances[$allowanceId] = ['value' => $allowanceAmount, 'type' => $allowanceTypes[$key]];
-        }
-
-        $approveEmployee->allowances()->sync($allowances);
-
-        // Fetch selected deductions and calculate amounts or percentages
-        $selectedDeductions = $request->input('deductions', []);
-        $deductionValues = $request->input('deduction_values', []);
-        $deductionTypes = $request->input('deduction_types', []);
-
-        $deductions = [];
-        foreach ($selectedDeductions as $key => $deductionId) {
-            $deduction = Deduction::findOrFail($deductionId);
-
-            if ($deductionTypes[$key] === 'percentage') {
-                // Calculate deduction amount as percentage of basic salary
-                $basicSalary = $approveEmployee->salary;
-                $deductionAmount = ($basicSalary * $deductionValues[$key]) / 100;
-            } else {
-                // Use the provided deduction amount
-                $deductionAmount = $deductionValues[$key];
-            }
-
-            $deductions[$deductionId] = ['value' => $deductionAmount, 'type' => $deductionTypes[$key]];
-        }
-
-        $approveEmployee->deductions()->sync($deductions);
-
-        if (empty($approveEmployee->password)) {
-            $randomPassword = Str::random(10);
-
-            $approveEmployee->password = Hash::make($randomPassword);
+        if ($approveEmployee->status !== 'approved') {
+            $approveEmployee->status = 'approved';
+            $approveEmployee->date_of_joining = $request->input('date_of_joining');
+            $basicSalary = $request->input('basic_salary');
+            $approveEmployee->salary = $basicSalary;
             $approveEmployee->save();
 
-            Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
+            // Fetch selected allowances and store percentages
+            $selectedAllowances = $request->input('allowances', []);
+            $allowanceValues = $request->input('allowance_values', []);
+            $allowanceTypes = $request->input('allowance_types', []);
+
+            $allowances = [];
+            foreach ($selectedAllowances as $key => $allowanceId) {
+                $allowance = Allowance::findOrFail($allowanceId);
+
+                if ($allowanceTypes[$key] === 'percentage') {
+                    $allowances[$allowanceId] = ['value' => $allowanceValues[$key], 'type' => 'percentage'];
+                } else {
+                    $allowances[$allowanceId] = ['value' => $allowanceValues[$key], 'type' => 'amount'];
+                }
+            }
+
+            $approveEmployee->allowances()->sync($allowances);
+
+            // Fetch selected deductions and store percentages
+            $selectedDeductions = $request->input('deductions', []);
+            $deductionValues = $request->input('deduction_values', []);
+            $deductionTypes = $request->input('deduction_types', []);
+
+            $deductions = [];
+            foreach ($selectedDeductions as $key => $deductionId) {
+                $deduction = Deduction::findOrFail($deductionId);
+
+                if ($deductionTypes[$key] === 'percentage') {
+                    $deductions[$deductionId] = ['value' => $deductionValues[$key], 'type' => 'percentage'];
+                } else {
+                    $deductions[$deductionId] = ['value' => $deductionValues[$key], 'type' => 'amount'];
+                }
+            }
+
+            $approveEmployee->deductions()->sync($deductions);
+
+            // Create or update the payroll record
+            Payroll::updateOrCreate(
+                ['employee_id' => $approveEmployee->id],
+                ['basic_salary' => $basicSalary]
+            );
+
+            if (empty($approveEmployee->password)) {
+                $randomPassword = Str::random(10);
+
+                $approveEmployee->password = Hash::make($randomPassword);
+                $approveEmployee->save();
+
+                Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
+            }
         }
+
+        return redirect('/admin/approve')->with('success', 'Employee approved successfully. Email with login credentials sent.');
     }
-
-    return redirect('/admin/approve')->with('success', 'Employee approved successfully. Email with login credentials sent.');
-}
-
 
     public function rejectEmployee($id)
     {
@@ -208,5 +206,16 @@ class EmployeeController extends Controller
     public function showDashboard()
     {
         return view('admin/dashboard');
+    }
+    public function profile(){
+        $employeeId = session('employee_id');
+        $employee = Employee::find($employeeId);
+        if (!$employee) {
+            return redirect()->route('login');
+        }
+        $allowances = $employee->allowances;
+        $deductions = $employee->deductions;
+
+        return view('employee.profile', compact('employee', 'allowances', 'deductions'));
     }
 }
