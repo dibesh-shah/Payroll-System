@@ -14,68 +14,68 @@
 
               <h2 class="text-xl font-semibold "> User Filled details</h2>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="border p-4 rounded-md bg-white shadow-md">
-                  <h2 class="text-lg font-bold mb-2">Employee Name</h2>
-                  <p class="mb-2">{{$employee->first_name}} {{$employee->last_name}}</p>
-              </div>
-              <div class="border p-4 rounded-md bg-white shadow-md">
-                  <h2 class="text-lg font-bold mb-2">Employee ID</h2>
-                  <p class="mb-2">e10{{$employee->id}}</p>
-              </div>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="border p-4 rounded-md bg-white shadow-md">
-                <h2 class="text-lg font-bold mb-2">Email </h2>
-                <p class="mb-2">{{$employee->email}}</p>
+          <div class="grid grid-cols-2 gap-2  bg-white shadow-md rounded-md p-6">
+            <div>
+                <div class="font-semibold ">Employee Id:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->id}}</div>
             </div>
-            <div class="border p-4 rounded-md bg-white shadow-md">
-                <h2 class="text-lg font-bold mb-2">Phone </h2>
-                <p class="mb-2">{{$employee->phone}}</p>
+            <div>
+                <div class="font-semibold ">Last Name:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->first_name}} {{$employee->last_name}}</div>
             </div>
-        </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="border p-4 rounded-md bg-white shadow-md">
-                    <h2 class="text-lg font-bold mb-2">Gender </h2>
-                    <p class="mb-2">{{$employee->gender}}</p>
-                </div>
-                <div class="border p-4 rounded-md bg-white shadow-md">
-                    <h2 class="text-lg font-bold mb-2">Date of Birth </h2>
-                    <p class="mb-2">{{$employee->date_of_birth}}</p>
-                </div>
+            <div>
+                <div class="font-semibold">Email:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->email}}</div>
             </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="border p-4 rounded-md bg-white shadow-md">
-                        <h2 class="text-lg font-bold mb-2">Bank Name</h2>
-                        <p class="mb-2">{{$employee->bank_name}}</p>
-                    </div>
-                    <div class="border p-4 rounded-md bg-white shadow-md">
-                        <h2 class="text-lg font-bold mb-2">Bank Account Number </h2>
-                        <p class="mb-2">{{$employee->bank_account_number}}</p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="border p-4 rounded-md bg-white shadow-md">
-                        <h2 class="text-lg font-bold mb-2">Address</h2>
-                        <p class="mb-2">{{$employee->address}}</p>
-                    </div>
-                    <div class="border p-4 rounded-md bg-white shadow-md">
-                        <h2 class="text-lg font-bold mb-2">Tax Payer Id </h2>
-                        <p class="mb-2">{{$employee->tax_payer_id}}</p>
-                    </div>
-                </div>
+            <div>
+                <div class="font-semibold">Contact:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->phone}}</div>
+            </div>
+            <div>
+                <div class="font-semibold">Date of Birth:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->date_of_birth}}</div>
+            </div>
+            <div>
+                <div class="font-semibold">Gender:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->gender}}</div>
+            </div>
+            <div>
+                <div class="font-semibold">Permanent Address:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->permanent_address}}</div>
+            </div>
+            <div>
+                <div class="font-semibold">Mailing Address:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->mailing_address}}</div>
+            </div>
+            <div>
+                <div class="font-semibold">Bank:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->bank_name}}</div>
+            </div>
+            <div>
+                <div class="font-semibold">Bank Account:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->bank_account_number}}</div>
+            </div>
+            <div>
+                <div class="font-semibold">Tax Payer Id:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->tax_payer_id}}</div>
+            </div>
+            <div>
+                <div class="font-semibold">Tax_Filing_Status:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->tax_filing_status}}</div>
+            </div>
+            <div>
+                <div class="font-semibold">Department:</div>
+                <div class="font-normal mt-1 mb-2">{{$employee->department_id}}</div>
+            </div>
 
-
-
+            <!-- Add other fields here -->
+        
       </div>
-      <div class="container mx-auto ">
-        <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
+      <div class="container mx-auto mt-8">
+        
             <div class=" bg-white p-6 rounded-lg shadow-lg" >
             <fieldset class="border p-4 rounded w-full">
                 <legend class="font-semibold mb-4 text-xl">Admin fillable</legend>
-
-
-
 
 
         <form action="{{ route('employees.approve', $employee->id) }}" method="POST">
@@ -84,25 +84,24 @@
             <input type="date" id="date_of_joining" name="date_of_joining" required> --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
             <div class="mb-4">
-                <label class="block font-bold mb-1" for="date_of_joining">Date of Joining</label>
+                <label class="block font-bold mb-1" for="date_of_hiring">Date of Hiring:</label>
+                <input type="date" id="date_of_hiring" name="date_of_hiring" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
+            </div>
+            <div class="mb-4">
+                <label class="block font-bold mb-1" for="date_of_joining">Date of Joining:</label>
                 <input type="date" id="date_of_joining" name="date_of_joining" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
             <!-- Basic Salary -->
             <div class="mb-4">
-                <label class="block font-bold mb-1" for="basic_salary">Basic Salary</label>
+                <label class="block font-bold mb-1" for="basic_salary">Basic Salary:</label>
                 <input type="text" id="basic_salary" name="basic_salary" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
-                <div class="mb-4">
-                    <label class="block font-bold mb-1" for="hiring_date">Date of Hiring</label>
-                    <input type="date" id="hiring_date" name="hiring_date" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
-                </div>
-            </div>
+            
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
                 <div class="border p-4 rounded-md bg-white shadow-md">
-                    <h3>Allowances:</h3>
+                    <h3 class="font-bold">Allowances:</h3>
                     @foreach ($allowances as $allowance)
                         <div class="flex items-center  mb-2">
                             <label class="flex items-center pr-4" for="allowance_{{ $allowance->id }}">
@@ -124,7 +123,7 @@
 
                 <div class="border p-4 rounded-md bg-white shadow-md">
 
-                    <h3>Deductions:</h3>
+                    <h3 class="font-bold">Deductions:</h3>
                     @foreach ($deductions as $deduction)
                     <div class="flex items-center  mb-2">
                         <label for="deduction_{{ $deduction->id }}" class="flex items-center pr-4">{{ $deduction->name }}</label>
@@ -142,7 +141,7 @@
                     @endforeach
                 </div>
             </div>
-            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded">Approve</button>
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 mt-4 rounded">Approve</button>
         </form>
 
               <div class="mt-4 flex justify-between">
@@ -155,7 +154,7 @@
               </div>
 
             </fieldset>
-            </div></div>
+            </div>
     </div>
     </div>
  </div>

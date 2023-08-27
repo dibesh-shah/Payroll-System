@@ -21,7 +21,7 @@
     </div>
   </nav>
 
-  <div class="container mx-auto py-8">
+  <div  class="container mx-auto mt-4 px-4 py-6 sm:px-8 md:px-16 lg:px-24 bg-white shadow-md rounded-lg">
     <h1 class="text-3xl font-bold mb-6">Employee Registration</h1>
     @if(session('success'))
     <div class="text-green-500 mb-4">
@@ -32,48 +32,59 @@
     <form class="grid grid-cols-2 gap-6" action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
       <div>
-        <label class="block mb-2">First Name:</label>
-        <input type="text" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your first name" name="first_name" required >
-        @error('first_name')
-        <div class="text-sm text-red-700">{{ $message }}</div>
-        @enderror
+        <label class="block mb-2">First Name: 
+          @error('first_name')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
+          @enderror
+        </label>
+        <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your first name" name="first_name" required >
+
       </div>
+
       <div>
-        <label class="block mb-2">Last Name:</label>
-        <input type="text" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your last name" name="last_name" required>
-        @error('last_name')
-        <div class="text-sm text-red-700">{{ $message }}</div>
-        @enderror
+        <label class="block mb-2">Last Name:
+          @error('last_name')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
+          @enderror
+        </label>
+        <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your last name" name="last_name" required>
       </div>
+
       <div>
-        <label class="block mb-2">Email:</label>
-        <input type="email" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your email address" name="email" required>
-        @error('email')
-        <div class="text-sm text-red-700">{{ $message }}</div>
-        @enderror
+        <label class="block mb-2">Email:
+          @error('email')
+          <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
+        @enderror 
+        </label>
+        <input type="email" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your email address" name="email" required>
       </div>
+
       <div>
-        <label class="block mb-2">Phone:</label>
-        <input type="tel" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your phone number" name="phone" required>
-        @error('phone')
-        <div class="text-sm text-red-700">{{ $message }}</div>
-        @enderror
+        <label class="block mb-2">Phone:
+          @error('phone')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
+          @enderror
+        </label>
+        <input type="tel" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your phone number" name="phone" required>
       </div>
+
       <div>
-        <label class="block mb-2">Date of Birth:</label>
-        <input type="date" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="date_of_birth" required>
-        @error('date_of_birth')
-        <div class="text-sm text-red-700">{{ $message }}</div>
-        @enderror
+        <label class="block mb-2">Date of Birth:
+          @error('date_of_birth')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
+          @enderror
+        </label>
+        <input type="date" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="date_of_birth" required>
       </div>
+      
       <div>
           <Label class="block mb-2">Gender</Label>
-          <select  class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="gender">
+          <select  class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="gender">
               <Option value="male">Male</Option>
               <option value="female">Female</option>
           </select>
       </div>
-      <div>
+      {{-- <div>
         <label class="block mb-2">Department</label>
         <select class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="department_id" required>
             <option value="">Select a department</option>
@@ -87,35 +98,58 @@
         @error('department_id')
         <div class="text-sm text-red-700">{{ $message }}</div>
         @enderror
-    </div>
+    </div> --}}
       <div>
-          <label class="block mb-2">Bank Name</label>
-          <input type="text" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank account number" name="bank_name" required>
-          @error('bank_name')
-          <div class="text-sm text-red-700">{{ $message }}</div>
+          <label class="block mb-2">Bank Name
+            @error('bank_name')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
-        </div>
-        <div>
-            <label class="block mb-2">Bank Account Number:</label>
-            <input type="text" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank account number" name="bank_account_number" required>
-            @error('bank_account_number')
-            <div class="text-sm text-red-700">{{ $message }}</div>
-            @enderror
-        </div>
-        <div>
-            <label class="block mb-2">Tax Payer Id</label>
-            <input type="text" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your tax identification number"  name="tax_payer_id" required>
-            @error('tax_payer_id')
-            <div class="text-sm text-red-700">{{ $message }}</div>
-            @enderror
+          </label>
+          <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank account number" name="bank_name" required>
         </div>
 
         <div>
-          <label class="block mb-2">Address:</label>
-          <textarea type="text" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  placeholder="Enter your address" name="address" required></textarea>
-          @error('address')
-          <div class="text-sm text-red-700">{{ $message }}</div>
+            <label class="block mb-2">Bank Account Number:
+              @error('bank_account_number')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
+            </label>
+            <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank account number" name="bank_account_number" required>
+        </div>
+
+        <div>
+            <label class="block mb-2">Tax Payer Id:
+              @error('tax_payer_id')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
+          @enderror
+            </label>
+            <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your tax identification number"  name="tax_payer_id" required>
+        </div>
+
+        <div>
+          <Label class="block mb-2">Tax Filing Status:</Label>
+          <select  class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="tax_filing_status">
+              <Option value="male">Single</Option>
+              <option value="female">Married</option>
+          </select>
+      </div>
+
+        <div>
+          <label class="block mb-2">Permanent Address:
+            @error('permanent_address')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
+          @enderror
+          </label>
+          <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  placeholder="Enter your address" name="permanent_address" required/>
+        </div>
+
+        <div>
+          <label class="block mb-2">Mailing Address:
+            @error('mailing_address')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
+          @enderror
+          </label>
+          <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  placeholder="Enter your address" name="mailing_address" required/>
         </div>
         {{-- <div>
             <label class="block mb-2">Department</label>
@@ -130,12 +164,14 @@
             @enderror
         </div> --}}
         <div>
-            <label class="block mb-2">Document</label>
-            <input type="file" class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  name="document" required>
-            @error('document')
-            <div class="text-sm text-red-700">{{ $message }}</div>
-            @enderror
+            <label class="block mb-2">Document: 
+              @error('document')
+            <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
+          @enderror
+            </label>
+            <input type="file" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  name="document" required>
           </div>
+
       <div class="col-span-2 flex justify-end">
         <button class="text-white bg-blue-800 hover:bg-blue-600 px-6 py-3 rounded-md" type="submit">Register</button>
       </div>

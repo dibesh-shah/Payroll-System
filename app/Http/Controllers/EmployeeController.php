@@ -45,12 +45,12 @@ class EmployeeController extends Controller
             'permanent_address' => 'required|string',
             'bank_account_number' => 'required|string|max:255',
             'bank_name' => 'required|string|max:255',
-            'gender' => 'required|in:male,female',
+            'gender' => 'required|in:Male,Female',
             'tax_payer_id' => 'required|string|max:255',
             'department_id' => 'required|exists:departments,id', // Validate department_id
             'document' => 'nullable|mimes:pdf,doc,docx|max:2048',
             'mailing_address' => 'required|string',
-            'tax_filing_status' => 'required|in:single,married'
+            'tax_filing_status' => 'required|in:Single,Married'
 
         ]);
         $validatedData['status'] = 'pending';
