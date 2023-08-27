@@ -42,16 +42,20 @@ class EmployeeController extends Controller
             'email' => 'required|email|unique:employees',
             'phone' => 'required|string|max:20',
             'date_of_birth' => 'required|date',
-            'address' => 'required|string',
+            'permanent_address' => 'required|string',
             'bank_account_number' => 'required|string|max:255',
             'bank_name' => 'required|string|max:255',
             'gender' => 'required|in:male,female',
             'tax_payer_id' => 'required|string|max:255',
             'department_id' => 'required|exists:departments,id', // Validate department_id
             'document' => 'nullable|mimes:pdf,doc,docx|max:2048',
+            'mailing_address' => 'required|string',
+            'tax_filing_status' => 'required|in:single,married'
+
         ]);
         $validatedData['status'] = 'pending';
         $validatedData['date_of_joining'] = now();
+        $validatedData['hiring_date'] = now();
 
         if ($request->hasFile('document')) {
             $documentPath = $request->file('document')->store('documents');
@@ -137,6 +141,7 @@ class EmployeeController extends Controller
         if ($approveEmployee->status !== 'approved') {
             $approveEmployee->status = 'approved';
             $approveEmployee->date_of_joining = $request->input('date_of_joining');
+            $approveEmployee->hiring_date = $request->input('hiring_date');
             $basicSalary = $request->input('basic_salary');
             $approveEmployee->salary = $basicSalary;
             $approveEmployee->save();

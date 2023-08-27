@@ -16,16 +16,20 @@ class Employee extends Model
         'email',
         'phone',
         'date_of_birth',
-        'address',
+        'permanent_address',
+        'mailing_address',
         'bank_account_number',
         'bank_name',
         'gender',
         'tax_payer_id',
+        'tax_filing_status',
         'department_id', // Assuming you have a department_id column in the employees table
         'document',
         'status', // You can set the default value for this field in the controller
         'password',
         'salary',
+        'date_of_joining',
+        'hiring_date',
     ];
     protected $dates = [
         'date_of_birth',

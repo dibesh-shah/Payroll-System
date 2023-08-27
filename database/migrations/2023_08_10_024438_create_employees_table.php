@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone');
             $table->date('date_of_birth');
-            $table->string('address');
+            $table->date('hiring_date')->nullable();
+            $table->string('permanent_address');
+            $table->string('mailing_address');
             $table->string('bank_account_number');
             $table->string('bank_name');
             $table->enum('gender', ['male', 'female']);
@@ -28,6 +30,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->string('password')->nullable();
             $table->decimal('salary', 10, 2)->nullable();
+            $table->enum('tax_filing_status',['single','married']);
             $table->timestamps();
         });
     }

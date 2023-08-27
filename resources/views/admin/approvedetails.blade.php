@@ -93,6 +93,12 @@
                 <input type="text" id="basic_salary" name="basic_salary" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
             </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
+                <div class="mb-4">
+                    <label class="block font-bold mb-1" for="hiring_date">Date of Hiring</label>
+                    <input type="date" id="hiring_date" name="hiring_date" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
+                </div>
+            </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
                 <div class="border p-4 rounded-md bg-white shadow-md">

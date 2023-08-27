@@ -30,7 +30,7 @@ class ProfileController extends Controller
 
         $departments = Department::all(); // Assuming you have a Department model
 
-        return view('employees.edit', compact('employee', 'departments'));
+        return view('/employee/update', compact('employee', 'departments'));
     }
     public function update(Request $request, $id)
     {
