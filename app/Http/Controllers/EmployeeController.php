@@ -207,15 +207,5 @@ class EmployeeController extends Controller
     {
         return view('admin/dashboard');
     }
-    public function profile(){
-        $employeeId = session('employee_id');
-        $employee = Employee::find($employeeId);
-        if (!$employee) {
-            return redirect()->route('login');
-        }
-        $allowances = $employee->allowances;
-        $deductions = $employee->deductions;
 
-        return view('employee.profile', compact('employee', 'allowances', 'deductions'));
-    }
 }

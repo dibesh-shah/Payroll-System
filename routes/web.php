@@ -9,6 +9,7 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AllowanceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DeductionController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('employee/welcome');
@@ -102,8 +103,16 @@ Route::view('/leave_history', 'employee/leave_history');
 Route::post('/employee/logout', [EmployeeController::class, 'logout'])->name('logout');
 
 // Route::view('/profile', 'employee/profile');
-Route::get('/employee/profile', [EmployeeController::class, 'profile'])->name('employee.profile');
-Route::view('/update', 'employee/update');
+Route::get('/employee/profile', [ProfileController::class, 'profile'])->name('employee.profile');
+
+// Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('employee/update', [ProfileController::class, 'edit'])->name('employee.edit');
+
+
+    Route::put('employee/{id}',[ProfileController::class, 'update'])->name('employee.update');
+// });
+// Route::view('/update', 'employee/update');
 Route::view('/password', 'employee/password');
 
 

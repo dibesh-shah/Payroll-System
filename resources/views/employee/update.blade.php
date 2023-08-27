@@ -5,8 +5,9 @@
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
     <div class=" bg-white p-6 rounded-lg shadow-lg">
         <h2 class="text-2xl font-semibold mb-4">Update Profile</h2>
-        <form class="grid grid-cols-1 gap-6 sm:grid-cols-2" method="POST" action="hui hui">
-            <!-- Contact Information -->
+            <form action="{{ route('employee.update', $employee->id) }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                @csrf
+                @method('PUT')
             <div>
                 <label class="block mb-2 font-semibold">First Name:</label>
                 <input type="tel" class="w-full bg-white py-2 border p-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" value="John" disabled>
