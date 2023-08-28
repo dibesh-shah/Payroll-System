@@ -10,6 +10,7 @@ use App\Http\Controllers\AllowanceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\ProfileController;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 Route::get('/', function () {
     return view('employee/welcome');
@@ -100,19 +101,11 @@ Route::get('/attendance', [AttendanceController::class, 'showAttendance'])->name
 Route::view('/leave_apply', 'employee/leave_apply');
 Route::view('/leave_balance', 'employee/leave_balance');
 Route::view('/leave_history', 'employee/leave_history');
-Route::post('/employee/logout', [EmployeeController::class, 'logout'])->name('logout');
 
-// Route::view('/profile', 'employee/profile');
-Route::get('/employee/profile', [ProfileController::class, 'profile'])->name('employee.profile');
-
-// Route::middleware(['auth', 'verified'])->group(function () {
-
-    Route::get('employee/update', [ProfileController::class, 'edit'])->name('employee.edit');
-
-
-    Route::put('employee/{id}',[ProfileController::class, 'update'])->name('employee.update');
-// });
-// Route::view('/update', 'employee/update');
-Route::view('/password', 'employee/password');
-
+    Route::post('/employee/logout', [ProfileController::class, 'logout'])->name('logout');
+    Route::get('/employee/profile', [ProfileController::class, 'profile'])->name('employee.profile');
+    Route::get('/employee/update', [ProfileController::class, 'edit'])->name('employee.edit');
+    Route::put('/employee/update',[ProfileController::class, 'update'])->name('employee.update');
+    Route::get('/employee/password', [ProfileController::class, 'password'])->name('employee.password');
+    Route::post('/employee/password', [ProfileController::class, 'changePassword'])->name('employee.changePassword');
 

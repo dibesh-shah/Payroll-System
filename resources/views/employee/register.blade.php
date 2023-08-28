@@ -32,7 +32,7 @@
     <form class="grid grid-cols-2 gap-6" action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
       <div>
-        <label class="block mb-2">First Name: 
+        <label class="block mb-2">First Name:
           @error('first_name')
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
@@ -54,7 +54,7 @@
         <label class="block mb-2">Email:
           @error('email')
           <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
-        @enderror 
+        @enderror
         </label>
         <input type="email" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your email address" name="email" required>
       </div>
@@ -76,7 +76,7 @@
         </label>
         <input type="date" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="date_of_birth" required>
       </div>
-      
+
       <div>
           <Label class="block mb-2">Gender</Label>
           <select  class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="gender">
@@ -84,21 +84,6 @@
               <option value="female">Female</option>
           </select>
       </div>
-      {{-- <div>
-        <label class="block mb-2">Department</label>
-        <select class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="department_id" required>
-            <option value="">Select a department</option>
-            @foreach($departments as $department)
-
-
-            <option value="{{ $department->id }}"> {{ $department->name }} </option>
-
-            @endforeach
-        </select>
-        @error('department_id')
-        <div class="text-sm text-red-700">{{ $message }}</div>
-        @enderror
-    </div> --}}
       <div>
           <label class="block mb-2">Bank Name
             @error('bank_name')
@@ -109,7 +94,7 @@
         </div>
 
         <div>
-            <label class="block mb-2">Bank Account Number:
+            <label class="block mb-2">Bank Account Number
               @error('bank_account_number')
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
@@ -118,7 +103,7 @@
         </div>
 
         <div>
-            <label class="block mb-2">Tax Payer Id:
+            <label class="block mb-2">Tax Payer Id
               @error('tax_payer_id')
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
@@ -127,15 +112,15 @@
         </div>
 
         <div>
-          <Label class="block mb-2">Tax Filing Status:</Label>
+          <Label class="block mb-2">Tax Filing Status</Label>
           <select  class="w-full px-4 py-2 rounded-md border border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="tax_filing_status">
-              <Option value="male">Single</Option>
-              <option value="female">Married</option>
+              <Option value="single">Single</Option>
+              <option value="married">Married</option>
           </select>
       </div>
 
         <div>
-          <label class="block mb-2">Permanent Address:
+          <label class="block mb-2">Permanent Address
             @error('permanent_address')
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
@@ -144,27 +129,16 @@
         </div>
 
         <div>
-          <label class="block mb-2">Mailing Address:
+          <label class="block mb-2">Mailing Address
             @error('mailing_address')
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
           </label>
           <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  placeholder="Enter your address" name="mailing_address" required/>
         </div>
-        {{-- <div>
-            <label class="block mb-2">Department</label>
-            <select class="w-full px-4 py-4 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="department_id" required>
-                <option value="">Select a department</option>
-                @foreach($departments as $department)
-                    <option value="{{ $department->id }}">{{ $department->name }}</option>
-                @endforeach
-            </select>
-            @error('department_id')
-            <div class="text-sm text-red-700">{{ $message }}</div>
-            @enderror
-        </div> --}}
+
         <div>
-            <label class="block mb-2">Document: 
+            <label class="block mb-2">Document
               @error('document')
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror

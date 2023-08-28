@@ -10,55 +10,55 @@
             <legend class="font-semibold mb-4 text-xl px-2">My Information</legend>
             <div class="grid grid-cols-2 gap-2 ml-2">
                 <div>
-                    <div class="font-semibold ">First Name:</div>
+                    <div class="font-semibold ">First Name</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->first_name}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold ">Last Name:</div>
+                    <div class="font-semibold ">Last Name</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->last_name}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Email:</div>
+                    <div class="font-semibold">Email</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->email}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Contact:</div>
+                    <div class="font-semibold">Contact</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->phone}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Date of Birth:</div>
+                    <div class="font-semibold">Date of Birth</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->date_of_birth}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Gender:</div>
+                    <div class="font-semibold">Gender</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->gender}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Permanent Address:</div>
+                    <div class="font-semibold">Permanent Address</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->permanent_address}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Mailing Address:</div>
+                    <div class="font-semibold">Mailing Address</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->mailing_address}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Bank:</div>
+                    <div class="font-semibold">Bank</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->bank_name}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Bank Account:</div>
+                    <div class="font-semibold">Bank Account</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->bank_account_number}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Tax Payer Id:</div>
+                    <div class="font-semibold">Tax Payer Id</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->tax_payer_id}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Tax_Filing_Status:</div>
+                    <div class="font-semibold">Tax_Filing_Status</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->tax_filing_status}}</div>
                 </div>
                 <div>
-                    <div class="font-semibold">Department:</div>
+                    <div class="font-semibold">Department</div>
                     <div class="font-normal mt-1 mb-2">{{$employee->department_id}}</div>
                 </div>
 

@@ -23,9 +23,9 @@ class Employee extends Model
         'gender',
         'tax_payer_id',
         'tax_filing_status',
-        'department_id', // Assuming you have a department_id column in the employees table
+        'department_id',
         'document',
-        'status', // You can set the default value for this field in the controller
+        'status',
         'password',
         'salary',
         'date_of_joining',
@@ -54,8 +54,5 @@ class Employee extends Model
         ->withTimestamps();
     }
 
-    public function salaryStructure()
-    {
-        return $this->belongsTo(SalaryStructure::class);
-    }
+
 }

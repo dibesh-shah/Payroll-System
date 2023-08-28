@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Department;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class ProfileController extends Controller
 {
@@ -27,45 +28,63 @@ class ProfileController extends Controller
         if (!$employee) {
             return redirect()->route('login');
         }
-
-        $departments = Department::all(); // Assuming you have a Department model
-
-        return view('/employee/update', compact('employee', 'departments'));
+        return view('/employee/update', compact('employee'));
     }
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $employeeId = session('employee_id');
-        $employee = Employee::findOrFail($employeeId);
-        // if ($employee->id != auth()->user()->id) {
-        //     return redirect()->route('employees.dashboard')
-        //     ->with('error', 'You are not authorized to update this profile.');
-        // }
 
-
+        $employee = Employee::find($employeeId);
+        $employee->id = $employeeId;
         $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'date_of_birth' => 'required|date',
-            'address' => 'required|string',
+            'permanent_address' => 'required|string',
             'bank_account_number' => 'required|string|max:255',
             'bank_name' => 'required|string|max:255',
             'gender' => 'required|in:male,female',
             'tax_payer_id' => 'required|string|max:255',
-            'department_id' => 'required|exists:departments,id', // Validate department_id
-            'document' => 'nullable|mimes:pdf,doc,docx|max:2048',
+            'mailing_address' => 'required|string',
+            'tax_filing_status' => 'required|in:single,married'
+
         ]);
 
-        if ($request->hasFile('document')) {
-            $documentPath = $request->file('document')->store('documents');
-            $validatedData['document'] = $documentPath;
-        }
-
-        $employee->update($validatedData);
-        $employee->department()->associate($request->input('department_id'));
+        $employee->update($request->all());
         $employee->save();
 
-        return redirect()->route('employee.edit', $employee->id)->with('success', 'Employee information updated successfully!');
+        return redirect()->route('employee.edit')->with('success', 'Employee information updated successfully!');
+    }
+    public function password(){
+        return view('employee.password');
+    }
+    public function changePassword(Request $request)
+    {
+        $employeeId = session('employee_id');
+        $employee = Employee::find($employeeId);
+
+        $validatedData = $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:8|different:old_password',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+
+        // Check if the old password matches the current password
+        if (!Hash::check($validatedData['old_password'], $employee->password)) {
+            return back()->withErrors(['old_password' => 'The old password is incorrect']);
+        }
+
+        // Update the password with the new one
+        $employee->password = Hash::make($validatedData['new_password']);
+        $employee->save();
+
+        return back()->with('success', 'Password changed successfully!');
+    }
+    public function logout(Request $request)
+    {
+        $request->session()->forget('employee_id');
+        $request->session()->regenerate();
+
+        return redirect()->route('login')->with('success', 'Logged out successfully.');
     }
 
 }

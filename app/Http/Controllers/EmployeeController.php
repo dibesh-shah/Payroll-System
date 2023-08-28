@@ -12,7 +12,6 @@ use App\Mail\EmployeeCredentialsMail;
 use App\Models\Allowance;
 use App\Models\Deduction;
 use App\Models\Payroll;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class EmployeeController extends Controller
@@ -45,12 +44,11 @@ class EmployeeController extends Controller
             'permanent_address' => 'required|string',
             'bank_account_number' => 'required|string|max:255',
             'bank_name' => 'required|string|max:255',
-            'gender' => 'required|in:Male,Female',
+            'gender' => 'required|in:male,female',
             'tax_payer_id' => 'required|string|max:255',
-            'department_id' => 'required|exists:departments,id', // Validate department_id
             'document' => 'nullable|mimes:pdf,doc,docx|max:2048',
             'mailing_address' => 'required|string',
-            'tax_filing_status' => 'required|in:Single,Married'
+            'tax_filing_status' => 'required|in:single,married'
 
         ]);
         $validatedData['status'] = 'pending';
@@ -96,21 +94,16 @@ class EmployeeController extends Controller
             return back()->withErrors(['message' => 'Invalid credentials']);
         }
     }
-    public function logout(Request $request)
-        {
-            $request->session()->forget('employee_id');
-            $request->session()->regenerate();
 
-            return redirect()->route('login')->with('success', 'Logged out successfully.');
-        }
     public function show($id)
     {
         $employee = Employee::findOrfail($id);
         $allowances = Allowance::all();
         $deductions = Deduction::all();
+        $departments = Department::all();
 
 
-        return view('/admin/approvedetails', compact('employee', 'allowances', 'deductions'));
+        return view('/admin/approvedetails', compact('employee', 'allowances', 'deductions','departments'));
     }
 
     public function index(Employee $employee)
@@ -143,7 +136,9 @@ class EmployeeController extends Controller
             $approveEmployee->date_of_joining = $request->input('date_of_joining');
             $approveEmployee->hiring_date = $request->input('hiring_date');
             $basicSalary = $request->input('basic_salary');
+            $department_id = $request->input('department_id');
             $approveEmployee->salary = $basicSalary;
+            $approveEmployee->department_id = $department_id;
             $approveEmployee->save();
 
             // Fetch selected allowances and store percentages
