@@ -10,9 +10,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmployeeCredentialsMail;
 use App\Models\Allowance;
+use App\Models\Attendance;
 use App\Models\Deduction;
 use App\Models\Payroll;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -203,9 +206,13 @@ class EmployeeController extends Controller
         $approveEmployee->save();
         return redirect('/admin/approve')->with('success', 'Employee rejected successfully');
     }
-    public function showDashboard()
-    {
-        return view('admin/dashboard');
-    }
 
+    public function adminDashboard()
+    {
+        $totalEmployees = Employee::count();
+        $totalDepartments = Department::count();
+        $checkedInToday = Attendance::whereDate('clock_in', Carbon::today())->count();
+
+        return view('admin.dashboard', compact('totalEmployees', 'totalDepartments', 'checkedInToday'));
+    }
 }

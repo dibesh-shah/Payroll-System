@@ -18,7 +18,10 @@
                 @csrf
                     <!-- Old Password -->
                     <div class="col-span-2 relative">
-                        <label class="block mb-2 font-semibold">Old Password:</label>
+                        <label class=" mb-2 font-semibold">Old Password </label>
+                        @error('old_password')
+                         <span class="ml-4 text-red-500 mt-1">{{$message}}</span>
+                        @enderror
                         <div class="flex items-center">
                             <input type="password" class="w-2/3 bg-white border p-2 pr-10 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter old password" id="oldPassword" name="old_password">
                             <span class="ml-2 cursor-pointer toggle-password" data-target="oldPassword">
@@ -33,7 +36,11 @@
 
                     <!-- New Password -->
                     <div class="col-span-2 relative">
-                        <label class="block mb-2 font-semibold">New Password:</label>
+                        <label class=" mb-2 font-semibold">New Password </label>
+                        @error('new_password')
+                         <span class="ml-4 text-red-500 mt-1">{{$message}}</span>
+                        @enderror
+
                         <div class="flex items-center">
                             <input type="password" class="w-2/3 bg-white border p-2 pr-10 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter new password" id="newPassword" name="new_password">
                             <span class="ml-2 cursor-pointer toggle-password" data-target="newPassword">
@@ -48,8 +55,11 @@
 
                     <!-- Confirm Password -->
                     <div class="col-span-2 relative">
-                        <label class="block mb-2 font-semibold">Confirm Password:</label>
-                        <div class="flex items-center">
+                        <label class=" mb-2 font-semibold">Confirm Password </label>
+                        @error('confirm_password')
+                         <span class="ml-4 text-red-500 mt-1">{{$message}}</span>
+                        @enderror
+                     <div class="flex items-center">
                             <input type="password" class="w-2/3 bg-white border p-2 pr-10 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Confirm new password" id="confirmPassword" name="confirm_password">
                             <span class="ml-2 cursor-pointer toggle-password" data-target="confirmPassword">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -67,17 +77,7 @@
                         <button class="text-white bg-blue-800 hover:bg-blue-600 px-6 py-3 rounded-md" id="changePasswordButton">Change Password</button>
                     </div>
                 </form>
-                 @error('old_password')
-                    <p class="text-red-500 mt-1">{{ $message }}</p>
-                @enderror
 
-                @error('new_password')
-                    <p class="text-red-500 mt-1">{{ $message }}</p>
-                @enderror
-
-                @error('confirm_password')
-                    <p class="text-red-500 mt-1">{{ $message }}</p>
-                @enderror
             </div>
         </div>
     </div>

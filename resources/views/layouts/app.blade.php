@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Payroll Management System</title>
+
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
 

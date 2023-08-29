@@ -42,6 +42,16 @@ Route::prefix('admin')->group(function () {
     Route::delete('/leave/{leave}', [LeaveController::class, 'destroy'])->name('leave.destroy');
 });
 
+// Approve  routes
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [EmployeeController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::get('approve', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::post('/approve/approve/{id}', [EmployeeController::class, 'approveEmployee'])->name('employees.approve');
+    Route::post('/approve/reject/{id}', [EmployeeController::class, 'rejectEmployee'])->name('employees.reject');
+    Route::get('/approve/{id}', [EmployeeController::class, 'show'])->name('employees.show');
+    Route::get('/view_employee', [EmployeeController::class, 'viewEmployee'])->name('employees.viewEmployee');
+});
+
 // Allowance  routes
 Route::prefix('admin')->group(function () {
     Route::get('/allowance', [AllowanceController::class, 'index'])->name('allowance.index');
@@ -59,16 +69,6 @@ Route::prefix('admin')->group(function () {
     Route::post('/deduction/edit', [DeductionController::class,'edit'])->name('deduction.edit');
     Route::delete('/deduction/{deduction}', [DeductionController::class, 'destroy'])->name('deduction.destroy');
 });
-// Approve  routes
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [EmployeeController::class, 'showDashboard']);
-    Route::get('approve', [EmployeeController::class, 'index'])->name('employees.index');
-    Route::post('/approve/approve/{id}', [EmployeeController::class, 'approveEmployee'])->name('employees.approve');
-    Route::post('/approve/reject/{id}', [EmployeeController::class, 'rejectEmployee'])->name('employees.reject');
-    Route::get('/approve/{id}', [EmployeeController::class, 'show'])->name('employees.show');
-    Route::get('/view_employee', [EmployeeController::class, 'viewEmployee'])->name('employees.viewEmployee');
-});
-
 
 
 
@@ -108,4 +108,5 @@ Route::view('/leave_history', 'employee/leave_history');
     Route::put('/employee/update',[ProfileController::class, 'update'])->name('employee.update');
     Route::get('/employee/password', [ProfileController::class, 'password'])->name('employee.password');
     Route::post('/employee/password', [ProfileController::class, 'changePassword'])->name('employee.changePassword');
+
 
