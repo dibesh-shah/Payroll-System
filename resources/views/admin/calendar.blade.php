@@ -18,7 +18,8 @@
                 <option value="Weekend">Weekend</option>
                 <option value="Other">Other</option>
               </select>
-            <textarea class="w-100 " id="selectedDates" readonly></textarea>
+              <input type="text" id="holidayName" placeholder="Holiday Name">
+            <textarea class="w-1/3" id="selectedDates" readonly></textarea>
             <button class="text-white bg-blue-800 hover:bg-blue-600 px-6 py-3 rounded-md" id="saveButton">Save Selected Dates</button>
         </div>
 
@@ -129,10 +130,12 @@
     // JavaScript code for handling holiday selection
     const calendarDivs = document.querySelectorAll('#calendarContainer div');
     const holidayTypeSelect = document.getElementById('holidayType');
+    const holidayNameInput = document.getElementById('holidayName');
     const saveButton = document.getElementById('saveButton');
 
     let selectedHolidayType = '';
     let selectedDivs = [];
+    let selectedHolidayName = '';
 
 
     // Function to add/remove the selected-holiday class
@@ -187,6 +190,10 @@
       selectedHolidayType = holidayTypeSelect.value;
       toggleSaveButton();
     });
+    holidayNameInput.addEventListener('input', () => {
+    selectedHolidayName = holidayNameInput.value;
+    toggleSaveButton();
+});
 
     // Add click event listener to the save button
     // saveButton.addEventListener('click', () => {
@@ -219,27 +226,37 @@
     // });
   </script>
   <script >
-
     const customHeaders = {
         'X-CSRF-TOKEN' : '{{ csrf_token() }}'
     };
-    $('#saveButton').click(function() {
 
+    $('#saveButton').click(function() {
+        alert(selectedDivs)
+        var holiday_date="";
+        for(var i = 0;i < selectedDivs.length;i++){
+            holiday_date +=selectedDivs[i] + ",";
+        }
+        if (holiday_date.endsWith(',')) {
+            holiday_date = holiday_date.slice(0, -1);
+        }
+        alert(holiday_date)
       $.ajax({
         type:"POST",
         url:"save-holidays",
         headers:customHeaders,
         data:{
-            holidayType:selectedHolidayType,
-            selectedDates:selectedDivs.toString(),
+            holiday_type:selectedHolidayType,
+            holiday_date:holiday_date,
+
         },
         cache:false,
         success:function(data){
             alert(data)
         },
-        error:function(){
-
-        }
+        error: function(xhr, status, error) {
+            var err = eval("(" + xhr.responseText + ")");
+            console.log(err);
+            }
       });
     });
   </script>

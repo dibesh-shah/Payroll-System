@@ -10,7 +10,6 @@ use App\Http\Controllers\AllowanceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\ProfileController;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 
 Route::get('/', function () {
     return view('employee/welcome');
@@ -82,20 +81,15 @@ Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name
 
 Route::view('/admin/inbox', 'admin/inbox');
 
-// Protect other routes with the auth middleware
-// Route::middleware(['auth'])->group(function () {
 Route::view('/dashboard', 'employee/dashboard')->name('employees.dashboard');
 Route::view('/inbox', 'employee/inbox');
 Route::view('/calendar', 'employee/calendar');
-// Route::view('/attendance', 'employee/attendance');
-// Route::middleware(['auth'])->group(function () {
+
 Route::get('/employee/attendance', [AttendanceController::class, 'index'])->name('employee.attendance');
 Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
 Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
-// });
+
 Route::get('/attendance', [AttendanceController::class, 'showAttendance'])->name('attendance.show');
-// Route::get('/attendance/get-today-clock', [AttendanceController::class, 'getTodayClock'])->name('attendance.getTodayClock');
-// Route::get('/attendance/get-monthly-attendance', [AttendanceController::class, 'getMonthlyAttendance'])->name('attendance.getMonthlyAttendance');
 
 
 Route::view('/leave_apply', 'employee/leave_apply');

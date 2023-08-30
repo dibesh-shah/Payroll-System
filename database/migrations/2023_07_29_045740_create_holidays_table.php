@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('holiday_date');
             $table->enum('holiday_type', ['Weekend', 'Public Holiday', 'Other']);
-            // $table->string('description')->nullable();
+            $table->string('holiday_name');
             $table->timestamps();
         });
     }
