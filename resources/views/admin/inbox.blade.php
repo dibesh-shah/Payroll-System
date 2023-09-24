@@ -15,6 +15,9 @@
                       <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                     </svg>
                     
+                    <div id="searchContainer">
+
+                    </div>
                   </div>
                 </div>
                 <div class="overflow-y-auto" id="userContainer">
@@ -352,55 +355,62 @@
   <script>
     $('#search_user').on( "keyup", function() {
       var search_value = $('#search_user').val();
-      
-      const customHeaders = {
-          'X-CSRF-TOKEN' : '{{ csrf_token() }}'
-      };
-      $.ajax({
-          type:"POST",
-          url:'/ajax-endpoint',
-          headers:customHeaders,
-          data:{
-              // search:search_value
-              username:"DS",
-              name:"dibesh shah"
-          },
-          cache:false,
-          success:function(data){
-            const users = Array.isArray(data) ? data : [data];
-            // // Clear the previous user divs
-            $('#userContainer').empty();
 
-            // // Append the new user divs based on the search results
-            $.each(users, function(index, user) {
-              const userDiv = createUserDiv(user);
-              $('#userContainer').append(userDiv);
-            });
-          },
-          error:function(){
+      if(search_value === ""){
+        $('#searchContainer').hide();
+        $('#userContainer').show();
+      }else{
+        $('#userContainer').hide();
+        $('#searchContainer').show();
+        const customHeaders = {
+            'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+        };
+        $.ajax({
+            type:"POST",
+            url:'/ajax-endpoint',
+            headers:customHeaders,
+            data:{
+                // search:search_value
+                username:"DS",
+                name:"dibesh shah"
+            },
+            cache:false,
+            success:function(data){
+              const users = Array.isArray(data) ? data : [data];
+              // // Clear the previous user divs
+              $('#searchContainer').empty();
 
-          }
-      });
-    
+              // // Append the new user divs based on the search results
+              $.each(users, function(index, user) {
+                const userDiv = createUserDiv(user);
+                $('#searchContainer').append(userDiv);
+              });
+            },
+            error:function(){
 
-      function createUserDiv(user) {
-        // Create the user div element
-        const userDiv = $('<div class="flex items-center p-2 cursor-pointer hover:bg-gray-200"></div>');
+            }
+        });
 
-        // Create the user image div
-        const userImageDiv = $(`<div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mr-4">${user.username}</div>`);
+        function createUserDiv(user) {
+          // Create the user div element
+          const userDiv = $('<div class="flex items-center p-2 cursor-pointer hover:bg-gray-200"></div>');
 
-        // Create the user details div
-        const userDetailsDiv = $('<div class="flex flex-col"></div>');
-        const userName = $(`<span class="font-bold">${user.name}</span>`);
+          // Create the user image div
+          const userImageDiv = $(`<div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mr-4">${user.username}</div>`);
 
-        // Append the user image and details div to the user div
-        userDetailsDiv.append(userName);
-        userDiv.append(userImageDiv);
-        userDiv.append(userDetailsDiv);
+          // Create the user details div
+          const userDetailsDiv = $('<div class="flex flex-col"></div>');
+          const userName = $(`<span class="font-bold">${user.name}</span>`);
 
-        return userDiv;
+          // Append the user image and details div to the user div
+          userDetailsDiv.append(userName);
+          userDiv.append(userImageDiv);
+          userDiv.append(userDetailsDiv);
+
+          return userDiv;
+        }
       }
+
     });
   </script>
 
@@ -460,7 +470,7 @@
 
 
 
-  setInterval(getMessage, 5000);
+  // setInterval(getMessage, 5000);
 </script>
   
   

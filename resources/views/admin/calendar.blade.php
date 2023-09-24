@@ -8,6 +8,20 @@
             <div id="calendarContainer">
                 <!-- The calendar table will be generated here -->
             </div>
+            <div class="mt-16 text-center">
+              <span class="mr-6">
+                <span class="px-2 py-2 bg-green-400 text-white rounded-lg" >Public Holiday</span>
+                <span class="ml-2 b" id="publicHoliday"></span>
+              </span>
+              <span class="mr-6">
+                <span class="px-2 py-2  text-white rounded-lg bg-red-400" >Weekend</span>
+                <span class="ml-2" id="weekend"></span>
+              </span>
+              <span>
+                <span class="px-2 py-2 bg-purple-400 text-white rounded-lg" >Other Holidays</span>
+                <span class="ml-2" id="otherHoliday"></span>
+              </span>
+            </div>
             
         </div>
         <div class="max-w  p-6 rounded-lg shadow-lg mt-6">
@@ -18,8 +32,8 @@
                 <option value="Weekend">Weekend</option>
                 <option value="Other">Other</option>
               </select>
-            <textarea class="w-100 " id="selectedDates" readonly></textarea>
-            <button class="text-white bg-blue-800 hover:bg-blue-600 px-6 py-3 rounded-md" id="saveButton">Save Selected Dates</button>
+            {{-- <textarea class="w-100 " id="selectedDates" readonly></textarea> --}}
+            <button class="text-white bg-blue-800 hover:bg-blue-600 px-6 py-3 ml-10 rounded-md" id="saveButton">Save Selected Dates</button>
         </div>
         
     </div>
@@ -29,6 +43,10 @@
 
 <script >
         const calendarContainer = document.getElementById('calendarContainer');
+
+        var weekend=0;
+        var publicHoliday=0;
+        var otherHoliday=0;
 
         // Function to generate the calendar for the current month
         function generateCalendar() {
@@ -79,7 +97,6 @@
                     if (i === 0 && j < firstDay) {
                         // Empty cells before the first day of the month
                         divcell.textContent = '';
-                        
 
                     } else if (day <= totalDays) {
                         divcell.textContent = day;
@@ -92,7 +109,8 @@
                             divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center " ;
                         }
                         if(j==6){
-                            divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none"
+                            weekend++;
+                            divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none text-white"
                         }
                         day++;
                     } else {
@@ -122,6 +140,10 @@
 
         // Generate the calendar when the page loads
         generateCalendar();
+
+        document.getElementById('weekend').textContent=weekend;
+        document.getElementById('publicHoliday').textContent=publicHoliday;
+        document.getElementById('otherHoliday').textContent=otherHoliday;
             
 </script>
 
@@ -139,11 +161,22 @@
     function toggleSelectedClass(div) {
       if (div.classList.contains('selected-holiday')) {
         div.classList.remove('selected-holiday');
-        div.classList.remove('bg-red-400');
+        
       } else {
         
         div.classList.add('selected-holiday');
-        div.classList.add('bg-red-400');
+
+        if(holidayTypeSelect.value == "Public Holiday"){
+          div.classList.add('bg-green-400');
+          div.classList.add('text-white');
+        }else if(holidayTypeSelect.value == "Weekend"){
+          div.classList.add('bg-red-400');
+          div.classList.add('text-white');
+        }else{
+          div.classList.add('bg-purple-400');
+          div.classList.add('text-white');
+          
+        }
       }
     }
 
@@ -178,6 +211,8 @@
             }
           }
           toggleSaveButton();
+        }else{
+          alert("Please select Holiday Type.")
         }
       });
     });
@@ -188,35 +223,6 @@
       toggleSaveButton();
     });
 
-    // Add click event listener to the save button
-    // saveButton.addEventListener('click', () => {
-    //   // Here, you can send the selectedDivs and selectedHolidayType to the backend
-    //   // using AJAX (e.g., Fetch API or Axios) for further processing and database insertion.
-    //   console.log('Selected Holiday Type:', selectedHolidayType);
-    //   console.log('Selected Divs:', selectedDivs);
-    //   // For example, you can make a POST request to your backend endpoint to handle the data.
-    //   // Replace the URL below with your actual backend endpoint.
-    // //   fetch('save-holidays', {
-    // //     method: 'POST',
-    // //     headers: {
-    // //       'Content-Type': 'application/json',
-    // //       'X-CSRF-TOKEN': '{{ csrf_token() }}',
-    // //     },
-    // //     body: JSON.stringify({ holidayType: selectedHolidayType, selectedDates: selectedDivs }),
-    // //   })
-    // //   .then(response => response.json())
-    // //   .then(result => {
-    // //     // Handle the response from the backend if needed
-    // //     console.log(result);
-    // //   })
-    // //   .catch((error) => {
-    // //         // Handle any errors that occurred during the request
-    // //         // console.error('Error:', error);
-    // //     });
-
-    //   // After successfully saving, reset the selection
-    //   resetSelection();
-    // });
   </script>
   <script >
 
