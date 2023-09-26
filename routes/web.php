@@ -95,6 +95,8 @@ Route::get('/attendance', [AttendanceController::class, 'showAttendance'])->name
 Route::view('/leave_apply', 'employee/leave_apply');
 Route::view('/leave_balance', 'employee/leave_balance');
 Route::view('/leave_history', 'employee/leave_history');
+Route::view('/admin/tax', 'admin/tax');
+Route::view('/admin/tax_entry', 'admin/tax_entry');
 
     Route::post('/employee/logout', [ProfileController::class, 'logout'])->name('logout');
     Route::get('/employee/profile', [ProfileController::class, 'profile'])->name('employee.profile');
