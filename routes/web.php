@@ -23,6 +23,8 @@ Route::view('/admin/department', 'admin/department');
 Route::view('/admin/allowance', 'admin/allowance');
 Route::view('/admin/deduction', 'admin/deduction');
 Route::view('/admin/calendar', 'admin/calendar');
+Route::view('/admin/tax', 'admin/tax');
+Route::view('/admin/tax_entry', 'admin/tax_entry');
 Route::view('/admin/view_employee', 'admin/view_employee');
 Route::view('/admin/leave', 'admin/leave');
 Route::view('/admin/leave_request', 'admin/leave_request');
