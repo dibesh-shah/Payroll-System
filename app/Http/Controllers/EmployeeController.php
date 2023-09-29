@@ -123,7 +123,7 @@ class EmployeeController extends Controller
             ->where(function ($query) use ($search) {
                 $query->where('first_name', 'like', '%' . $search . '%')
                     ->orWhere('email', 'like', '%' . $search . '%');
-            })->paginate(10);
+            })->paginate(2);
 
         return view('/admin/view_employee',  ['employees' => $employees, 'search' => $search]);
     }

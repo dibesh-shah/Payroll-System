@@ -42,7 +42,7 @@
                  </div>
                  <div>
                    <label class="block mb-2">Address:</label>
-                   <input class="w-full bg-white py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" value="{{$employee->address}}" required disabled>
+                   <input class="w-full bg-white py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" value="{{$employee->mailing_address}}" required disabled>
                  </div>
                  <div>
                    <label class="block mb-2">Bank Account Number:</label>

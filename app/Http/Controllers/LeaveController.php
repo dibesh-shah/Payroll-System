@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Leave;
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
+use App\Models\Holiday;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 
 class LeaveController extends Controller
@@ -80,5 +83,49 @@ class LeaveController extends Controller
     {
         $leave->delete();
         return redirect()->route('leave.index')->with('success', 'Leave Type deleted successfully.');
+    }
+    public function leaveHolidays(){
+        $employeeId = session('employee_id');
+        $employee = Employee::find($employeeId);
+        $leaves = Leave::all();
+
+        $now = now();
+        $todayDate = now()->format('Y-m-d');
+        $year = $now->year;
+        $month = $now->month ;
+
+        $startDate = "{$year}-{$month}-01";
+        $endDate = $now->format('Y-m-t');
+       // Fetch holidays from the database
+        $holidays = Holiday::where('holiday_date', 'like', $year . '-' . $month . '-%')->get();
+
+        // Create two separate lists for "Public Holiday" and "Other"
+        $publicHolidays = [];
+        $otherHolidays = [];
+
+        foreach ($holidays as $holiday) {
+            $holidayType = $holiday->holiday_type;
+            $holidayDates = explode(',', $holiday->holiday_date);
+
+            // Check the holiday type and add to the respective list
+            if ($holidayType === "Public Holiday") {
+                $publicHolidays[] = [
+                    'id' => $holiday->id,
+                    'holiday_dates' => $holidayDates,
+                    'created_at' => $holiday->created_at,
+                    'updated_at' => $holiday->updated_at,
+                ];
+            } elseif ($holidayType === "Other") {
+                $otherHolidays[] = [
+                    'id' => $holiday->id,
+                    'holiday_dates' => $holidayDates,
+                    'created_at' => $holiday->created_at,
+                    'updated_at' => $holiday->updated_at,
+                ];
+            }
+        }
+
+        // Pass the data to the 'admin.calendar' view
+        return view('employee.leave_apply', compact('leaves', 'employee', 'publicHolidays', 'otherHolidays'));
     }
 }

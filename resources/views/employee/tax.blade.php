@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 @section('content')
 <div class="p-4 sm:ml-64">
     <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
@@ -10,7 +10,7 @@
                 {{$tax->year}}
                 @php break; @endphp
              @endforeach
-                 <button id="newEntry" class="bg-blue-500 text-white py-2 px-4 text-base rounded-md mb-4 float-right">New Entry</button>
+
              </h2>
 
              <div class="mt-4 mx-auto max-w-4xl grid-cols-2">
@@ -63,34 +63,11 @@
                         </tr>
                     @endforeach
 
-                         {{-- <tr class="border-b">
-                             <td class="py-4 text-center">Next</td>
-                             <td class="py-2 text-center">500000</td>
-                             <td class="py-2 text-center">10</td>
-                         </tr>
-                         <tr class="border-b">
-                             <td class="py-4 text-center">Next</td>
-                             <td class="py-2 text-center">500000</td>
-                             <td class="py-2 text-center">10</td>
-                         </tr>
-                         <tr class="border-b">
-                             <td class="py-4 text-center">Next</td>
-                             <td class="py-2 text-center">500000</td>
-                             <td class="py-2 text-center">10</td>
-                         </tr>
-                         <tr class="border-b">
-                             <td class="py-4 text-center">Next</td>
-                             <td class="py-2 text-center">500000</td>
-                             <td class="py-2 text-center">10</td>
-                         </tr> --}}
+
                      </tbody>
                  </table>
 
-                 <div class="grid grid-cols-1">
-                     <div class="flex justify-end mt-10">
-                         <button id="updateButton" class="bg-blue-500 text-white py-2 px-4 rounded-md">Update</button>
-                     </div>
-                 </div>
+
              </div>
          </div>
      </div>

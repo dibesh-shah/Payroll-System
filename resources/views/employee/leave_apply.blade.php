@@ -12,17 +12,21 @@
                             <form class="bg-white shadow-md rounded-md p-6">
                                 <h2 class="text-xl font-semibold mb-4">Leave Detail</h2>
 
+
                                 <div class="grid grid-cols-2 gap-4">
+
                                     <div>
                                         <label for="employeeName" class="block font-semibold mb-2">Employee Name:</label>
-                                        <input type="text" name="employeeName" id="employeeName" class="w-full border rounded p-2 " disabled>
+                                        <p class="w-full  rounded p-2 " > {{$employee->first_name}} {{$employee->last_name}}</p>
                                     </div>
                                     <div>
                                         <label for="leaveType" class="block font-semibold mb-2">Leave Type:</label>
                                         <select id="leaveType" name="leaveType" class="w-full border rounded p-2">
-                                            <option value="vacation">Vacation</option>
-                                            <option value="sick">Sick Leave</option>
-                                            <option value="personal">Personal Leave</option>
+                                            @foreach($leaves as $leave)
+
+                                            <option value="{{$leave->id}}">{{$leave->name}}</option>
+                                            @endforeach
+
                                         </select>
                                     </div>
                                     <div>
@@ -63,6 +67,27 @@
 
    </div>
 </div>
+<script>
+    const publicHoli = [];
+    const otherHoli = [];
+
+    @foreach ($publicHolidays as  $publicHoliday)
+
+        @foreach ($publicHoliday['holiday_dates'] as $date)
+
+                    publicHoli.push('{{ $date }}')
+                @endforeach
+        @endforeach
+
+        @foreach ($otherHolidays as  $otherHoliday)
+        @foreach ($otherHoliday['holiday_dates'] as $date)
+                   otherHoli.push('{{ $date }}')
+                @endforeach
+        @endforeach
+
+        console.log(publicHoli)
+        console.log(otherHoli);
+ </script>
 <script >
     const calendarContainer = document.getElementById('calendarContainer');
 
@@ -126,6 +151,13 @@
                         divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-gray-200 " ;
                     }else{
                         divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center " ;
+                    }
+                    if(publicHoli.includes(d)){
+
+                        divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-green-400 pointer-events-none text-white"
+                    }else if(otherHoli.includes(d)){
+
+                        divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-purple-400 pointer-events-none text-white"
                     }
                     if(j==6){
                         divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none"

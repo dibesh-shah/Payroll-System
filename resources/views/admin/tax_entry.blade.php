@@ -4,12 +4,23 @@
     <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
      <div class="container mx-auto mt-5">
          <h1 class="text-3xl font-bold mb-4">Tax Rate</h1>
+         @if(session('success'))
+         <div class="text-green-500 mb-4">
+             {{ session('success') }}
+         </div>
+
+     @endif
 
          <div class="bg-white p-6 rounded-lg shadow-md">
 
-             <form id="taxRateForm" >
+             <form id="taxRateForm" method="Post" action="{{route('tax.store')}}" >
+                @csrf
                  <h2 class="text-2xl font-semibold mb-4">Income Tax Rate Entry
                      <input type="text" class="form-input w-40 ml-6 p-2 text-base border-zinc-800 border-2" placeholder="Enter Year" name="year">
+                     <select name="status" class="form-input w-40 ml-6 p-2 text-base border-zinc-800 border-2">
+                        <option value="single">Single </option>
+                        <option value="couple">Couple</option>
+                     </select>
                  </h2>
                  <!-- Tax Rate Entry Fields -->
                  <div class="grid grid-cols-4 gap-4 gap-x-8 ">
@@ -18,11 +29,11 @@
                      </div>
                      <div>
                          <label class="block mb-2 font-semibold text-center">Income Range (NPR):</label>
-                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="incomeRange[]">
+                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="income[]">
                      </div>
                      <div>
                          <label class="block mb-2 font-semibold text-center">Tax Rate (%):</label>
-                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="taxRate[]">
+                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="tax_rate[]">
                      </div>
                      <div></div>
 
@@ -30,10 +41,10 @@
                          <label class="block mb-2 mt-6 font-semibold">Next</label>
                      </div>
                      <div>
-                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="incomeRange[]">
+                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="income[]">
                      </div>
                      <div>
-                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="taxRate[]">
+                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="tax_rate[]">
                      </div>
                      <div></div>
 
@@ -41,10 +52,10 @@
                          <label class="block mb-2 mt-6 font-semibold">Next</label>
                      </div>
                      <div>
-                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="incomeRange[]">
+                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="income[]">
                      </div>
                      <div>
-                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="taxRate[]">
+                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="tax_rate[]">
                      </div>
                      <div></div>
 
@@ -52,10 +63,10 @@
                          <label class="block mb-2 mt-6 font-semibold">Next</label>
                      </div>
                      <div>
-                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="incomeRange[]">
+                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="income[]">
                      </div>
                      <div>
-                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="taxRate[]">
+                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="tax_rate[]">
                      </div>
                      <div></div>
 
@@ -63,21 +74,21 @@
                          <label class="block mb-2 mt-6 font-semibold">Next</label>
                      </div>
                      <div>
-                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="incomeRange[]">
+                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="income[]">
                      </div>
                      <div>
-                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="taxRate[]">
+                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="tax_rate[]">
                      </div>
                      <div></div>
 
                      <div class="text-center">
-                         <label class="block mb-2 mt-6 font-semibold">Next</label>
+                         <label class="block mb-2 mt-6 font-semibold">Above</label>
                      </div>
                      <div>
-                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="incomeRange[]">
+                         <input type="number" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Income" name="income[]">
                      </div>
                      <div>
-                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="taxRate[]">
+                         <input type="number"  class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter tax rate" name="tax_rate[]">
                      </div>
                      <div></div>
 

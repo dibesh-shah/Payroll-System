@@ -20,13 +20,14 @@
                     <span class="hidden" id="receiverId">admin</span>
 
                   </div>
+
                   <!-- Employee/Admin Message Container -->
                 <div class="flex-1 p-4 border-b border-gray-200 overflow-y-auto flex flex-col-reverse mt-auto" id="messageContainer">
                   <!-- Admin message -->
                   {{-- this container will be the lastest for admin --}}
                   <div class="flex items-start mb-2">
                     <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mr-4">
-                      JD
+                      AD
                     </div>
                     <div class="bg-blue-100 p-2 rounded-lg">
                       <p class="font-bold ">Admin</p>
@@ -37,17 +38,21 @@
 
                   <!-- employee message -->
                   {{-- this container will be latest for employee --}}
+                  @foreach($inboxes as $inbox)
                   <div class="flex items-end justify-end mb-2">
                     <div class="bg-gray-100 p-2 rounded-lg">
-                      <p class="font-bold">You (John Doe)</p>
-                      <p class="max-w-lg">Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...</p>
-                      <p class="text-xs text-gray-400 text-right">June 23.12:34 PM</p>
+                      <p class="font-bold">You ({{$employee->first_name}} {{$employee->last_name}})</p>
+
+                      <p class="max-w-lg">{{$inbox->message}}</p>
+                      <p class="text-xs text-gray-400 text-right"> {{$inbox->dateTime}}</p>
+
+
                     </div>
                     <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold ml-4">
-                      AD
+                        {{ substr($employee->first_name, 0, 1) }}{{ substr($employee->last_name, 0, 1) }}
                     </div>
                   </div>
-
+                  @endforeach
                 </div>
 
                 <!-- Message Input Container -->
@@ -82,30 +87,28 @@
 
         const adminMessageAuthor = document.createElement('p');
         adminMessageAuthor.classList.add('font-bold');
-        adminMessageAuthor.textContent = 'You (John Doe)';
+        adminMessageAuthor.textContent = 'You ({{$employee->first_name}} {{$employee->last_name}})';
 
         const adminMessageText = document.createElement('p');
         adminMessageText.classList.add('max-w-lg');
         adminMessageText.textContent = messageText;
 
+        const time = document.createElement('p');
+        time.classList.add('text-xs','text-gray-400','text-right');
+        // adminMessageText.textContent = messageText;
+
+
         const adminIcon = document.createElement('div');
         adminIcon.classList.add('w-10', 'h-10', 'rounded-full', 'bg-blue-500', 'flex', 'items-center', 'justify-center', 'text-white', 'font-bold', 'ml-4');
-        adminIcon.textContent = 'AD';
+        adminIcon.textContent = '{{ substr($employee->first_name, 0, 1) }}{{ substr($employee->last_name, 0, 1) }}';
 
-        adminMessageContentDiv.appendChild(adminMessageAuthor);
-        adminMessageContentDiv.appendChild(adminMessageText);
 
-        adminMessageDiv.appendChild(adminMessageContentDiv);
-        adminMessageDiv.appendChild(adminIcon);
 
         // Add the admin message at the bottom of the message container
-        messageContainer.prepend(adminMessageDiv);
+
 
         // Clear the input field
         messageInput.value = '';
-
-        //receiver Id
-        const receiverId = document.getElementById('receiverId').textContent;
 
         //send to database
 
@@ -114,22 +117,32 @@
         };
         $.ajax({
           type:"POST",
-          url:'/ajax-endpoint',
+          url:'/employee/inbox',
           headers:customHeaders,
           data:{
-                senderId:"johndoe",
-                receiverId:"Admin",
+                senderId:{{$employee->id}},
+                // receiverId:{{$employee->id}},
                 message:messageText,
+                // dateTime:"abcabc",
 
           },
           cache:false,
           success:function(data){
-            // console.log(`${data.message}`)
-          },
-          error:function(){
+            console.log(data)
+            time.textContent = data;
+            adminMessageContentDiv.appendChild(adminMessageAuthor);
+            adminMessageContentDiv.appendChild(adminMessageText);
+            adminMessageContentDiv.appendChild(time);
 
+            adminMessageDiv.appendChild(adminMessageContentDiv);
+            adminMessageDiv.appendChild(adminIcon);
+            messageContainer.prepend(adminMessageDiv);
+          },
+          error:function(err){
+            console.log(err)
           }
         });
+
       }
     });
   </script>
@@ -143,7 +156,7 @@
     };
     $.ajax({
       type:"POST",
-      url:'/ajax-endpoint',
+      url:'/inbox',
       headers:customHeaders,
       data:{
         // senderId:"Admin",
@@ -191,7 +204,7 @@
 
 
 
-  setInterval(getMessage, 5000);
+//   setInterval(getMessage, 5000);
 </script>
 @endsection
 

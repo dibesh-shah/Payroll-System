@@ -9,7 +9,11 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AllowanceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DeductionController;
+use App\Http\Controllers\InboxController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TaxController;
+use App\Models\Holiday;
+use App\Models\Leave;
 
 Route::get('/', function () {
     return view('employee/welcome');
@@ -73,17 +77,15 @@ Route::prefix('admin')->group(function () {
 
 Route::view('/admin', 'admin/login');
 
-Route::view('/admin/calendar', 'admin/calendar')->name('calender');
+// Route::view('/admin/calendar', 'admin/calendar')->name('calender');
+Route::get('/admin/calendar', [HolidayController::class, 'getHolidays'])->name('admin.calendar');
 Route::view('/admin/leave_request', 'admin/leave_request');
 Route::view('/admin/leave_detail', 'admin/leave_detail');
 Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
 Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name('ajax.endpoint');
 
-Route::view('/admin/inbox', 'admin/inbox');
 
 Route::view('/dashboard', 'employee/dashboard')->name('employees.dashboard');
-Route::view('/inbox', 'employee/inbox');
-Route::view('/calendar', 'employee/calendar');
 
 Route::get('/employee/attendance', [AttendanceController::class, 'index'])->name('employee.attendance');
 Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
@@ -92,12 +94,23 @@ Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('cloc
 Route::get('/attendance', [AttendanceController::class, 'showAttendance'])->name('attendance.show');
 
 
-Route::view('/leave_apply', 'employee/leave_apply');
 Route::view('/leave_balance', 'employee/leave_balance');
 Route::view('/leave_history', 'employee/leave_history');
-Route::view('/admin/tax', 'admin/tax');
 Route::view('/admin/tax_entry', 'admin/tax_entry');
 
+// Route::view('/calendar', 'employee/calendar');
+// Route::view('/admin/inbox', 'admin/inbox');
+
+Route::get('/admin/inbox', [InboxController::class, 'index'])->name('admin.inbox');
+Route::get('/employee/inbox', [InboxController::class, 'indexEmp'])->name('employee.inbox');
+Route::Post('/employee/inbox', [InboxController::class, 'storeEmp']);
+Route::Post('/admin/inbox', [InboxController::class, 'store']);
+    Route::get('/employee/tax', [TaxController::class, 'indexEmp'])->name('taxEmp');
+    Route::get('/admin/tax', [TaxController::class, 'index'])->name('tax');
+    Route::post('/admin/tax_entry', [TaxController::class, 'store'])->name('tax.store');
+
+    Route::get('/employee/leave_apply', [LeaveController::class, 'leaveHolidays'])->name('employee.leaveApply');
+    Route::get('/employee/calendar', [HolidayController::class, 'showHolidays'])->name('employee.calendar');
     Route::post('/employee/logout', [ProfileController::class, 'logout'])->name('logout');
     Route::get('/employee/profile', [ProfileController::class, 'profile'])->name('employee.profile');
     Route::get('/employee/update', [ProfileController::class, 'edit'])->name('employee.edit');

@@ -28,7 +28,27 @@
 
    </div>
 </div>
+<script>
+    const publicHoli = [];
+    const otherHoli = [];
 
+    @foreach ($publicHolidays as  $publicHoliday)
+
+        @foreach ($publicHoliday['holiday_dates'] as $date)
+
+                    publicHoli.push('{{ $date }}')
+                @endforeach
+        @endforeach
+
+        @foreach ($otherHolidays as  $otherHoliday)
+        @foreach ($otherHoliday['holiday_dates'] as $date)
+                   otherHoli.push('{{ $date }}')
+                @endforeach
+        @endforeach
+
+        console.log(publicHoli)
+        console.log(otherHoli);
+ </script>
 <script >
         const calendarContainer = document.getElementById('calendarContainer');
 
@@ -99,6 +119,13 @@
                         }else{
                             divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center " ;
                         }
+                        if(publicHoli.includes(d)){
+                        publicHoliday++;
+                        divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-green-400 pointer-events-none text-white"
+                    }else if(otherHoli.includes(d)){
+                        otherHoliday++;
+                        divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-purple-400 pointer-events-none text-white"
+                    }
                         if(j==6){
                             weekend++;
                             divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none"
