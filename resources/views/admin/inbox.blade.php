@@ -288,7 +288,7 @@
 
      });
    </script>
-
+ @if(isset($inboxes))
  <script>
    function getMessage(){
     var lastId = document.getElementById('lastId').textContent;
@@ -358,7 +358,7 @@
 
    setInterval(getMessage, 5000);
  </script>
-
+@endif
 
 @endsection
 
