@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('year');
 
             $table->enum('status', ['single', 'couple']);
-            $table->float('income');
+            $table->string('income');
             $table->integer('tax_rate');
             $table->timestamps();
         });

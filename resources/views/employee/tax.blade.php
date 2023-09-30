@@ -74,7 +74,7 @@
     </div>
  </div>
 
- <script>
+ {{-- <script>
      const updateButton = document.getElementById('updateButton');
 
      updateButton.addEventListener('click', function() {
@@ -87,5 +87,5 @@
          const url = `http://127.0.0.1:8000/admin/tax_entry`;
          window.location.href = url;
      });
- </script>
+ </script> --}}
  @endsection

@@ -23,41 +23,56 @@
 
                   <!-- Employee/Admin Message Container -->
                 <div class="flex-1 p-4 border-b border-gray-200 overflow-y-auto flex flex-col-reverse mt-auto" id="messageContainer">
-                  <!-- Admin message -->
-                  {{-- this container will be the lastest for admin --}}
-                  <div class="flex items-start mb-2">
-                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mr-4">
-                      AD
-                    </div>
-                    <div class="bg-blue-100 p-2 rounded-lg">
-                      <p class="font-bold ">Admin</p>
-                      <p class="max-w-lg">Employee message hghghhere...Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...Employee message here...</p>
-                      <p class="text-xs text-gray-400 text-right">June 23.12:34 PM</p>
-                    </div>
-                  </div>
+                  
+                  @php
+                    $length = count($inboxes);
+                    $val = 1;
+                  @endphp
 
-                  <!-- employee message -->
-                  {{-- this container will be latest for employee --}}
                   @foreach($inboxes as $inbox)
-                  <div class="flex items-end justify-end mb-2">
-                    <div class="bg-gray-100 p-2 rounded-lg">
-                      <p class="font-bold">You ({{$employee->first_name}} {{$employee->last_name}})</p>
-
-                      <p class="max-w-lg">{{$inbox->message}}</p>
-                      <p class="text-xs text-gray-400 text-right"> {{$inbox->dateTime}}</p>
-
-
+                    @if ($inbox->senderId == $inbox->conversationId)
+                    <div class="flex items-end justify-end mb-2">
+                      <div class="bg-gray-100 p-2 rounded-lg">
+                        <p class="font-bold">You ({{$employee->first_name}} {{$employee->last_name}})</p>
+                        <p class="max-w-lg">{{$inbox->message}}</p>
+                        <p class="text-xs text-gray-400 text-right"> {{$inbox->dateTime}}</p>
+                        @if ($val == 1)
+                          <p class="hidden " id="lastId">{{ $inbox->id }}</p>
+                      @endif
+                      
+                      </div>
+                      <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold ml-4">
+                          {{ substr($employee->first_name, 0, 1) }}{{ substr($employee->last_name, 0, 1) }}
+                      </div>
                     </div>
-                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold ml-4">
-                        {{ substr($employee->first_name, 0, 1) }}{{ substr($employee->last_name, 0, 1) }}
+
+                    @else
+
+                    <div class="flex items-start mb-2">
+                      <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mr-4">
+                        AD
+                      </div>
+                      <div class="bg-blue-100 p-2 rounded-lg">
+                        <p class="font-bold ">Admin</p>
+                        <p class="max-w-lg">{{$inbox->message}}</p>
+                        <p class="text-xs text-gray-400 text-right">{{$inbox->dateTime}}</p>
+                        @if ($val == 1)
+                          <p class="hidden " id="lastId">{{ $inbox->id }}</p>
+                      @endif
+                      </div>
                     </div>
-                  </div>
+                    
+                    @endif
+                    @php
+                      $val++;
+                    @endphp
                   @endforeach
+
                 </div>
 
                 <!-- Message Input Container -->
                 <div class="p-4 flex items-center space-x-4">
-                    <input class="border border-gray-300 rounded-lg p-2 w-full h-10  " id="messageInput">
+                    <input class="border-zinc-800 border-2 rounded-lg p-2 w-full h-10  " id="messageInput">
                     <button class="bg-blue-500 text-white py-2 px-4 rounded-md" id="sendMessageButton">Send</button>
                   </div>
 
@@ -121,15 +136,17 @@
           headers:customHeaders,
           data:{
                 senderId:{{$employee->id}},
-                // receiverId:{{$employee->id}},
                 message:messageText,
-                // dateTime:"abcabc",
 
           },
           cache:false,
           success:function(data){
-            console.log(data)
-            time.textContent = data;
+           
+            var inputString = data; 
+            var parts = inputString.split("&");
+            time.textContent = parts[0];
+            document.getElementById('lastId').textContent = parts[1];
+
             adminMessageContentDiv.appendChild(adminMessageAuthor);
             adminMessageContentDiv.appendChild(adminMessageText);
             adminMessageContentDiv.appendChild(time);
@@ -150,20 +167,19 @@
 
 <script>
   function getMessage(){
-    const receiverId = document.getElementById('receiverId').textContent;
+    var lastId = document.getElementById('lastId').textContent;
     const customHeaders = {
         'X-CSRF-TOKEN' : '{{ csrf_token() }}'
     };
     $.ajax({
       type:"POST",
-      url:'/inbox',
+      url:'/employee/inbox/adminMssgFetch',
       headers:customHeaders,
       data:{
-        // senderId:"Admin",
-        // receiverId:receiverId
-        username:"DS",
-        name:"Dibesh Shah",
-        message:"hello from the other world"
+
+        lastId:lastId,
+        senderId:{{$employee->id}}
+
       },
       cache:false,
       success:function(data){
@@ -182,29 +198,41 @@
   }
 
   function createUserMessageDiv(user) {
-    // Create the user div element
-    const userDiv = $('<div class="flex items-start mb-2"></div>');
 
-    // Create the user image div
-    const userImageDiv = $(`<div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mr-4">${user.username}</div>`);
+    //assigning last id 
+    document.getElementById('lastId').textContent = `${user.id}`;
 
-    // Create the user message div
-    const userMessageDiv = $('<div class="bg-blue-100 p-2 rounded-lg"></div>');
-    const userName = $(`<p class="font-bold ">${user.name}</p>`);
-    const userMessage = $(`<p class="max-w-lg">${user.message}</p>`);
+    var receiverId = `${user.receiverId}`;
+    var conversationId = `${user.conversationId}`;
 
-    // Append the user image and details div to the user div
-    userMessageDiv.append(userName);
-    userMessageDiv.append(userMessage);
-    userDiv.append(userImageDiv);
-    userDiv.append(userMessageDiv);
+    if(receiverId === conversationId){
+      // Create the user div element
+      const userDiv = $('<div class="flex items-start mb-2"></div>');
 
-    return userDiv;
+      // Create the user image div
+      const userImageDiv = $(`<div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mr-4">AD</div>`);
+
+      // Create the user message div
+      const userMessageDiv = $('<div class="bg-blue-100 p-2 rounded-lg"></div>');
+      const userName = $(`<p class="font-bold ">Admin</p>`);
+      const userMessage = $(`<p class="max-w-lg">${user.message}</p>`);
+      const time = $(`<p class="text-xs text-gray-400 text-right">${user.dateTime}</p>`);
+
+      // Append the user image and details div to the user div
+      userMessageDiv.append(userName);
+      userMessageDiv.append(userMessage);
+      userMessageDiv.append(time);
+      userDiv.append(userImageDiv);
+      userDiv.append(userMessageDiv);
+
+      return userDiv;
+    }
+    
   }
 
 
 
-//   setInterval(getMessage, 5000);
+  setInterval(getMessage, 5000);
 </script>
 @endsection
 

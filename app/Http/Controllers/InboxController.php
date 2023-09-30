@@ -11,12 +11,21 @@ class InboxController extends Controller
 {
    public function index(){
     $employees = Employee::all();
-    $employeeId = session('employee_id');
-    $employee = Employee::find($employeeId);
-    $inboxes = Inbox::where('senderId', $employeeId)
+    // $employeeId = session('employee_id');
+    // $employee = Employee::find($employeeId);
+    // $inboxes = Inbox::where('senderId', $employeeId)
+    // ->orderBy('id', 'desc')
+    // ->get();
+    return view('admin.inbox', compact('employees'));
+   }
+
+   public function getUser($id){
+    $employees = Employee::all();
+    $emp = Employee::find($id);
+    $inboxes = Inbox::where('conversationId', $id)
     ->orderBy('id', 'desc')
     ->get();
-    return view('admin.inbox', compact('employees','employee', 'inboxes'));
+    return view('admin.inbox', compact('employees','emp', 'inboxes'));
    }
 
    public function indexEmp(){
@@ -24,7 +33,7 @@ class InboxController extends Controller
         $employee = Employee::find($employeeId);
         // $senderId = $employeeId;
         // $inboxes = Inbox::find($senderId);
-        $inboxes = Inbox::where('senderId', $employeeId)
+        $inboxes = Inbox::where('conversationId', $employeeId)
         ->orderBy('id', 'desc')
         ->get();
         // dd($inboxes);
@@ -41,25 +50,48 @@ class InboxController extends Controller
     $inboxMessage->senderId = Employee::where('role', 'admin')->value('id');
     $inboxMessage->receiverId = $request->input('receiverId');
     $inboxMessage->message = $request->input('message');
+    $inboxMessage->conversationId = $request->input('receiverId');
     $inboxMessage->save();
 
-    return response($dateTime);
+    $newlySavedId = $inboxMessage->id;
+    $responseData = $dateTime . "&" . $newlySavedId;
+    return response($responseData);
    }
 
    public function storeEmp(Request $request){
-    // Inbox::create($request->all());
 
     $inboxMessage = new Inbox();
     date_default_timezone_set('Asia/Kathmandu');
-   $dateTime = date("F j, g:i A");
-   $inboxMessage->dateTime = $dateTime;
+    $dateTime = date("F j, g:i A");
+    $inboxMessage->dateTime = $dateTime;
 
     $inboxMessage->receiverId = Employee::where('role', 'admin')->value('id');
     $inboxMessage->senderId = $request->input('senderId');
     $inboxMessage->message = $request->input('message');
+    $inboxMessage->conversationId = $request->input('senderId');
     $inboxMessage->save();
-    // return back()->with('success', "hello");
-    // echo $dateTime;
-    return response($dateTime);
+
+    $newlySavedId = $inboxMessage->id;
+    $responseData = $dateTime . "&" . $newlySavedId;
+    return response($responseData);
+   }
+
+   public function search(Request $request){
+    $searchQuery = $request->input('search');
+    $searches = Employee::where(function ($query) use ($searchQuery) {
+        $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$searchQuery%"])
+            ->where('role', '!=', 'admin');
+    })->get();
+    return response($searches);
+   }
+
+   public function getMessage(Request $request){
+    $lastId = $request->input('lastId');
+    $senderId = $request->input('senderId');
+    $inboxes = Inbox::where('conversationId', $senderId)
+    ->where('id', '>', $lastId)
+    ->orderBy('id', 'desc')
+    ->get();
+    return response($inboxes);
    }
 }

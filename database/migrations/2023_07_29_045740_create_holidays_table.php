@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('holidays', function (Blueprint $table) {
             $table->id();
-            $table->date('holiday_date');
+            $table->string('holiday_date');
             $table->enum('holiday_type', ['Weekend', 'Public Holiday', 'Other']);
             $table->string('holiday_name');
             $table->timestamps();

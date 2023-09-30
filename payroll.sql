@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2023 at 11:00 AM
+-- Generation Time: Sep 30, 2023 at 09:05 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -170,7 +170,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `first_name`, `last_name`, `email`, `phone`, `date_of_birth`, `permanent_address`, `mailing_address`, `bank_account_number`, `bank_name`, `gender`, `tax_payer_id`, `tax_filing_status`, `document`, `department_id`, `status`, `password`, `created_at`, `updated_at`, `date_of_joining`, `hiring_date`, `salary`, `role`) VALUES
-(1, 'Bimal', 'Paudel', 'company@example.com', '9843563423', '2023-08-16', 'Balaju', 'baneshwor', '16723525252525', 'NIC Asia', 'male', 'jsnmcsn12', 'single', 'documents/Khc9Wf8tPmOpLkQj1AH5wYlk6lS1sU0hsJw56tJS.pdf', 1, 'approved', '$2y$10$Ri9KS2YfgvNsOxqzyjg7oumPz0UxyBurW721i6EsNdJwmdChIy/Li', '2023-08-14 03:36:10', '2023-08-15 02:55:07', '2023-08-18', '2023-08-14', 70000.00, 'employee'),
+(1, 'Bimal', 'Paudel', 'hello@gmail.com', '9843563423', '2023-08-16', 'Balaju', 'baneshwor', '16723525252525', 'NIC Asia', 'male', 'jsnmcsn12', 'single', 'documents/Khc9Wf8tPmOpLkQj1AH5wYlk6lS1sU0hsJw56tJS.pdf', 1, 'approved', '$2y$10$L0PHWFffHfo6PJcojsK2qe/i.u.hhLNM5W/ChNinx5F35Twyedsj6', '2023-08-14 03:36:10', '2023-08-15 02:55:07', '2023-08-18', '2023-08-14', 70000.00, 'employee'),
 (2, 'dibesh', 'shah', 'admin@gmail.com', '9843563423', '2023-08-03', 'Balaju', 'baneshwor', '16723525252525', 'NIC Asia', 'male', 'jsnmcsn12', 'single', 'documents/eKfhUhsw1sDRGtzy6Ndy56wE7iEQqXf4uO9aeEql.pdf', 1, 'approved', '$2y$10$Ri9KS2YfgvNsOxqzyjg7oumPz0UxyBurW721i6EsNdJwmdChIy/Li', '2023-08-15 02:59:56', '2023-08-15 03:06:15', '2023-08-18', '2023-08-14', 60000.00, 'admin'),
 (5, 'Bimala', 'shyam', 'minusking2002@gmail.com', '9843563423', '2023-08-02', 'Balaju1', 'baneshwor', '16723525252524', 'NIC Asian', 'female', 'jsnmcsn123', 'married', 'documents/rHkK0sNPzXSXIXAkOzOWGYdP9h9zSZUiArISI87w.pdf', 3, 'approved', '$2y$10$RJaQQea3ooUqDBNKg.pMxegJ4dA0rq3JZzRa0JyU5YrfIe8uZjeNG', '2023-08-26 04:38:39', '2023-08-28 03:18:28', '2023-08-18', '2023-08-14', 50000.00, 'employee');
 
@@ -255,9 +255,10 @@ CREATE TABLE `holidays` (
 --
 
 INSERT INTO `holidays` (`id`, `holiday_date`, `holiday_type`, `created_at`, `updated_at`) VALUES
-(1, '2023-9-3,2023-9-4', 'Public Holiday', '2023-09-27 02:19:05', '2023-09-27 02:19:05'),
-(2, '2023-9-17,2023-9-19', 'Other', '2023-09-27 02:19:28', '2023-09-27 02:19:28'),
-(3, '2023-9-21,2023-9-14', 'Public Holiday', '2023-09-27 03:17:20', '2023-09-27 03:17:20');
+(1, '0000-00-00', 'Public Holiday', '2023-09-27 02:19:05', '2023-09-27 02:19:05'),
+(2, '0000-00-00', 'Other', '2023-09-27 02:19:28', '2023-09-27 02:19:28'),
+(3, '0000-00-00', 'Public Holiday', '2023-09-27 03:17:20', '2023-09-27 03:17:20'),
+(4, '2023-9-24,2023-9-25', 'Public Holiday', '2023-09-29 09:06:07', '2023-09-29 09:06:07');
 
 -- --------------------------------------------------------
 
@@ -271,6 +272,7 @@ CREATE TABLE `inboxes` (
   `receiverId` varchar(255) NOT NULL,
   `dateTime` varchar(255) NOT NULL,
   `message` varchar(255) NOT NULL,
+  `conversationId` varchar(256) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -279,29 +281,85 @@ CREATE TABLE `inboxes` (
 -- Dumping data for table `inboxes`
 --
 
-INSERT INTO `inboxes` (`id`, `senderId`, `receiverId`, `dateTime`, `message`, `created_at`, `updated_at`) VALUES
-(1, '1', 'Admin', 'abcabc', 'esgr', '2023-09-29 00:36:17', '2023-09-29 00:36:17'),
-(2, '1', '2', 'abcabc', 'bimal paudel', '2023-09-29 00:52:45', '2023-09-29 00:52:45'),
-(3, '1', '2', 'September 29, 12:48 PM', 'adasd', '2023-09-29 07:03:05', '2023-09-29 07:03:05'),
-(4, '1', '2', 'September 29, 12:56 PM', 'gehb', '2023-09-29 07:11:20', '2023-09-29 07:11:20'),
-(5, '1', '2', 'September 29, 12:58 PM', 'sbcsjwbf', '2023-09-29 07:13:36', '2023-09-29 07:13:36'),
-(6, '1', '2', 'September 29, 12:59 PM', 'afghn', '2023-09-29 07:14:53', '2023-09-29 07:14:53'),
-(7, '1', '2', 'September 29, 1:02 PM', 'helo hello', '2023-09-29 07:17:25', '2023-09-29 07:17:25'),
-(8, '1', '2', 'September 29, 1:05 PM', 'hkdkfkfddfk', '2023-09-29 07:20:08', '2023-09-29 07:20:08'),
-(9, '1', '2', 'September 29, 1:05 PM', 'fjdjd', '2023-09-29 07:20:48', '2023-09-29 07:20:48'),
-(10, '1', '2', 'September 29, 1:08 PM', 'jkdfkdkfj', '2023-09-29 07:23:27', '2023-09-29 07:23:27'),
-(11, '1', '2', 'September 29, 1:09 PM', 'fhjdhjdjfhj', '2023-09-29 07:24:36', '2023-09-29 07:24:36'),
-(12, '1', '2', 'September 29, 1:15 PM', 'kjdkfkdfk', '2023-09-29 07:30:58', '2023-09-29 07:30:58'),
-(13, '1', '2', 'September 29, 1:17 PM', 'jkdjkfkj', '2023-09-29 07:32:09', '2023-09-29 07:32:09'),
-(14, '1', '2', 'September 29, 1:21 PM', 'kjkdkfkdf', '2023-09-29 07:36:18', '2023-09-29 07:36:18'),
-(15, '1', '2', 'September 29, 1:21 PM', 'jdkkddkdjk', '2023-09-29 07:36:30', '2023-09-29 07:36:30'),
-(16, '1', '2', 'September 29, 1:23 PM', 'kfjkdjkfdj', '2023-09-29 07:38:38', '2023-09-29 07:38:38'),
-(17, '1', '2', 'September 29, 1:25 PM', 'jshdjsdj', '2023-09-29 07:40:36', '2023-09-29 07:40:36'),
-(18, '1', '2', 'September 29, 1:28 PM', 'jdhsjhdj', '2023-09-29 07:43:47', '2023-09-29 07:43:47'),
-(19, '1', '2', 'September 29, 1:28 PM', 'hdhdjsjdsdj', '2023-09-29 07:43:55', '2023-09-29 07:43:55'),
-(20, '1', '2', 'September 29, 1:29 PM', 'jdhjhdfhj', '2023-09-29 07:44:42', '2023-09-29 07:44:42'),
-(21, '2', '1', 'September 29, 2:30 PM', 'kdjkfjkf', '2023-09-29 08:45:22', '2023-09-29 08:45:22'),
-(22, '2', '1', 'September 29, 2:34 PM', 'hkdkdh', '2023-09-29 08:49:55', '2023-09-29 08:49:55');
+INSERT INTO `inboxes` (`id`, `senderId`, `receiverId`, `dateTime`, `message`, `conversationId`, `created_at`, `updated_at`) VALUES
+(1, '1', 'Admin', 'abcabc', 'esgr', '', '2023-09-29 00:36:17', '2023-09-29 00:36:17'),
+(2, '1', '2', 'abcabc', 'bimal paudel', '', '2023-09-29 00:52:45', '2023-09-29 00:52:45'),
+(3, '1', '2', 'September 29, 12:48 PM', 'adasd', '', '2023-09-29 07:03:05', '2023-09-29 07:03:05'),
+(4, '1', '2', 'September 29, 12:56 PM', 'gehb', '', '2023-09-29 07:11:20', '2023-09-29 07:11:20'),
+(5, '1', '2', 'September 29, 12:58 PM', 'sbcsjwbf', '', '2023-09-29 07:13:36', '2023-09-29 07:13:36'),
+(6, '1', '2', 'September 29, 12:59 PM', 'afghn', '', '2023-09-29 07:14:53', '2023-09-29 07:14:53'),
+(7, '1', '2', 'September 29, 1:02 PM', 'helo hello', '', '2023-09-29 07:17:25', '2023-09-29 07:17:25'),
+(8, '1', '2', 'September 29, 1:05 PM', 'hkdkfkfddfk', '', '2023-09-29 07:20:08', '2023-09-29 07:20:08'),
+(9, '1', '2', 'September 29, 1:05 PM', 'fjdjd', '', '2023-09-29 07:20:48', '2023-09-29 07:20:48'),
+(10, '1', '2', 'September 29, 1:08 PM', 'jkdfkdkfj', '', '2023-09-29 07:23:27', '2023-09-29 07:23:27'),
+(11, '1', '2', 'September 29, 1:09 PM', 'fhjdhjdjfhj', '', '2023-09-29 07:24:36', '2023-09-29 07:24:36'),
+(12, '1', '2', 'September 29, 1:15 PM', 'kjdkfkdfk', '', '2023-09-29 07:30:58', '2023-09-29 07:30:58'),
+(13, '1', '2', 'September 29, 1:17 PM', 'jkdjkfkj', '', '2023-09-29 07:32:09', '2023-09-29 07:32:09'),
+(14, '1', '2', 'September 29, 1:21 PM', 'kjkdkfkdf', '', '2023-09-29 07:36:18', '2023-09-29 07:36:18'),
+(15, '1', '2', 'September 29, 1:21 PM', 'jdkkddkdjk', '', '2023-09-29 07:36:30', '2023-09-29 07:36:30'),
+(16, '1', '2', 'September 29, 1:23 PM', 'kfjkdjkfdj', '', '2023-09-29 07:38:38', '2023-09-29 07:38:38'),
+(17, '1', '2', 'September 29, 1:25 PM', 'jshdjsdj', '', '2023-09-29 07:40:36', '2023-09-29 07:40:36'),
+(18, '1', '2', 'September 29, 1:28 PM', 'jdhsjhdj', '', '2023-09-29 07:43:47', '2023-09-29 07:43:47'),
+(19, '1', '2', 'September 29, 1:28 PM', 'hdhdjsjdsdj', '', '2023-09-29 07:43:55', '2023-09-29 07:43:55'),
+(20, '1', '2', 'September 29, 1:29 PM', 'jdhjhdfhj', '', '2023-09-29 07:44:42', '2023-09-29 07:44:42'),
+(21, '2', '1', 'September 29, 2:30 PM', 'kdjkfjkf', '', '2023-09-29 08:45:22', '2023-09-29 08:45:22'),
+(22, '2', '1', 'September 29, 2:34 PM', 'hkdkdh', '', '2023-09-29 08:49:55', '2023-09-29 08:49:55'),
+(23, '1', '2', 'September 29, 9:21 PM', 'hello admin', '', '2023-09-29 15:36:56', '2023-09-29 15:36:56'),
+(24, '2', '5', 'September 29, 9:22 PM', 'hello user', '', '2023-09-29 15:37:21', '2023-09-29 15:37:21'),
+(25, '2', '5', 'September 29, 9:24 PM', 'hey bimala', '', '2023-09-29 15:39:03', '2023-09-29 15:39:03'),
+(26, '1', '2', 'September 29, 9:30 PM', 'hey admin what up', '1', '2023-09-29 15:45:51', '2023-09-29 15:45:51'),
+(27, '1', '2', 'September 29, 9:34 PM', 'kfhjdk', '1', '2023-09-29 15:49:05', '2023-09-29 15:49:05'),
+(28, '2', '5', 'September 29, 9:37 PM', 'fdfjfdj', '5', '2023-09-29 15:52:19', '2023-09-29 15:52:19'),
+(29, '2', '5', 'September 29, 9:39 PM', 'dfhkdjf', '5', '2023-09-29 15:54:04', '2023-09-29 15:54:04'),
+(30, '1', '2', 'September 29, 9:41 PM', 'fhjdfhjd', '1', '2023-09-29 15:56:48', '2023-09-29 15:56:48'),
+(31, '2', '1', 'September 29, 9:43 PM', 'its from admin', '1', '2023-09-29 15:58:21', '2023-09-29 15:58:21'),
+(32, '1', '2', 'September 29, 9:43 PM', 'hhhhhh', '1', '2023-09-29 15:58:32', '2023-09-29 15:58:32'),
+(33, '2', '1', 'September 29, 9:44 PM', 'hhhhh', '1', '2023-09-29 15:59:13', '2023-09-29 15:59:13'),
+(34, '1', '2', 'September 29, 10:15 PM', 'okay admin', '1', '2023-09-29 16:30:25', '2023-09-29 16:30:25'),
+(35, '5', '2', 'September 29, 10:26 PM', 'hhey bimala', '5', '2023-09-29 16:41:57', '2023-09-29 16:41:57'),
+(36, '1', '2', 'September 29, 11:00 PM', 'hui hui hui', '1', '2023-09-29 17:15:48', '2023-09-29 17:15:48'),
+(37, '1', '2', 'September 30, 10:46 AM', 'this is new okay admin', '1', '2023-09-30 05:01:28', '2023-09-30 05:01:28'),
+(38, '2', '5', 'September 30, 10:46 AM', 'okay gotcha', '5', '2023-09-30 05:01:56', '2023-09-30 05:01:56'),
+(39, '2', '5', 'September 30, 10:55 AM', 'this is 38', '5', '2023-09-30 05:10:46', '2023-09-30 05:10:46'),
+(40, '2', '5', 'September 30, 10:56 AM', 'this is 40', '5', '2023-09-30 05:11:23', '2023-09-30 05:11:23'),
+(41, '2', '1', 'September 30, 10:59 AM', 'hello bimal busy', '1', '2023-09-30 05:14:09', '2023-09-30 05:14:09'),
+(42, '1', '2', 'September 30, 10:59 AM', 'oh you there', '1', '2023-09-30 05:14:32', '2023-09-30 05:14:32'),
+(43, '2', '5', 'September 30, 10:59 AM', 'you are bimala right', '5', '2023-09-30 05:14:54', '2023-09-30 05:14:54'),
+(44, '2', '1', 'September 30, 11:17 AM', 'odhfkd', '1', '2023-09-30 05:32:51', '2023-09-30 05:32:51'),
+(45, '2', '1', 'September 30, 11:18 AM', 'dfkhkjdfhk', '1', '2023-09-30 05:33:49', '2023-09-30 05:33:49'),
+(46, '2', '1', 'September 30, 11:27 AM', 'hui hui', '1', '2023-09-30 05:42:35', '2023-09-30 05:42:35'),
+(47, '1', '2', 'September 30, 11:27 AM', 'ikdkf', '1', '2023-09-30 05:42:53', '2023-09-30 05:42:53'),
+(48, '2', '1', 'September 30, 11:33 AM', 'hello', '1', '2023-09-30 05:48:27', '2023-09-30 05:48:27'),
+(49, '1', '2', 'September 30, 11:33 AM', 'hwo you', '1', '2023-09-30 05:48:44', '2023-09-30 05:48:44'),
+(50, '2', '1', 'September 30, 11:33 AM', 'fine', '1', '2023-09-30 05:48:54', '2023-09-30 05:48:54'),
+(51, '1', '2', 'September 30, 11:34 AM', 'ok', '1', '2023-09-30 05:49:03', '2023-09-30 05:49:03'),
+(52, '1', '2', 'September 30, 12:07 PM', 'hello', '1', '2023-09-30 06:22:21', '2023-09-30 06:22:21'),
+(53, '2', '1', 'September 30, 12:07 PM', 'hello', '1', '2023-09-30 06:22:28', '2023-09-30 06:22:28'),
+(54, '1', '2', 'September 30, 12:17 PM', 'hello', '1', '2023-09-30 06:32:49', '2023-09-30 06:32:49'),
+(55, '2', '1', 'September 30, 12:18 PM', 'hi', '1', '2023-09-30 06:33:00', '2023-09-30 06:33:00'),
+(56, '1', '2', 'September 30, 12:18 PM', 'ok', '1', '2023-09-30 06:33:11', '2023-09-30 06:33:11'),
+(57, '2', '1', 'September 30, 12:18 PM', 'nice', '1', '2023-09-30 06:33:19', '2023-09-30 06:33:19'),
+(58, '1', '2', 'September 30, 12:32 PM', 'hello admin', '1', '2023-09-30 06:47:52', '2023-09-30 06:47:52'),
+(59, '2', '1', 'September 30, 12:33 PM', 'hi', '1', '2023-09-30 06:48:28', '2023-09-30 06:48:28'),
+(60, '1', '2', 'September 30, 12:34 PM', 'hho you', '1', '2023-09-30 06:49:01', '2023-09-30 06:49:01'),
+(61, '2', '1', 'September 30, 12:35 PM', 'hello', '1', '2023-09-30 06:50:53', '2023-09-30 06:50:53'),
+(62, '1', '2', 'September 30, 12:36 PM', 'how you', '1', '2023-09-30 06:51:04', '2023-09-30 06:51:04'),
+(63, '1', '2', 'September 30, 12:38 PM', 'get', '1', '2023-09-30 06:53:52', '2023-09-30 06:53:52'),
+(64, '1', '2', 'September 30, 12:40 PM', 'hello', '1', '2023-09-30 06:55:10', '2023-09-30 06:55:10'),
+(65, '2', '1', 'September 30, 12:40 PM', 'hi how you', '1', '2023-09-30 06:55:20', '2023-09-30 06:55:20'),
+(66, '1', '2', 'September 30, 12:41 PM', 'fine', '1', '2023-09-30 06:56:38', '2023-09-30 06:56:38'),
+(67, '2', '1', 'September 30, 12:41 PM', 'and you', '1', '2023-09-30 06:56:45', '2023-09-30 06:56:45'),
+(68, '1', '2', 'September 30, 12:41 PM', 'fine also', '1', '2023-09-30 06:56:53', '2023-09-30 06:56:53'),
+(69, '2', '1', 'September 30, 12:42 PM', 'what are you doing', '1', '2023-09-30 06:57:04', '2023-09-30 06:57:04'),
+(70, '1', '2', 'September 30, 12:42 PM', 'nothing much', '1', '2023-09-30 06:57:16', '2023-09-30 06:57:16'),
+(71, '2', '1', 'September 30, 12:42 PM', 'see you then', '1', '2023-09-30 06:57:40', '2023-09-30 06:57:40'),
+(72, '1', '2', 'September 30, 12:44 PM', 'kfkd', '1', '2023-09-30 06:59:13', '2023-09-30 06:59:13'),
+(73, '1', '2', 'September 30, 12:45 PM', 'hey', '1', '2023-09-30 07:00:12', '2023-09-30 07:00:12'),
+(74, '2', '1', 'September 30, 12:45 PM', 'what up', '1', '2023-09-30 07:00:21', '2023-09-30 07:00:21'),
+(75, '1', '2', 'September 30, 12:47 PM', 'hey admin', '1', '2023-09-30 07:02:23', '2023-09-30 07:02:23'),
+(76, '2', '1', 'September 30, 12:47 PM', 'yes tell me', '1', '2023-09-30 07:02:34', '2023-09-30 07:02:34'),
+(77, '1', '2', 'September 30, 12:47 PM', 'nothing sir ji', '1', '2023-09-30 07:02:43', '2023-09-30 07:02:43'),
+(78, '2', '1', 'September 30, 12:47 PM', 'ikay then', '1', '2023-09-30 07:02:51', '2023-09-30 07:02:51');
 
 -- --------------------------------------------------------
 
@@ -350,21 +408,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2023_07_29_045740_create_holidays_table', 1),
-(6, '2023_08_10_024438_create_employees_table', 1),
-(7, '2023_08_10_024500_create_departments_table', 1),
-(8, '2023_08_10_024511_create_leaves_table', 1),
-(9, '2023_08_10_024524_create_allowances_table', 1),
-(10, '2023_08_10_024537_create_deductions_table', 1),
-(11, '2023_08_14_083022_add_date_of_joining_to_employees_table', 1),
-(12, '2023_08_14_083121_create_salary_structures_table', 1),
-(13, '2023_08_14_090517_create_employee_allowance_table', 1),
-(14, '2023_08_14_090840_create_employee_deduction_table', 1),
-(15, '2023_08_15_090957_create_salaries_table', 2),
-(16, '2023_08_23_152052_create_attendances_table', 3),
-(17, '2023_08_26_072739_create_salaries_table', 4),
-(18, '2023_09_28_145843_create_taxes_table', 5),
-(19, '2023_09_29_051720_create_inboxes_table', 6);
+(5, '2023_07_29_045740_create_holidays_table', 1);
 
 -- --------------------------------------------------------
 
@@ -579,25 +623,6 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
--- Indexes for table `salaries`
---
-ALTER TABLE `salaries`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `salaries_employee_id_foreign` (`employee_id`);
-
---
--- Indexes for table `salary_structures`
---
-ALTER TABLE `salary_structures`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `taxes`
---
-ALTER TABLE `taxes`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -609,36 +634,6 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `allowances`
---
-ALTER TABLE `allowances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `attendances`
---
-ALTER TABLE `attendances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
-
---
--- AUTO_INCREMENT for table `deductions`
---
-ALTER TABLE `deductions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `departments`
---
-ALTER TABLE `departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `employees`
---
-ALTER TABLE `employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -648,25 +643,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `holidays`
 --
 ALTER TABLE `holidays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `inboxes`
 --
 ALTER TABLE `inboxes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
---
--- AUTO_INCREMENT for table `leaves`
---
-ALTER TABLE `leaves`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -675,58 +664,10 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `salaries`
---
-ALTER TABLE `salaries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `salary_structures`
---
-ALTER TABLE `salary_structures`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `taxes`
---
-ALTER TABLE `taxes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `attendances`
---
-ALTER TABLE `attendances`
-  ADD CONSTRAINT `attendances_employee_id_foreign` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `employee_allowance`
---
-ALTER TABLE `employee_allowance`
-  ADD CONSTRAINT `employee_allowance_allowance_id_foreign` FOREIGN KEY (`allowance_id`) REFERENCES `allowances` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `employee_allowance_employee_id_foreign` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `employee_deduction`
---
-ALTER TABLE `employee_deduction`
-  ADD CONSTRAINT `employee_deduction_deduction_id_foreign` FOREIGN KEY (`deduction_id`) REFERENCES `deductions` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `employee_deduction_employee_id_foreign` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `salaries`
---
-ALTER TABLE `salaries`
-  ADD CONSTRAINT `salaries_employee_id_foreign` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

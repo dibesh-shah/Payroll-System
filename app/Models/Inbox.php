@@ -12,6 +12,7 @@ class Inbox extends Model
         'senderId',
         'receiverId',
         'dateTime',
-        'message'
+        'message',
+        'conversationId'
     ];
 }

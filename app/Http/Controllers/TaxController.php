@@ -18,6 +18,7 @@ class TaxController extends Controller
         foreach ($taxes as $tax) {
             $classData[$tax->status][] = $tax;
         }
+        // dd($classData);
 
         return view('admin.tax', compact('classData','taxes'));
 

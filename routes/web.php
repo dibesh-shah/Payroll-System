@@ -102,20 +102,28 @@ Route::view('/admin/tax_entry', 'admin/tax_entry');
 // Route::view('/admin/inbox', 'admin/inbox');
 
 Route::get('/admin/inbox', [InboxController::class, 'index'])->name('admin.inbox');
+Route::get('/admin/inbox/{id}', [InboxController::class, 'getUser'])->name('admin.getUser');
 Route::get('/employee/inbox', [InboxController::class, 'indexEmp'])->name('employee.inbox');
 Route::Post('/employee/inbox', [InboxController::class, 'storeEmp']);
 Route::Post('/admin/inbox', [InboxController::class, 'store']);
-    Route::get('/employee/tax', [TaxController::class, 'indexEmp'])->name('taxEmp');
-    Route::get('/admin/tax', [TaxController::class, 'index'])->name('tax');
-    Route::post('/admin/tax_entry', [TaxController::class, 'store'])->name('tax.store');
 
-    Route::get('/employee/leave_apply', [LeaveController::class, 'leaveHolidays'])->name('employee.leaveApply');
-    Route::get('/employee/calendar', [HolidayController::class, 'showHolidays'])->name('employee.calendar');
-    Route::post('/employee/logout', [ProfileController::class, 'logout'])->name('logout');
-    Route::get('/employee/profile', [ProfileController::class, 'profile'])->name('employee.profile');
-    Route::get('/employee/update', [ProfileController::class, 'edit'])->name('employee.edit');
-    Route::put('/employee/update',[ProfileController::class, 'update'])->name('employee.update');
-    Route::get('/employee/password', [ProfileController::class, 'password'])->name('employee.password');
-    Route::post('/employee/password', [ProfileController::class, 'changePassword'])->name('employee.changePassword');
+Route::Post('/admin/inbox/search', [InboxController::class, 'search']);
+
+Route::Post('/employee/inbox/adminMssgFetch', [InboxController::class, 'getMessage']); 
+Route::Post('/admin/inbox/employeeMssgFetch', [InboxController::class, 'getMessage']); 
+
+
+Route::get('/employee/tax', [TaxController::class, 'indexEmp'])->name('taxEmp');
+Route::get('/admin/tax', [TaxController::class, 'index'])->name('tax');
+Route::post('/admin/tax_entry', [TaxController::class, 'store'])->name('tax.store');
+
+Route::get('/employee/leave_apply', [LeaveController::class, 'leaveHolidays'])->name('employee.leaveApply');
+Route::get('/employee/calendar', [HolidayController::class, 'showHolidays'])->name('employee.calendar');
+Route::post('/employee/logout', [ProfileController::class, 'logout'])->name('logout');
+Route::get('/employee/profile', [ProfileController::class, 'profile'])->name('employee.profile');
+Route::get('/employee/update', [ProfileController::class, 'edit'])->name('employee.edit');
+Route::put('/employee/update',[ProfileController::class, 'update'])->name('employee.update');
+Route::get('/employee/password', [ProfileController::class, 'password'])->name('employee.password');
+Route::post('/employee/password', [ProfileController::class, 'changePassword'])->name('employee.changePassword');
 
 
