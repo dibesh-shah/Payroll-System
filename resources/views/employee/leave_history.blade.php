@@ -6,6 +6,7 @@
 
      <h2 class="text-2xl font-semibold mb-4">Leave History</h2>
 
+
         <!-- Search Filter -->
         <div class="flex items-center space-x-2 mb-4">
             <label for="search" class="font-medium">Search:</label>

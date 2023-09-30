@@ -6,6 +6,11 @@
     <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
      <div class="container mx-auto mt-5">
          <h1 class="text-3xl font-bold mb-4">Leave Detail</h1>
+         @if(session('success'))
+      <div class="text-green-500 mb-4">
+          {{ session('success') }}
+      </div>
+        @endif
          <div class="max-w  bg-white p-6 rounded-lg shadow-lg">
                  <div class="grid grid-cols-3 gap-6">
                      <div class="bg-white p-4  col-span-2">

@@ -5,6 +5,11 @@
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
     <div class="container mx-auto mt-5">
         <h1 class="text-3xl font-bold mb-4">Apply for Leave</h1>
+        @if(session('success'))
+      <div class="text-green-500 mb-4">
+          {{ session('success') }}
+      </div>
+        @endif
         <div class="max-w  bg-white p-6 rounded-lg shadow-lg">
                 <div class="grid grid-cols-3 gap-6">
                     <div class="bg-white p-4  col-span-2">
@@ -16,12 +21,12 @@
 
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label for="employeeName" class="block font-semibold mb-2">Employee Name:</label>
+                                        <label class="block font-semibold mb-2">Employee Name:</label>
                                         <p class="w-full  rounded p-2 " > {{$employee->first_name}} {{$employee->last_name}}</p>
                                     </div>
                                     <div>
                                         <label for="leaveType" class="block font-semibold mb-2">Leave Type:</label>
-                                        <select id="leaveType" name="leaveType" class="w-full border rounded p-2">
+                                        <select id="leaveType" name="leave_type" class="w-full border rounded p-2">
                                             @foreach($leaves as $leave)
 
                                             <option value="{{$leave->id}}">{{$leave->name}}</option>
@@ -35,13 +40,14 @@
                                     </div>
                                     <div>
                                         <label for="endDate" class="block font-semibold mb-2">End Date:</label>
-                                        <input type="date" name="end_Date" id="endDate" class="w-full border rounded p-2">
+                                        <input type="date" name="end_date" id="endDate" class="w-full border rounded p-2">
                                     </div>
                                 </div>
 
                                 <div class="mt-4">
                                     <label for="message" class="block font-semibold mb-2">Message:</label>
                                     <textarea id="message" name="message" class="w-full border rounded p-2" rows="4"></textarea>
+                                    <input type="hidden" name="employee_id" value="{{$employee->id}}">
                                 </div>
 
                                 <button type="submit" class="bg-blue-500 text-white mt-4 py-2 px-4 rounded-md">Submit</button>

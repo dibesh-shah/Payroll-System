@@ -72,6 +72,7 @@ class LeaveRequestController extends Controller
         $employee = Employee::find($employeeId);
         $leaves = Leave::all();
 
+
         $now = now();
         $todayDate = now()->format('Y-m-d');
         $year = $now->year;
@@ -114,24 +115,11 @@ class LeaveRequestController extends Controller
 
     public function store(Request $request)
     {
-        $employeeId = session('employee_id');
-        // Validate the form data
-        $validatedData = $request->validate([
 
-            'leave_type' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'message' => 'nullable',
-            'status' => 'required|default:pending',
-            'admin_response' => 'nullable',
-        ]);
-        $validatedData['employee_id']= $employeeId;
-        dd($validatedData);
-
-        // Create a new leave request
-        LeaveRequest::create($validatedData);
+        LeaveRequest::create($request->all());
 
         return redirect()->route('employee.leaveApply')->with('success', 'Leave request submitted successfully.');
+        // echo "hello";
     }
 
     public function approveLeave($id, Request $request)
