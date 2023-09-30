@@ -32,7 +32,7 @@
 
                       <a href="/admin/inbox/{{$employee->id}}">
                         <div class="flex items-center p-2 cursor-pointer hover:bg-gray-200">
-                            <div class="w-10 h-10 rounded-full 
+                            <div class="w-10 h-10 rounded-full
                             @php
                               if ($i % 2 == 0) {
                                 echo "bg-blue-500 flex ";
@@ -42,10 +42,10 @@
                                 echo "bg-purple-500 flex ";
                               }
                             @endphp
-                            
+
                             items-center justify-center text-white font-bold mr-4">
                                {{ substr($employee->first_name, 0, 1) }}{{ substr($employee->last_name, 0, 1) }}
-   
+
                             </div>
                             <div class="flex flex-col">
                                 <span class="font-bold">{{$employee->first_name}} {{$employee->last_name}}</span>
@@ -57,7 +57,7 @@
                       @endif
                         @php
                           $i++;
-                        @endphp 
+                        @endphp
                      @endforeach
 
                  </div>
@@ -194,7 +194,7 @@
            url:'/admin/inbox',
            headers:customHeaders,
            data:{
-                
+
                  receiverId:receiverId,
                  message:messageText,
 
@@ -202,7 +202,7 @@
            cache:false,
            success:function(data){
 
-            var inputString = data; 
+            var inputString = data;
             var parts = inputString.split("&");
             time.textContent = parts[0];
             document.getElementById('lastId').textContent = parts[1];
@@ -243,7 +243,7 @@
              headers:customHeaders,
              data:{
                  search:search_value
-                 
+
              },
              cache:false,
              success:function(data){
@@ -266,7 +266,7 @@
            // Create the user div element
            const ahref = $(`<a href="/admin/inbox/${user.id}"></a>`)
            const userDiv = $('<div class="flex items-center p-2 cursor-pointer hover:bg-gray-200"></div>');
-           
+
            var first = user.first_name.charAt(0);
             var second = user.last_name.charAt(0);
            // Create the user image div
@@ -303,7 +303,7 @@
        data:{
          senderId:receiverId,
          lastId:lastId
-         
+
        },
        cache:false,
        success:function(data){
@@ -323,7 +323,7 @@
 
    function createUserMessageDiv(user) {
 
-    //assigning last id 
+    //assigning last id
     document.getElementById('lastId').textContent = `${user.id}`;
 
     var senderId = `${user.senderId}`;
@@ -351,7 +351,7 @@
 
       return userDiv;
     }
-     
+
    }
 
 

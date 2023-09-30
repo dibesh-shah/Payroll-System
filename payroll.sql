@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2023 at 09:05 AM
+-- Generation Time: Sep 30, 2023 at 03:39 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -255,9 +255,6 @@ CREATE TABLE `holidays` (
 --
 
 INSERT INTO `holidays` (`id`, `holiday_date`, `holiday_type`, `created_at`, `updated_at`) VALUES
-(1, '0000-00-00', 'Public Holiday', '2023-09-27 02:19:05', '2023-09-27 02:19:05'),
-(2, '0000-00-00', 'Other', '2023-09-27 02:19:28', '2023-09-27 02:19:28'),
-(3, '0000-00-00', 'Public Holiday', '2023-09-27 03:17:20', '2023-09-27 03:17:20'),
 (4, '2023-9-24,2023-9-25', 'Public Holiday', '2023-09-29 09:06:07', '2023-09-29 09:06:07');
 
 -- --------------------------------------------------------
@@ -386,6 +383,32 @@ INSERT INTO `leaves` (`id`, `name`, `days`, `type`, `created_at`, `updated_at`) 
 (3, 'Family and Medical Leave (FMLA)', 3, 'unpaid', '2023-09-26 06:15:58', '2023-09-26 06:15:58'),
 (4, 'Educational Leave', 5, 'unpaid', '2023-09-26 06:16:30', '2023-09-26 06:16:30'),
 (5, 'Personal Leave', 2, 'unpaid', '2023-09-26 06:17:02', '2023-09-26 06:17:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `leave_requests`
+--
+
+CREATE TABLE `leave_requests` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `leave_type` varchar(255) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `status` varchar(255) DEFAULT 'pending',
+  `message` text DEFAULT NULL,
+  `admin_response` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `leave_requests`
+--
+
+INSERT INTO `leave_requests` (`id`, `employee_id`, `leave_type`, `start_date`, `end_date`, `status`, `message`, `admin_response`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Sick Leave', '2023-09-14', '2023-09-18', 'approved', 'hello', 'hello', '2023-09-30 09:06:05', '2023-09-30 04:18:27');
 
 -- --------------------------------------------------------
 
@@ -603,6 +626,13 @@ ALTER TABLE `leaves`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `employee_id` (`employee_id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -652,6 +682,12 @@ ALTER TABLE `inboxes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
+-- AUTO_INCREMENT for table `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -668,6 +704,16 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  ADD CONSTRAINT `leave_requests_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -19,64 +19,25 @@
 
              <!-- Sample leave div containers -->
              <div class="grid grid-cols-1 md:grid-cols-2 gap-4  ">
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
-                 <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                     <h2 class="text-xl font-bold">Leave Request 1</h2>
-                     <p class="text-gray-500">Employee: John Doe</p>
-                     <p class="text-gray-500">Leave Type: Annual Leave</p>
-                 </div>
+                    @foreach($leaveRequests as $leaveRequest)
 
 
-             </div>
+                        <a href="{{ route('leaveReq.show', ['id' => $leaveRequest->id]) }}" class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
+                            <h2 class="text-2xl font-bold">Leave Request {{$leaveRequest->id}}</h2>
+                            <p class="text-gray-500 text-xl font-semibold">Employee : {{$leaveRequest->employee_name}}</p>
+                            <p class="text-gray-500">Leave Type : {{$leaveRequest->leave_type}}</p>
+                            @if($leaveRequest->status== 'approved')
+                            <p class="text-white bg-green-600 font-medium rounded-full px-4 py-2 self-center text-center"> Approved</p>
+                            @elseif($leaveRequest->status== 'pending')
+                            <p class="text-white bg-red-600 font-medium rounded-full px-4 py-2 self-center text-center" >Pending </p>
+                            @elseif($leaveRequest->status == 'rejected')
+
+                            <p class="text-white bg-purple-600 font-medium rounded-full px-4 py-2 self-center text-center">Rejected</p>
+                            @endif
+                        </a>
+
+                    @endforeach
+                </div>
          </div>
      </div>
 

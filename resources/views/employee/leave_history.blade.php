@@ -49,66 +49,9 @@
                         </div>
                     </div>
 
-                    <!-- Leave Entry 2 (similar structure) -->
-                    <div class="bg-white p-2 rounded-md shadow-md relative">
-                        <span class="cursor-pointer absolute top-0 right-0 mt-2 mr-2 toggle-dropdown">▼</span>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-medium">Leave ID:</span>
-                            <span>123</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-medium">Start Date:</span>
-                            <span>2023-06-01</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-medium">End Date:</span>
-                            <span>2023-06-10</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-medium">Status:</span>
-                            <span>Approved</span>
-                        </div>
-                        <!-- Dropdown Content -->
-                        <div class="hidden message-container">
-                            <div class="employee-message text-gray-700 mt-2">
-                                <strong>Employee Message:</strong> Lorem ipsdfkfkjdfum dolor sit amet...
-                            </div>
-                            <div class="admin-response text-green-600 mt-2">
-                                <strong>Admin Response:</strong> Thank you for your request. It has been approved.
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Leave Entry 3 (similar structure) -->
-                    <div class="bg-white p-2 rounded-md shadow-md relative">
-                        <span class="cursor-pointer absolute top-0 right-0 mt-2 mr-2 toggle-dropdown">▼</span>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-medium">Leave ID:</span>
-                            <span>123</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-medium">Start Date:</span>
-                            <span>2023-06-01</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-medium">End Date:</span>
-                            <span>2023-06-10</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-medium">Status:</span>
-                            <span>Approved</span>
-                        </div>
-                        <!-- Dropdown Content -->
-                        <div class="hidden message-container">
-                            <div class="employee-message text-gray-700 mt-2">
-                                <strong>Employee Message:</strong> Lorem ipsum dolor sit amet...
-                            </div>
-                            <div class="admin-response text-green-600 mt-2">
-                                <strong>Admin Response:</strong> Thank you for your rkdfjkdequest. It has been approved.
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Add more leave entries for the month -->
+
+
                 </div>
             </div>
             <!-- Add more months and their leave entries -->

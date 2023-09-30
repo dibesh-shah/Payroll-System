@@ -9,12 +9,12 @@
                 <div class="grid grid-cols-3 gap-6">
                     <div class="bg-white p-4  col-span-2">
                         <div >
-                            <form class="bg-white shadow-md rounded-md p-6">
+                            <form class="bg-white shadow-md rounded-md p-6" method="POST" action="{{route('leaveReq.store')}}">
+                                @csrf
                                 <h2 class="text-xl font-semibold mb-4">Leave Detail</h2>
 
 
                                 <div class="grid grid-cols-2 gap-4">
-
                                     <div>
                                         <label for="employeeName" class="block font-semibold mb-2">Employee Name:</label>
                                         <p class="w-full  rounded p-2 " > {{$employee->first_name}} {{$employee->last_name}}</p>
@@ -31,11 +31,11 @@
                                     </div>
                                     <div>
                                         <label for="startDate" class="block font-semibold mb-2">Start Date:</label>
-                                        <input type="date" name="startDate" id="startDate" class="w-full border rounded p-2">
+                                        <input type="date" name="start_date" id="startDate" class="w-full border rounded p-2">
                                     </div>
                                     <div>
                                         <label for="endDate" class="block font-semibold mb-2">End Date:</label>
-                                        <input type="date" name="endDate" id="endDate" class="w-full border rounded p-2">
+                                        <input type="date" name="end_Date" id="endDate" class="w-full border rounded p-2">
                                     </div>
                                 </div>
 

@@ -10,6 +10,7 @@ use App\Http\Controllers\AllowanceController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DeductionController;
 use App\Http\Controllers\InboxController;
+use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaxController;
 use App\Models\Holiday;
@@ -79,8 +80,8 @@ Route::view('/admin', 'admin/login');
 
 // Route::view('/admin/calendar', 'admin/calendar')->name('calender');
 Route::get('/admin/calendar', [HolidayController::class, 'getHolidays'])->name('admin.calendar');
-Route::view('/admin/leave_request', 'admin/leave_request');
-Route::view('/admin/leave_detail', 'admin/leave_detail');
+// Route::view('/admin/leave_detail', 'admin/leave_detail');
+
 Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
 Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name('ajax.endpoint');
 
@@ -109,15 +110,21 @@ Route::Post('/admin/inbox', [InboxController::class, 'store']);
 
 Route::Post('/admin/inbox/search', [InboxController::class, 'search']);
 
-Route::Post('/employee/inbox/adminMssgFetch', [InboxController::class, 'getMessage']); 
-Route::Post('/admin/inbox/employeeMssgFetch', [InboxController::class, 'getMessage']); 
+Route::Post('/employee/inbox/adminMssgFetch', [InboxController::class, 'getMessage']);
+Route::Post('/admin/inbox/employeeMssgFetch', [InboxController::class, 'getMessage']);
 
 
 Route::get('/employee/tax', [TaxController::class, 'indexEmp'])->name('taxEmp');
 Route::get('/admin/tax', [TaxController::class, 'index'])->name('tax');
 Route::post('/admin/tax_entry', [TaxController::class, 'store'])->name('tax.store');
 
-Route::get('/employee/leave_apply', [LeaveController::class, 'leaveHolidays'])->name('employee.leaveApply');
+Route::get('/admin/leave_request', [LeaveRequestController::class, 'index'])->name('leaveReq.index');
+Route::get('/admin/leave_detail/{id}', [LeaveRequestController::class, 'show'])->name('leaveReq.show');
+Route::post('/admin/leave_detail/approve/{id}', [LeaveRequestController::class, 'approveLeave'])->name('leave.approve');
+Route::post('/admin/leave_detail/reject/{id}', [LeaveRequestController::class, 'rejectLeave'])->name('leave.reject');
+
+Route::get('/employee/leave_apply', [LeaveRequestController::class, 'leaveHolidays'])->name('employee.leaveApply');
+Route::post('/employee/leave_apply', [LeaveRequestController::class, 'store'])->name('leaveReq.store');
 Route::get('/employee/calendar', [HolidayController::class, 'showHolidays'])->name('employee.calendar');
 Route::post('/employee/logout', [ProfileController::class, 'logout'])->name('logout');
 Route::get('/employee/profile', [ProfileController::class, 'profile'])->name('employee.profile');

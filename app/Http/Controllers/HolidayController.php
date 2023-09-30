@@ -81,10 +81,8 @@ class HolidayController extends Controller
             }
         }
 
-        // Pass the data to the 'admin.calendar' view
         return view('admin.calendar', compact('publicHolidays', 'otherHolidays'));
-    // return view('employee.calendar', compact('publicHolidays', 'otherHolidays'));
-    // return view('employee.calendar', compact('publicHolidays', 'otherHolidays'));
+
     }
     public function showHolidays(){
         $now = now();
@@ -127,44 +125,44 @@ class HolidayController extends Controller
         return view('employee.calendar', compact('publicHolidays', 'otherHolidays'));
     }
 
-    public function leaveHolidays(){
-        $now = now();
-        $todayDate = now()->format('Y-m-d');
-        $year = $now->year;
-        $month = $now->month ;
+    // public function leaveDetailHolidays(){
+    //     $now = now();
+    //     $todayDate = now()->format('Y-m-d');
+    //     $year = $now->year;
+    //     $month = $now->month ;
 
-        $startDate = "{$year}-{$month}-01";
-        $endDate = $now->format('Y-m-t');
-       // Fetch holidays from the database
-        $holidays = Holiday::where('holiday_date', 'like', $year . '-' . $month . '-%')->get();
+    //     $startDate = "{$year}-{$month}-01";
+    //     $endDate = $now->format('Y-m-t');
+    //    // Fetch holidays from the database
+    //     $holidays = Holiday::where('holiday_date', 'like', $year . '-' . $month . '-%')->get();
 
-        // Create two separate lists for "Public Holiday" and "Other"
-        $publicHolidays = [];
-        $otherHolidays = [];
+    //     // Create two separate lists for "Public Holiday" and "Other"
+    //     $publicHolidays = [];
+    //     $otherHolidays = [];
 
-        foreach ($holidays as $holiday) {
-            $holidayType = $holiday->holiday_type;
-            $holidayDates = explode(',', $holiday->holiday_date);
+    //     foreach ($holidays as $holiday) {
+    //         $holidayType = $holiday->holiday_type;
+    //         $holidayDates = explode(',', $holiday->holiday_date);
 
-            // Check the holiday type and add to the respective list
-            if ($holidayType === "Public Holiday") {
-                $publicHolidays[] = [
-                    'id' => $holiday->id,
-                    'holiday_dates' => $holidayDates,
-                    'created_at' => $holiday->created_at,
-                    'updated_at' => $holiday->updated_at,
-                ];
-            } elseif ($holidayType === "Other") {
-                $otherHolidays[] = [
-                    'id' => $holiday->id,
-                    'holiday_dates' => $holidayDates,
-                    'created_at' => $holiday->created_at,
-                    'updated_at' => $holiday->updated_at,
-                ];
-            }
-        }
+    //         // Check the holiday type and add to the respective list
+    //         if ($holidayType === "Public Holiday") {
+    //             $publicHolidays[] = [
+    //                 'id' => $holiday->id,
+    //                 'holiday_dates' => $holidayDates,
+    //                 'created_at' => $holiday->created_at,
+    //                 'updated_at' => $holiday->updated_at,
+    //             ];
+    //         } elseif ($holidayType === "Other") {
+    //             $otherHolidays[] = [
+    //                 'id' => $holiday->id,
+    //                 'holiday_dates' => $holidayDates,
+    //                 'created_at' => $holiday->created_at,
+    //                 'updated_at' => $holiday->updated_at,
+    //             ];
+    //         }
+    //     }
 
-        // Pass the data to the 'admin.calendar' view
-        return view('employee.leave_apply', compact('publicHolidays', 'otherHolidays'));
-    }
+    //     // Pass the data to the 'admin.calendar' view
+    //     return view('admin.leave_detail', compact('publicHolidays', 'otherHolidays'));
+    // }
 }

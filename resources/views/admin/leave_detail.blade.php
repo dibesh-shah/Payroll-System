@@ -10,26 +10,39 @@
                  <div class="grid grid-cols-3 gap-6">
                      <div class="bg-white p-4  col-span-2">
                          <div class="bg-white p-4 shadow-lg rounded-lg">
-                             <h2 class="text-xl font-bold mb-4">Leave Request 1</h2>
+                             <h2 class="text-xl font-bold">Leave Request #{{ $leaveRequest->id }}</h2>
                              <div class="flex flex-col space-y-2">
-                               <p class="text-gray-500"><span class="font-bold">Leave Id:</span> 1234</p>
-                               <p class="text-gray-500"><span class="font-bold">Employee:</span> John Doe</p>
-                               <p class="text-gray-500"><span class="font-bold">Leave Type:</span> Annual Leave</p>
-                               <p class="text-gray-500"><span class="font-bold">Start Date:</span> 2023-07-25</p>
-                               <p class="text-gray-500"><span class="font-bold">End Date:</span> 2023-07-30</p>
+                                <p class="text-gray-500">Employee: {{ $leaveRequest->employee_name }}</p>
+                                <p class="text-gray-500">Leave Type: {{ $leaveRequest->leave_type }}</p>
+                                <p class="text-gray-500">Start Date: {{ $leaveRequest->start_date }}</p>
+                                <p class="text-gray-500">End Date: {{ $leaveRequest->end_date }}</p>
+                                <p class="text-gray-500">Status:@if($leaveRequest->status== 'approved')
+                                    <p class="text-white bg-green-600 font-medium rounded-full px-4 py-2 items-start"> Approved</p>
+                                    @elseif($leaveRequest->status== 'pending')
+                                    <p class="text-white bg-red-600 font-medium rounded-full px-4 py-2 self-center text-center" >Pending </p>
+                                    @elseif($leaveRequest->status == 'rejected')
+
+                                    <p class="text-white bg-purple-600 font-medium rounded-full px-4 py-2 self-center text-center">Rejected</p>
+                                    @endif</p>
                              </div>
                              <div class="mt-4">
                                <label class="block text-gray-700 font-bold mb-2" for="message">Message:</label>
-                               <p class="text-gray-500">Leave request for annual leave.</p>
+                               <p class="text-gray-500">{{ $leaveRequest->message ?: 'N/A' }}</p>
                              </div>
+                            <form action="{{ route('leave.approve', $leaveRequest->id) }}" method="POST" id="my_form">
+                                @csrf
                              <div class="mt-4">
                                <label class="block text-gray-700 font-bold mb-2" for="response">Admin Response:</label>
-                               <textarea id="response" class="w-full rounded-lg p-4 border border-zinc-800 focus:border-blue-500 focus:ring focus:ring-blue-200" rows="4"></textarea>
+                               <textarea id="response" class="w-full rounded-lg p-4 border border-zinc-800 focus:border-blue-500 focus:ring focus:ring-blue-200" rows="4" name="admin_response">{{ $leaveRequest->admin_response ?: 'N/A' }}</textarea>
                              </div>
+                            </form>
                              <div class="mt-6 flex space-x-4">
-                               <button class="px-4 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-200" type="button">Approve</button>
-                               <button class="px-4 py-2 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-200" type="button">Deny</button>
-                             </div>
+                               <button class="px-4 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-200" type="submit" form="my_form">Approve</button>
+                               <form action="{{route('leave.reject', $leaveRequest->id)}}" method="POST" class="mt-4">
+                                @csrf
+                               <button class="px-4 py-4 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-200" type="submit">Deny</button>
+                               </form>
+                            </div>
                            </div>
 
                      </div>
@@ -51,6 +64,27 @@
 
     </div>
  </div>
+ <script>
+    const publicHoli = [];
+    const otherHoli = [];
+
+    @foreach ($publicHolidays as  $publicHoliday)
+
+        @foreach ($publicHoliday['holiday_dates'] as $date)
+
+                    publicHoli.push('{{ $date }}')
+                @endforeach
+        @endforeach
+
+        @foreach ($otherHolidays as  $otherHoliday)
+        @foreach ($otherHoliday['holiday_dates'] as $date)
+                   otherHoli.push('{{ $date }}')
+                @endforeach
+        @endforeach
+
+        console.log(publicHoli)
+        console.log(otherHoli);
+ </script>
  <script >
      const calendarContainer = document.getElementById('calendarContainer');
 
@@ -115,6 +149,13 @@
                      }else{
                          divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center " ;
                      }
+                     if(publicHoli.includes(d)){
+
+                        divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-green-400 pointer-events-none text-white"
+                        }else if(otherHoli.includes(d)){
+
+                        divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-purple-400 pointer-events-none text-white"
+                        }
                      if(j==6){
                          divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none"
                      }
