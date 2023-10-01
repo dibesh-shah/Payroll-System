@@ -13,6 +13,7 @@ use App\Http\Controllers\InboxController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaxController;
+use App\Http\Controllers\PayrollController;
 use App\Models\Holiday;
 use App\Models\Leave;
 
@@ -135,5 +136,9 @@ Route::get('/employee/update', [ProfileController::class, 'edit'])->name('employ
 Route::put('/employee/update',[ProfileController::class, 'update'])->name('employee.update');
 Route::get('/employee/password', [ProfileController::class, 'password'])->name('employee.password');
 Route::post('/employee/password', [ProfileController::class, 'changePassword'])->name('employee.changePassword');
+
+
+Route::get('/admin/generate', [PayrollController::class, 'show']);
+Route::get('/admin/payroll/{id}', [PayrollController::class, 'payroll'])->name('payroll.payroll');
 
 

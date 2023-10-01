@@ -56,7 +56,7 @@
                         <td class="py-2 px-4 text-center">{{$deduction->updated_at}}</td>
                         <td class="py-2 px-4 text-center flex flex-wrap">
                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
-                            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
+                            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn mr-2" style="display:none;">Update</button>
                             <form action="{{ route('deduction.destroy', $deduction->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')

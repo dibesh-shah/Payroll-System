@@ -42,4 +42,17 @@ class PayrollController extends Controller
     }
 
     // ... other methods ...
+
+    public function show(){
+        $employees = Employee::all();
+        return view('/admin/generate',compact('employees'));
+    }
+
+    public function payroll($id){
+
+        $employee = Employee::findOrfail($id);
+        $allowances = $employee->allowances;
+        $deductions = $employee->deductions;
+        return view('/admin/payroll',compact('employee','allowances','deductions'));
+    }
 }

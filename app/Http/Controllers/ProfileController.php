@@ -22,6 +22,7 @@ class ProfileController extends Controller
 
         return view('employee.profile', compact('employee', 'allowances', 'deductions'));
     }
+    // <!--here--!>
     public function edit()
     {
         $employeeId = session('employee_id');

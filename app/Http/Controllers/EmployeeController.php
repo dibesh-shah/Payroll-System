@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Http\Controllers\Controller;
+use App\Models\SalaryStructure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -181,7 +182,7 @@ class EmployeeController extends Controller
             $approveEmployee->deductions()->sync($deductions);
 
             // Create or update the payroll record
-            Payroll::updateOrCreate(
+            SalaryStructure::updateOrCreate(
                 ['employee_id' => $approveEmployee->id],
                 ['basic_salary' => $basicSalary]
             );
