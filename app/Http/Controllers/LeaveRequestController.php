@@ -9,6 +9,7 @@ use App\Models\Leave;
 use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class LeaveRequestController extends Controller
 {
@@ -69,10 +70,15 @@ class LeaveRequestController extends Controller
         $leaveRequest = LeaveRequest::findOrFail($id);
           // Retrieve the associated employee
           $employee = Employee::find($leaveRequest->employee_id);
+          $leave_name = Leave::find($leaveRequest->leave_type);
 
           // If the employee is found, concatenate the first name and last name
           if ($employee) {
               $leaveRequest->employee_name = $employee->first_name . ' ' . $employee->last_name;
+          }
+
+          if ($leave_name) {
+              $leaveRequest->leave_name = $leave_name->name ;
           }
         return view('admin.leave_detail',compact('leaveRequest', 'publicHolidays', 'otherHolidays'));
     }
@@ -193,7 +199,28 @@ class LeaveRequestController extends Controller
         }
 
         return view('/employee/leave_balance', ['remainingBalances' => $remainingBalances]);
-    
+    }
 
+    public function empHistory(){
+
+        $employeeId = session('employee_id');
+        $leaveRequests = LeaveRequest::where('employee_id', $employeeId)
+            ->orderBy('id','desc')
+            ->get();
+
+        foreach($leaveRequests as $leaveRequest){
+            $leave_name = Leave::find($leaveRequest->leave_type);
+
+            if ($leave_name) {
+                $leaveRequest->leave_name = $leave_name->name ;
+            }
+        }
+        
+        $leaveRequestsByMonth = $leaveRequests->groupBy(function ($leaveRequest) {
+            return Carbon::parse($leaveRequest->start_date)->format('F Y');
+        });
+
+        return view('/employee/leave_history', ['leaveRequestsByMonth' => $leaveRequestsByMonth]);
+    
     }
 }

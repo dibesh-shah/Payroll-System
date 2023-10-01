@@ -211,7 +211,7 @@ class EmployeeController extends Controller
     {
         $totalEmployees = Employee::count();
         $totalDepartments = Department::count();
-        $checkedInToday = Attendance::whereDate('clock_in', Carbon::today())->count();
+        $checkedInToday = Attendance::whereDate('date', Carbon::today())->count();
 
         return view('admin.dashboard', compact('totalEmployees', 'totalDepartments', 'checkedInToday'));
     }

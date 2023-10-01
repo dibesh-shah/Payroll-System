@@ -2,7 +2,7 @@
 @section('content')
 <div class="p-4 sm:ml-64">
     <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14 ">
-        
+        <h1 class="text-3xl font-bold mb-4">Leave Balance</h1> 
 
 @for ($i = 0; $i < count($remainingBalances); $i += 3)
     <div class="flex space-x-4 mt-4">

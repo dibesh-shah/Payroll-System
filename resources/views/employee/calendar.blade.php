@@ -128,7 +128,7 @@
                     }
                         if(j==6){
                             weekend++;
-                            divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none"
+                            divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none text-white"
                         }
                         day++;
                     } else {

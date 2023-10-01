@@ -195,7 +195,7 @@ CREATE TABLE `employee_allowance` (
 
 INSERT INTO `employee_allowance` (`employee_id`, `allowance_id`, `value`, `type`, `created_at`, `updated_at`) VALUES
 (1, 1, 1200.00, 'amount', '2023-08-15 02:55:07', '2023-08-15 02:55:07'),
-(1, 2, 15.00, 'amount', '2023-08-15 02:55:07', '2023-08-15 02:55:07');
+(1, 2, 1500.00, 'amount', '2023-08-15 02:55:07', '2023-08-15 02:55:07');
 
 -- --------------------------------------------------------
 

@@ -96,10 +96,10 @@
                             <div class="flex flex-col space-y-2">
                               <p class="text-gray-500"><span class="font-bold">Leave Id:</span> {{ $leaveRequest->id }}</p>
                               <p class="text-gray-500"><span class="font-bold">Employee:</span> {{ $leaveRequest->employee_name }}</p>
-                              <p class="text-gray-500"><span class="font-bold">Leave Type:</span> {{ $leaveRequest->leave_type }}</p>
+                              <p class="text-gray-500"><span class="font-bold">Leave Type:</span> {{ $leaveRequest->leave_name }}</p>
                               <p class="text-gray-500"><span class="font-bold">Start Date:</span> {{ $leaveRequest->start_date }}</p>
                               <p class="text-gray-500"><span class="font-bold">End Date:</span> {{ $leaveRequest->end_date }}</p>
-                              <p class="text-gray-500"><span class="font-bold">End Date:</span> {{ $leaveRequest->status }}</p>
+                              <p class="text-gray-500"><span class="font-bold">Status:</span> {{ $leaveRequest->status }}</p>
                             </div>
                             <div class="mt-4">
                               <label class="block text-gray-700 font-bold mb-2" for="message">Message:</label>

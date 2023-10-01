@@ -86,7 +86,7 @@ Route::post('/admin/save-holidays', [HolidayController::class,'saveHolidays']);
 Route::post('/ajax-endpoint', [AjaxController::class,'handleAjaxRequest'])->name('ajax.endpoint');
 
 
-Route::view('/dashboard', 'employee/dashboard')->name('employees.dashboard');
+Route::view('/employee/dashboard', 'employee/dashboard')->name('employees.dashboard');
 
 Route::get('/employee/attendance', [AttendanceController::class, 'index'])->name('employee.attendance');
 Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
@@ -126,6 +126,7 @@ Route::post('/admin/leave_detail/reject/{id}', [LeaveRequestController::class, '
 Route::get('/employee/leave_apply', [LeaveRequestController::class, 'leaveHolidays'])->name('employee.leaveApply');
 Route::post('/employee/leave_apply', [LeaveRequestController::class, 'store'])->name('leaveReq.store');
 Route::get('/employee/leave_balance', [LeaveRequestController::class, 'balance']);
+Route::get('/employee/leave_history', [LeaveRequestController::class, 'empHistory']);
 
 Route::get('/employee/calendar', [HolidayController::class, 'showHolidays'])->name('employee.calendar');
 Route::post('/employee/logout', [ProfileController::class, 'logout'])->name('logout');

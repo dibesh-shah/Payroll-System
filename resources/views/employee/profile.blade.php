@@ -82,25 +82,20 @@
             <legend class="font-semibold mb-4 text-xl px-2">Allowances</legend>
             <div class="grid grid-cols-2 gap-2 ml-2">
             @if (!$allowances)
-                        <div>No allowances </div>
-                        @else
-                            @foreach ($allowances as $allowance)
-
-
-
-                            <div>
-                            <div class="font-semibold">{{ $allowance->name }}</div>
-                            <div class="font-normal mt-1 mb-2">  {{ $allowance->pivot->value }}
-                                @if($allowance->pivot->type== 'percentage')
-                                    %
-                                @else
-                                  Nrs.
-                                @endif
-                               </div>
-                        </div>
-
-
-
+                <div>No allowances </div>
+            @else
+                @foreach ($allowances as $allowance)
+               
+                <div>
+                    <div class="font-semibold">{{ $allowance->name }}</div>
+                    <div class="font-normal mt-1 mb-2">  {{ $allowance->pivot->value }}
+                    @if($allowance->pivot->type== 'percentage')
+                        %
+                    @else
+                        Nrs.
+                    @endif
+                    </div>
+                </div>
 
                 @endforeach
                 @endif

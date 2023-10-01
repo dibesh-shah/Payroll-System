@@ -10,7 +10,7 @@
          <div class="max-w  bg-white p-6 rounded-lg shadow-lg">
              <form action="{{ route('departments.store') }}" method="POST">
                  @csrf
-                  <div class="grid grid-cols-3 gap-6">
+                  <div class="grid grid-cols-2 gap-6">
                       <div>
                           <label for="type" class="block text-gray-700 font-semibold mb-2">Department Name</label>
                           <input type="text" id="name" name="name" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter department name" required>

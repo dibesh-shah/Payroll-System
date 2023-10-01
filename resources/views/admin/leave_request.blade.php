@@ -26,7 +26,7 @@
                 @foreach($leaveRequests as $leaveRequest)
                 <a href="{{ route('leaveReq.show', ['id' => $leaveRequest->id]) }}">
                     <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
-                        <h2 class="text-xl font-bold">Leave Request {{$leaveRequest->id}}</h2>
+                        <h2 class="text-xl font-bold">Leave Request #{{$leaveRequest->id}}</h2>
                         <p class="text-gray-500">Employee: {{ $leaveRequest->employee->first_name }} {{ $leaveRequest->employee->last_name }}</p>
                         <p class="text-gray-500">Leave Type: {{ $leaveRequest->leaveType->name }}</p>
                     </div>
