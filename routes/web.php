@@ -125,6 +125,8 @@ Route::post('/admin/leave_detail/reject/{id}', [LeaveRequestController::class, '
 
 Route::get('/employee/leave_apply', [LeaveRequestController::class, 'leaveHolidays'])->name('employee.leaveApply');
 Route::post('/employee/leave_apply', [LeaveRequestController::class, 'store'])->name('leaveReq.store');
+Route::get('/employee/leave_balance', [LeaveRequestController::class, 'balance']);
+
 Route::get('/employee/calendar', [HolidayController::class, 'showHolidays'])->name('employee.calendar');
 Route::post('/employee/logout', [ProfileController::class, 'logout'])->name('logout');
 Route::get('/employee/profile', [ProfileController::class, 'profile'])->name('employee.profile');

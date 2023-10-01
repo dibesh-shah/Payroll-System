@@ -20,6 +20,11 @@ class LeaveRequest extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
+    public function leaveType()
+    {
+        return $this->belongsTo(Leave::class, 'leave_type');
+    }
+
 }

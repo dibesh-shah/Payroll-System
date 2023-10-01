@@ -61,6 +61,20 @@
 
                             <!-- The calendar table will be generated here -->
                         </div>
+                        <div class="mt-10 text-center">
+                            <span class="mr-6">
+                              <span class="px-2 py-2 bg-green-400 text-white rounded-lg" >Public Holiday</span>
+                              <span class="ml-2 b" id="publicHoliday">: 3</span>
+                            </span>
+                            <span class="mr-6">
+                              <span class="px-2 py-2  text-white rounded-lg bg-red-400" >Weekend</span>
+                              <span class="ml-2" id="weekend">: 5</span>
+                            </span>
+                            <span>
+                              <span class="px-2 py-2 bg-purple-400 text-white rounded-lg" >Other Holidays</span>
+                              <span class="ml-2" id="otherHoliday">: 2</span>
+                            </span>
+                          </div>
                     </div>
 
 
@@ -91,11 +105,12 @@
                 @endforeach
         @endforeach
 
-        console.log(publicHoli)
-        console.log(otherHoli);
  </script>
 <script >
     const calendarContainer = document.getElementById('calendarContainer');
+    var weekend=0;
+    var publicHoliday=0;
+    var otherHoliday=0;
 
     // Function to generate the calendar for the current month
     function generateCalendar() {
@@ -159,13 +174,14 @@
                         divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center " ;
                     }
                     if(publicHoli.includes(d)){
-
+                        publicHoliday++;
                         divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-green-400 pointer-events-none text-white"
                     }else if(otherHoli.includes(d)){
-
+                        otherHoliday++;
                         divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-purple-400 pointer-events-none text-white"
                     }
                     if(j==6){
+                        weekend++;
                         divcell.className="bg-white shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none"
                     }
                     day++;
@@ -196,6 +212,10 @@
 
     // Generate the calendar when the page loads
     generateCalendar();
+
+    document.getElementById('weekend').textContent=weekend;
+    document.getElementById('publicHoliday').textContent=publicHoliday;
+    document.getElementById('otherHoliday').textContent=otherHoliday;
 
 </script>
 

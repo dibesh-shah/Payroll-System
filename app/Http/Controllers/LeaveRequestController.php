@@ -8,19 +8,28 @@ use App\Models\Holiday;
 use App\Models\Leave;
 use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LeaveRequestController extends Controller
 {
+    // public function index(){
+    //     $leaveRequests = LeaveRequest::all();
+    //     foreach ($leaveRequests as $leaveRequest) {
+    //         $employee = Employee::find($leaveRequest->employee_id);
+    //         if ($employee) {
+    //             $leaveRequest->employee_name = $employee->first_name . ' ' . $employee->last_name;
+    //         }
+    //     }
+    //     return view('admin.leave_request', compact('leaveRequests'));
+    // }
+
     public function index(){
-        $leaveRequests = LeaveRequest::all();
-        foreach ($leaveRequests as $leaveRequest) {
-            $employee = Employee::find($leaveRequest->employee_id);
-            if ($employee) {
-                $leaveRequest->employee_name = $employee->first_name . ' ' . $employee->last_name;
-            }
-        }
+        // Retrieve "pending" leave requests and eager load the "leaveType" and "employee" relationships
+        $leaveRequests = LeaveRequest::where('status', 'pending')->with('leaveType', 'employee')->get();
+    
         return view('admin.leave_request', compact('leaveRequests'));
     }
+    
     public function show($id){
         $now = now();
         $todayDate = now()->format('Y-m-d');
@@ -153,5 +162,38 @@ class LeaveRequestController extends Controller
         $rejectLeave->status = 'rejected';
         $rejectLeave->save();
         return redirect('/admin/leave_request')->with('success', 'Leave rejected successfully');
+    }
+
+    public function balance()
+    {
+        $employeeId = session('employee_id');
+
+        $approvedLeaveCounts = LeaveRequest::select('leave_type', DB::raw('COUNT(id) as approved_count'))
+            ->where('employee_id', $employeeId)
+            ->where('status', 'approved')
+            ->groupBy('leave_type')
+            ->get();
+
+        $balances = Leave::select('name', 'days', 'id')->get();
+
+        $remainingBalances = [];
+        foreach ($balances as $balance) {
+            $id = $balance->id;
+            $leaveType = $balance->name;
+            $days = $balance->days;
+            $approvedCount = $approvedLeaveCounts->where('leave_type', $id)->first()->approved_count ?? 0;
+            $remainingDays = $days - $approvedCount;
+
+            $remainingBalances[] = [
+                'name' => $leaveType,
+                'days' => $days,
+                'remaining_days' => $remainingDays,
+                'id' => $id,
+            ];
+        }
+
+        return view('/employee/leave_balance', ['remainingBalances' => $remainingBalances]);
+    
+
     }
 }
