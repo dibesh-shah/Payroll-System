@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('netPay');
             
             $table->timestamps();
+
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 
