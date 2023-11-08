@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2023 at 03:39 PM
+-- Generation Time: Nov 08, 2023 at 08:40 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -79,7 +79,10 @@ INSERT INTO `attendances` (`id`, `employee_id`, `date`, `clock_in`, `clock_out`,
 (30, 5, '2023-08-28', '12:08 PM', '12:08 PM', '2023-08-28 00:38:17', '2023-08-28 00:38:18'),
 (31, 5, '2023-08-29', '10:45 AM', NULL, NULL, NULL),
 (32, 5, '2023-08-29', '10:40 AM', NULL, NULL, NULL),
-(33, 1, '2023-09-29', '10:36 AM', NULL, '2023-09-28 23:06:18', '2023-09-28 23:06:18');
+(33, 1, '2023-09-29', '10:36 AM', NULL, '2023-09-28 23:06:18', '2023-09-28 23:06:18'),
+(34, 1, '2023-10-01', '1:02 PM', '1:02 PM', '2023-10-01 01:32:31', '2023-10-01 01:32:43'),
+(35, 1, '2023-10-02', '11:34 AM', '11:34 AM', '2023-10-02 00:04:16', '2023-10-02 00:04:24'),
+(36, 1, '2023-11-07', '1:23 PM', '1:23 PM', '2023-11-07 01:53:20', '2023-11-07 01:53:23');
 
 -- --------------------------------------------------------
 
@@ -194,8 +197,8 @@ CREATE TABLE `employee_allowance` (
 --
 
 INSERT INTO `employee_allowance` (`employee_id`, `allowance_id`, `value`, `type`, `created_at`, `updated_at`) VALUES
-(1, 1, 1200.00, 'amount', '2023-08-15 02:55:07', '2023-08-15 02:55:07'),
-(1, 2, 1500.00, 'amount', '2023-08-15 02:55:07', '2023-08-15 02:55:07');
+(1, 1, 1200.00, 'amount', '2023-08-14 21:10:07', '2023-08-14 21:10:07'),
+(1, 2, 1500.00, 'amount', '2023-08-14 21:10:07', '2023-08-14 21:10:07');
 
 -- --------------------------------------------------------
 
@@ -217,8 +220,8 @@ CREATE TABLE `employee_deduction` (
 --
 
 INSERT INTO `employee_deduction` (`employee_id`, `deduction_id`, `value`, `type`, `created_at`, `updated_at`) VALUES
-(1, 1, 2000.00, 'amount', '2023-08-15 02:55:07', '2023-08-15 02:55:07'),
-(1, 2, 0.00, 'percentage', '2023-08-15 02:55:07', '2023-08-15 02:55:07');
+(1, 1, 2000.00, 'amount', '2023-08-14 21:10:07', '2023-08-14 21:10:07'),
+(1, 2, 10.00, 'percentage', '2023-08-14 21:10:07', '2023-08-14 21:10:07');
 
 -- --------------------------------------------------------
 
@@ -255,7 +258,12 @@ CREATE TABLE `holidays` (
 --
 
 INSERT INTO `holidays` (`id`, `holiday_date`, `holiday_type`, `created_at`, `updated_at`) VALUES
-(4, '2023-9-24,2023-9-25', 'Public Holiday', '2023-09-29 09:06:07', '2023-09-29 09:06:07');
+(1, '0000-00-00', 'Public Holiday', '2023-09-27 02:19:05', '2023-09-27 02:19:05'),
+(2, '0000-00-00', 'Other', '2023-09-27 02:19:28', '2023-09-27 02:19:28'),
+(3, '0000-00-00', 'Public Holiday', '2023-09-27 03:17:20', '2023-09-27 03:17:20'),
+(4, '2023-9-24,2023-9-25', 'Public Holiday', '2023-09-29 09:06:07', '2023-09-29 09:06:07'),
+(5, '2023-10-15,2023-10-20', 'Weekend', '2023-10-02 00:08:05', '2023-10-02 00:08:05'),
+(6, '2023-10-15,2023-10-20,2023-10-17,2023-10-4', 'Other', '2023-10-02 00:08:37', '2023-10-02 00:08:37');
 
 -- --------------------------------------------------------
 
@@ -356,7 +364,11 @@ INSERT INTO `inboxes` (`id`, `senderId`, `receiverId`, `dateTime`, `message`, `c
 (75, '1', '2', 'September 30, 12:47 PM', 'hey admin', '1', '2023-09-30 07:02:23', '2023-09-30 07:02:23'),
 (76, '2', '1', 'September 30, 12:47 PM', 'yes tell me', '1', '2023-09-30 07:02:34', '2023-09-30 07:02:34'),
 (77, '1', '2', 'September 30, 12:47 PM', 'nothing sir ji', '1', '2023-09-30 07:02:43', '2023-09-30 07:02:43'),
-(78, '2', '1', 'September 30, 12:47 PM', 'ikay then', '1', '2023-09-30 07:02:51', '2023-09-30 07:02:51');
+(78, '2', '1', 'September 30, 12:47 PM', 'ikay then', '1', '2023-09-30 07:02:51', '2023-09-30 07:02:51'),
+(79, '1', '2', 'September 30, 12:55 PM', 'i dont like the way you are talking okay please mind your language there is something worng with you;l:L;\'', '1', '2023-09-30 07:10:49', '2023-09-30 07:10:49'),
+(80, '2', '1', 'September 30, 12:56 PM', 'oh okay dear', '1', '2023-09-30 07:11:07', '2023-09-30 07:11:07'),
+(81, '2', '1', 'October 1, 1:09 PM', 'hello bimal how are you doing', '1', '2023-10-01 07:24:35', '2023-10-01 07:24:35'),
+(82, '1', '2', 'October 1, 1:09 PM', 'doing great', '1', '2023-10-01 07:24:45', '2023-10-01 07:24:45');
 
 -- --------------------------------------------------------
 
@@ -408,7 +420,13 @@ CREATE TABLE `leave_requests` (
 --
 
 INSERT INTO `leave_requests` (`id`, `employee_id`, `leave_type`, `start_date`, `end_date`, `status`, `message`, `admin_response`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Sick Leave', '2023-09-14', '2023-09-18', 'approved', 'hello', 'hello', '2023-09-30 09:06:05', '2023-09-30 04:18:27');
+(1, 1, '2', '2023-09-14', '2023-09-18', 'rejected', 'hello', 'hello', '2023-09-30 09:06:05', '2023-10-02 00:07:03'),
+(2, 1, '1', '2023-09-07', '2023-09-07', 'approved', 'fgdfg', 'take a leave', '2023-09-30 10:22:59', '2023-09-30 11:20:22'),
+(3, 1, '1', '2023-09-07', '2023-09-13', 'approved', 'hjhj', NULL, '2023-09-30 10:29:51', '2023-10-01 05:20:11'),
+(4, 1, '4', '2023-09-09', '2023-09-16', 'approved', 'i want to take a leave', 'okay i am granting you a leave', '2023-09-30 11:24:43', '2023-09-30 11:25:40'),
+(5, 1, '5', '2023-10-20', '2023-10-27', 'approved', 'hkjjkjhkj', 'kdljfj', '2023-09-30 23:36:55', '2023-09-30 23:37:28'),
+(6, 1, '3', '2023-10-12', '2023-10-13', 'approved', 'khjkjhjk', 'ok', '2023-09-30 23:45:59', '2023-10-01 01:17:52'),
+(7, 1, '1', '2023-10-01', '2023-10-01', 'approved', NULL, NULL, '2023-10-02 00:05:29', '2023-10-02 00:07:15');
 
 -- --------------------------------------------------------
 
@@ -484,6 +502,7 @@ CREATE TABLE `salaries` (
 --
 
 INSERT INTO `salaries` (`id`, `employee_id`, `basic_salary`, `net_pay`, `created_at`, `updated_at`) VALUES
+(2, 5, 50000.00, NULL, '2023-08-26 04:39:22', '2023-08-28 00:34:39'),
 (2, 5, 50000.00, NULL, '2023-08-26 04:39:22', '2023-08-28 00:34:39');
 
 -- --------------------------------------------------------
@@ -519,18 +538,18 @@ CREATE TABLE `taxes` (
 --
 
 INSERT INTO `taxes` (`id`, `year`, `status`, `income`, `tax_rate`, `created_at`, `updated_at`) VALUES
-(4, '2080/81', 'single', '500000', 1, '2023-09-28 10:11:22', '2023-09-28 10:11:22'),
-(5, '2080/81', 'single', '200000', 10, '2023-09-28 10:11:22', '2023-09-28 10:11:22'),
-(6, '2080/81', 'single', '300000', 20, '2023-09-28 10:11:22', '2023-09-28 10:11:22'),
-(7, '2080/81', 'single', '1000000', 30, '2023-09-28 10:11:22', '2023-09-28 10:11:22'),
-(8, '2080/81', 'single', '3000000', 36, '2023-09-28 10:11:22', '2023-09-28 10:11:22'),
-(9, '2080/81', 'single', '5000000', 39, '2023-09-28 10:11:22', '2023-09-28 10:11:22'),
-(10, '2080/81', 'couple', '600000', 1, '2023-09-28 10:15:19', '2023-09-28 10:15:19'),
-(11, '2080/81', 'couple', '200000', 10, '2023-09-28 10:15:19', '2023-09-28 10:15:19'),
-(12, '2080/81', 'couple', '300000', 20, '2023-09-28 10:15:19', '2023-09-28 10:15:19'),
-(13, '2080/81', 'couple', '900000', 30, '2023-09-28 10:15:19', '2023-09-28 10:15:19'),
-(14, '2080/81', 'couple', '3000000', 36, '2023-09-28 10:15:19', '2023-09-28 10:15:19'),
-(15, '2080/81', 'couple', '5000000', 39, '2023-09-28 10:15:19', '2023-09-28 10:15:19');
+(4, '2080/81', 'single', '500000', 1, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
+(5, '2080/81', 'single', '200000', 10, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
+(6, '2080/81', 'single', '300000', 20, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
+(7, '2080/81', 'single', '1000000', 30, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
+(8, '2080/81', 'single', '3000000', 36, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
+(9, '2080/81', 'single', '5000000', 39, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
+(10, '2080/81', 'couple', '600000', 1, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
+(11, '2080/81', 'couple', '200000', 10, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
+(12, '2080/81', 'couple', '300000', 20, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
+(13, '2080/81', 'couple', '900000', 30, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
+(14, '2080/81', 'couple', '3000000', 36, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
+(15, '2080/81', 'couple', '5000000', 39, '2023-09-28 04:30:19', '2023-09-28 04:30:19');
 
 -- --------------------------------------------------------
 
@@ -629,8 +648,7 @@ ALTER TABLE `leaves`
 -- Indexes for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `employee_id` (`employee_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `migrations`
@@ -664,6 +682,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `attendances`
+--
+ALTER TABLE `attendances`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -673,19 +697,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `holidays`
 --
 ALTER TABLE `holidays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `inboxes`
 --
 ALTER TABLE `inboxes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -704,16 +728,6 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `leave_requests`
---
-ALTER TABLE `leave_requests`
-  ADD CONSTRAINT `leave_requests_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
