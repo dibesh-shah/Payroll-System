@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('totalAllowances');
             $table->string('totalDeductions');
             $table->string('netPay');
-            
+
             $table->timestamps();
+            $table->string('status')->default('pending');
 
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });

@@ -140,5 +140,7 @@ Route::post('/employee/password', [ProfileController::class, 'changePassword'])-
 
 Route::get('/admin/generate', [PayrollController::class, 'show']);
 Route::get('/admin/payroll/{id}', [PayrollController::class, 'payroll'])->name('payroll.payroll');
+Route::post('/admin/payroll/approve/{id}', [PayrollController::class, 'approve'])->name('payroll.approve');
+Route::post('/admin/payroll/reject/{id}', [PayrollController::class, 'reject'])->name('payroll.reject');
 
 

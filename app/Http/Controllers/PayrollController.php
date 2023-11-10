@@ -31,10 +31,10 @@ class PayrollController extends Controller
             // Store the calculated salary
             Payroll::create([
                 'employee_id' => $employee->id,
-                'basic_salary' => $basicSalary,
-                'total_allowances' => $totalAllowances,
-                'total_deductions' => $totalDeductions,
-                'net_pay' => $netPay,
+                'basicSalary' => $basicSalary,
+                'totalAllowances' => $totalAllowances,
+                'totalDeductions' => $totalDeductions,
+                'netPay' => $netPay,
             ]);
         }
 
@@ -54,5 +54,24 @@ class PayrollController extends Controller
         $allowances = $employee->allowances;
         $deductions = $employee->deductions;
         return view('/admin/payroll',compact('employee','allowances','deductions'));
+    }
+    public function approve($employeeId, Request $request)
+    {
+        $employee = Employee::findOrFail($employeeId);
+        $payroll = $employee->latestPayroll();
+        if ($payroll->status !== 'approved') {
+        $payroll->status = 'approved';
+        $payroll->save();
+        }
+        return redirect('/admin/generate')->with('success', 'Payroll approved successfully.');
+    }
+
+    public function reject($id, Request $request){
+        $payroll = Payroll::findOrFail($id);
+        if ($payroll->status !== 'rejected') {
+        $payroll->status = 'rejected';
+        $payroll->save();
+        }
+        return redirect('/admin/generate')->with('success', 'Payroll rejected successfully.');
     }
 }

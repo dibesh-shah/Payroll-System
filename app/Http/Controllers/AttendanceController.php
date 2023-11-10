@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -44,7 +45,8 @@ class AttendanceController extends Controller
 
         ]);
 
-        $employee = auth()->user();
+        $employeeId = session('employee_id');
+        $employee = Employee::find($employeeId);
 
         $attendance = Attendance::where('employee_id',  $data['employee_id'])
         ->where('date', $data['date'])
@@ -77,7 +79,8 @@ class AttendanceController extends Controller
             'clock_out' => 'required|string',
         ]);
 
-        $employee = auth()->user();
+        $employeeId = session('employee_id');
+        $employee = Employee::find($employeeId);
 
         $attendance = Attendance::where('employee_id', $data['employee_id'])
             ->where('date', $data['date'])

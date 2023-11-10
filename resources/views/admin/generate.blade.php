@@ -10,11 +10,11 @@
                    <div class="flex items-center mb-2">
                        <input type="text" id="type" name="type" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Employee Name or ID" required>
                        <button class="ml-4 px-4 py-3 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">Generate</button>
-                   </div>    
+                   </div>
                </div>
        </div>
 
-       <div class="container mx-auto mt-5 p-4 bg-white p-6 rounded-lg shadow-lg">
+       <div class="container mx-auto mt-5 bg-white p-6 rounded-lg shadow-lg">
         @php
             $year = date('Y');
             $month = date('m');
@@ -32,27 +32,27 @@
         <div class="bg-white p-4 rounded shadow mb-4">
 
          <div class="grid grid-cols-1 md:grid-cols-2 gap-4  ">
-             
+
              @foreach ($employees as $employee)
                 <div class="bg-white p-4 rounded-md shadow-lg " >
                     <h2 class="text-xl font-bold"></h2>
                     <p class="text-gray-500"><strong class="text-lg">Employee Name:</strong> {{$employee->first_name}} {{$employee->last_name}} </p>
                     <p class="text-gray-500"> <strong class="text-lg">Month:</strong> {{date("F")." ".date("Y")}}</p>
                     <div class="mt-4">
-                        <a href="{{ route('payroll.payroll', ['id' => $employee->id]) }}" class="bg-blue-500 text-white py-2 px-4 mr-4">View Details</a>  
+                        <a href="{{ route('payroll.payroll', ['id' => $employee->id]) }}" class="bg-blue-500 text-white py-2 px-4 mr-4">View Details</a>
                     </div>
                 </div>
              @endforeach
-                 
+
          </div>
         @endif
-           
+
         </div>
-        
+
     </div>
        </div>
    </div>
-   
+
   </div>
 </div>
 

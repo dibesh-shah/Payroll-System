@@ -5,13 +5,13 @@
   <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
    <div class="container mx-auto mt-5">
     @php
-     $totalEarnings = 0; 
-     $totalDeductions = 0; 
+     $totalEarnings = 0;
+     $totalDeductions = 0;
     @endphp
 
-       <div class="container mx-auto mt-5 p-4 bg-white p-6 rounded-lg shadow-lg">
+       <div class="container mx-auto mt-5 p-4 bg-white  rounded-lg shadow-lg">
            <h1 class="text-3xl font-bold mb-4"> Payroll</h1>
-
+           {{-- @if($payroll) --}}
             <div class="bg-white p-4 rounded shadow">
                 <div class="text-center">
                     <h2 class="text-xl font-semibold">{{$employee->first_name}} {{$employee->last_name}}'s Payroll - {{date("F")." ".date("Y")}}</h2>
@@ -23,7 +23,7 @@
                                 <tr>
                                     <td class="w-2/3 py-2"><strong>Employee ID:</strong> E{{$employee->id}}</td>
                                     <td class="w-1/3 py-2" ><strong>Designation:</strong> Software Engineer</td>
-                                    
+
                                 </tr>
                                 <tr class="border-b border-black">
                                     <td class="w-1/3 py-2"><strong>Date of Salary:</strong> {{date("Y-m-t")}}</td>
@@ -31,10 +31,10 @@
                                 </tr>
                             </table>
                             <table class="w-full border-collapse">
-                                
+
                                 <tr>
                                     <td class="w-1/3 py-2 "><strong class="border-black border-b">EARNINGS</strong></td>
-                                    
+
                                 </tr>
                                 <tr>
                                     <td class="w-1/3 py-2">Basic Salary</td>
@@ -60,12 +60,9 @@
                                         @endif
                                     </tr>
                                 @endforeach
-                                
-                                
-                                {{-- <tr>
-                                    <td class="w-1/3 py-2">Overtime</td>
-                                    <td class="w-2/3 py-2">1000</td>
-                                </tr> --}}
+
+
+
                                 <tr>
                                     <td class="w-1/3 py-2 "><strong>Total Earnings (Gross Salary) (A):</strong></td>
                                     <td class="w-2/3 py-2">{{$totalEarnings}}</td>
@@ -89,9 +86,9 @@
                                     @endphp
                                         <td class="w-2/3 py-2">{{ $value }}</td>
                                     @endif
-                                </tr> 
+                                </tr>
                                 @endforeach
-                                
+
                                 <tr>
                                     <td class="w-1/3 py-2"><strong>Total Deductions (B):</strong></td>
                                     <td class="w-2/3 py-2">{{$totalDeductions}}</td>
@@ -100,25 +97,35 @@
                                     <td class="w-1/3 py-2"><strong>Net Pay (A-B):</strong></td>
                                     <td class="w-2/3 py-2">{{$totalEarnings - $totalDeductions}}</td>
                                 </tr>
-                               
+
                             </table>
                         </form>
+
                         <div class="mt-4">
-                            <button class="bg-green-500 text-white py-2 px-4 mr-4">Approve</button>
-                            <button class="bg-red-500 text-white py-2 px-4">Reject</button>
+
+                        <form action="{{ route('payroll.approve', $employee->id) }}" method="post">
+                           @csrf
+                            <button type="submit" class="bg-green-500 text-white py-2 px-4 mr-4">Approve</button>
+                         </form>
+                        <form action="{{ route('payroll.reject', $employee->id) }}" method="post">
+                            @csrf
+                            <button type="submit" class="bg-red-500 text-white py-2 px-4">Reject</button>
+                        </form>
+
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-            
+
         </div>
-        
+
 
     </div>
        </div>
    </div>
-   
+
   </div>
 </div>
 

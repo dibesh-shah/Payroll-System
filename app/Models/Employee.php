@@ -53,6 +53,15 @@ class Employee extends Model
         ->withPivot(['value', 'type'])
         ->withTimestamps();
     }
+    public function payrolls()
+    {
+        return $this->hasMany(Payroll::class);
+    }
+
+    public function latestPayroll()
+    {
+        return $this->payrolls()->latest()->first();
+    }
 
 
 }
