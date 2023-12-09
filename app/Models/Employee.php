@@ -21,6 +21,7 @@ class Employee extends Model
         'bank_account_number',
         'bank_name',
         'gender',
+        'designation',
         'tax_payer_id',
         'tax_filing_status',
         'department_id',

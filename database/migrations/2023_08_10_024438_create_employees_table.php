@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('bank_account_number');
             $table->string('bank_name');
             $table->enum('gender', ['male', 'female']);
+            $table->string('bank_name');
             $table->string('tax_payer_id');
             $table->string('document')->nullable();
             $table->unsignedBigInteger('department_id');

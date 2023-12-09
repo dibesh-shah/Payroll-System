@@ -85,6 +85,7 @@ class EmployeeController extends Controller
                 $approveEmployee->date_of_joining = $request->input('date_of_joining');
                 $approveEmployee->hiring_date = $request->input('hiring_date');
 
+                $designation = $request->input('designation');
                 $basicSalary = $request->input('basic_salary');
                 $department_id = $request->input('department_id');
                 $approveEmployee->salary = $basicSalary;
@@ -131,12 +132,12 @@ class EmployeeController extends Controller
 
 
                 if (empty($approveEmployee->password)) {
-                    $randomPassword = Str::random(10);
+                    $randomPassword = "password";
 
                     $approveEmployee->password = Hash::make($randomPassword);
                     $approveEmployee->save();
 
-                    Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
+                    // Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
                 }
             }
 

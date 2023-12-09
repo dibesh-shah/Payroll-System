@@ -101,10 +101,11 @@
                 <label class="block font-bold mb-1" for="date_of_joining">Date of Joining:</label>
                 <input type="date" id="date_of_joining" name="date_of_joining" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
-            <!-- Basic Salary -->
+            
+          
             <div class="mb-4">
-                <label class="block font-bold mb-1" for="basic_salary">Basic Salary:</label>
-                <input type="text" id="basic_salary" name="basic_salary" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
+                <label class="block font-bold mb-1" for="basic_salary">Designation:</label>
+                <input type="text" id="designation" name="designation" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
             <div class="mb-4">
                 <label class="block font-bold mb-1" for="basic_salary">Department</label>
@@ -114,6 +115,12 @@
                     @endforeach
                 </select>
 
+            </div>
+
+            <!-- Basic Salary -->
+            <div class="mb-4">
+                <label class="block font-bold mb-1" for="basic_salary">Basic Salary:</label>
+                <input type="text" id="basic_salary" name="basic_salary" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
             </div>
 
