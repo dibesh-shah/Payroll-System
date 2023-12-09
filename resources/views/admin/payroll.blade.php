@@ -7,6 +7,8 @@
     @php
      $totalEarnings = 0; 
      $totalDeductions = 0; 
+     $monthlyAllowance = 0;
+     $basicSalary = $employee->salary;
     @endphp
 
        <div class="container mx-auto mt-5 p-4 bg-white p-6 rounded-lg shadow-lg">
@@ -14,7 +16,8 @@
 
             <div class="bg-white p-4 rounded shadow">
                 <div class="text-center">
-                    <h2 class="text-xl font-semibold">{{$employee->first_name}} {{$employee->last_name}}'s Payroll - {{date("F")." ".date("Y")}}</h2>
+                    <h2 class="text-xl font-semibold">Payroll Statement - {{ now()->subMonth()->format('F Y') }}
+                    </h2>
                 </div>
                 <div class="p-4 ">
                     <div class="my-4">
@@ -22,12 +25,13 @@
                             <table class="w-full border-collapse mb-4">
                                 <tr>
                                     <td class="w-2/3 py-2"><strong>Employee ID:</strong> E{{$employee->id}}</td>
-                                    <td class="w-1/3 py-2" ><strong>Designation:</strong> Software Engineer</td>
+                                    <td class="w-1/3 py-2"><strong>Date of Salary:</strong> {{ date("Y-m-t", strtotime("last month"))}}</td>
                                     
                                 </tr>
                                 <tr class="border-b border-black">
-                                    <td class="w-1/3 py-2"><strong>Date of Salary:</strong> {{date("Y-m-t")}}</td>
-                                    <td class="w-1/3 py-2"><strong>Salary Month:</strong> {{date("F")}}</td>
+                                    <td class="w-1/3 py-2" ><strong>Employee's Name:</strong> {{$employee->first_name}} {{$employee->last_name}}</td>
+                                    <td class="w-1/3 py-2" ><strong>Designation:</strong> Software Engineer</td>
+                                    </td>
                                 </tr>
                             </table>
                             <table class="w-full border-collapse">
@@ -40,6 +44,7 @@
                                     <td class="w-1/3 py-2">Basic Salary</td>
                                     <td class="w-2/3 py-2">{{$employee->salary}}</td>
                                     @php
+                                        
                                         $totalEarnings+=$employee->salary;
                                     @endphp
                                 </tr>
@@ -50,17 +55,28 @@
                                             <td class="w-2/3 py-2">{{ $allowance->pivot->value }}</td>
                                             @php
                                                 $totalEarnings += $allowance->pivot->value;
+                                                $monthlyAllowance += $allowance->pivot->value;
                                             @endphp
                                         @else
                                         @php
                                             $earnings = ($allowance->pivot->value / 100) * $employee->salary;
                                             $totalEarnings += $earnings;
+                                            $monthlyAllowance += $allowance->pivot->value;
                                         @endphp
                                             <td class="w-2/3 py-2">{{ $earnings }}</td>
                                         @endif
                                     </tr>
                                 @endforeach
                                 
+                                @php
+                                    $yearlyIncome = $basicSalary*12 + $monthlyAllowance*12 + 0.1*($basicSalary * 12);
+                                    $pf = min((1/3)*$yearlyIncome , 300000, 0.2*($basicSalary * 12));
+                                    
+                                @endphp
+                                <tr>
+                                    <td class="w-2/3 py-2">{{ $yearlyIncome }}</td>
+                                    <td class="w-2/3 py-2">{{ $pf }}</td>
+                                </tr>
                                 
                                 {{-- <tr>
                                     <td class="w-1/3 py-2">Overtime</td>
@@ -91,6 +107,101 @@
                                     @endif
                                 </tr> 
                                 @endforeach
+
+                                @php
+                                    $taxableIncome = $yearlyIncome - $pf;
+                                @endphp
+                                <tr>
+                                    <td class="w-1/3 py-2">SST</td>
+                                    @if($employee->tax_filing_status =="single")
+                                        @php
+                                            $firstSlab = 500000;
+                                        @endphp 
+                                    @else
+                                        @php
+                                            $firstSlab = 600000;
+                                        @endphp
+                                    @endif
+
+                                    @if ($taxableIncome > $firstSlab)
+                                        <td class="w-2/3 py-2">{{ $firstSlab*0.01}}</td>
+                                    @else
+                                        <td class="w-2/3 py-2">{{ $taxableIncome*0.01}}</td>
+                                    @endif
+                                  
+                                </tr>
+
+                                <tr>
+
+                                    @php
+                                    if($taxableIncome < $firstSlab){
+                                        $secondSlab = 0;
+                                    }else{
+                                        if ($taxableIncome > ($firstSlab+200000)) {
+                                            $secondSlab = 200000 * 0.1;
+                                        }else {
+                                            $secondSlab = ($taxableIncome - $firstSlab) * 0.1;
+                                        }
+                                    }
+
+                                    if($taxableIncome < ($firstSlab + 200000)){
+                                        $thirdSlab = 0;
+                                    }else{
+                                        if ($taxableIncome > ($firstSlab+500000)) {
+                                            $thirdSlab = 300000 * 0.2;
+                                        }else {
+                                            $thirdSlab = ($taxableIncome - $firstSlab - 200000) * 0.2;
+                                        }
+                                    }
+
+                                    if($taxableIncome < ($firstSlab + 500000)){
+                                        $fourthSlab = 0;
+                                    }else{
+                                        if ($employee->tax_filing_status =="single") {
+                                            if ($taxableIncome > ($firstSlab+1500000)) {
+                                                $fourthSlab = 1000000 * 0.3;
+                                            }else {
+                                                $fourthSlab = ($taxableIncome - $firstSlab - 500000) * 0.3;
+                                            }
+                                        }else {
+                                            if ($taxableIncome > ($firstSlab+1400000)) {
+                                                $fourthSlab = 900000 * 0.3;
+                                            }else {
+                                                $fourthSlab = ($taxableIncome - $firstSlab - 500000) * 0.3;
+                                            }
+                                        }  
+                                    }
+
+                                    if($taxableIncome < ($firstSlab + 2000000)){
+                                        $fifthSlab = 0;
+                                    }else{
+                                        if ($employee->tax_filing_status =="single") {
+                                            if ($taxableIncome > ($firstSlab+4500000)) {
+                                                $fifthSlab = 3000000 * 0.36;
+                                            }else {
+                                                $fifthSlab = ($taxableIncome - $firstSlab - 1500000) * 0.36;
+                                            }
+                                        }else {
+                                            if ($taxableIncome > ($firstSlab+4400000)) {
+                                                $fifthSlab = 3000000 * 0.36;
+                                            }else {
+                                                $fifthSlab = ($taxableIncome - $firstSlab - 1400000) * 0.36;
+                                            }
+                                        }  
+                                    }
+
+                                    if($taxableIncome > 5000000){
+                                        $sixthSlab = ($taxableIncome - 5000000 )* 0.39;
+                                    }else {
+                                        $sixthSlab =0;
+                                    }
+                                        
+                                    $tds = ( $secondSlab + $thirdSlab + $fourthSlab + $fifthSlab + $sixthSlab)/12 ;
+                                    @endphp
+
+                                    <td class="w-1/3 py-2">TDS</td>
+                                    <td class="w-2/3 py-2">{{ number_format($tds, 2)}}</td>
+                                </tr>
                                 
                                 <tr>
                                     <td class="w-1/3 py-2"><strong>Total Deductions (B):</strong></td>

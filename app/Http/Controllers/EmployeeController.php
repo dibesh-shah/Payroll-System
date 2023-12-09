@@ -181,11 +181,6 @@ class EmployeeController extends Controller
 
             $approveEmployee->deductions()->sync($deductions);
 
-            // Create or update the payroll record
-            SalaryStructure::updateOrCreate(
-                ['employee_id' => $approveEmployee->id],
-                ['basic_salary' => $basicSalary]
-            );
 
             if (empty($approveEmployee->password)) {
                 $randomPassword = Str::random(10);
