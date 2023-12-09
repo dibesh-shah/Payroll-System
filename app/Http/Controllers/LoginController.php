@@ -13,10 +13,10 @@ use Carbon\Carbon;
 class LoginController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth.employee')->except('showLoginForm', 'welcome', 'createWithDepartment', 'store', 'login', 'login.submit', 'admin.login','employees.approve','employees.reject');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth.employee')->except('showLoginForm', 'welcome', 'createWithDepartment', 'store', 'login', 'login.submit', 'admin.login','employees.approve','employees.reject');
+    }
     // Method to validate employee data
     protected function validateEmployee(Request $request)
     {
@@ -40,9 +40,9 @@ class LoginController extends Controller
     // Show the form for creating a new resource with department selection
     public function createWithDepartment()
     {
-        // if (session()->has('employee_id')) {
-        //     return redirect()->route('employees.dashboard');
-        // }
+        if (session()->has('employee_id')) {
+            return redirect()->route('employees.dashboard');
+        }
         $departments = Department::all(); // Fetch all departments
 
         return view('employee.register', ['departments' => $departments]);
@@ -74,14 +74,14 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        // if (session()->has('employee_id')) {
-        //     $employee = Employee::find(session('employee_id'));
+        if (session()->has('employee_id')) {
+            $employee = Employee::find(session('employee_id'));
 
-        //     // Check if the employee has the 'admin' role
-        //     if ($employee && $employee->role === 'employee') {
-        //         return redirect()->route('employees.dashboard');
-        //     }
-        // }
+            // Check if the employee has the 'admin' role
+            if ($employee && $employee->role === 'employee') {
+                return redirect()->route('employees.dashboard');
+            }
+        }
 
         return view('employee.login');
     }
@@ -99,15 +99,15 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         // Check if the user is already logged in
-        // if (session()->has('employee_id')) {
-        //     $employee = Employee::find(session('employee_id'));
+        if (session()->has('employee_id')) {
+            $employee = Employee::find(session('employee_id'));
 
-        //     // Check if the employee has the 'admin' role
-        //     if ($employee && $employee->role === 'employee') {
-        //         // If not an admin, redirect to the employee dashboard
-        //         return redirect()->route('employees.dashboard');
-        //     }
-        // }
+            // Check if the employee has the 'admin' role
+            if ($employee && $employee->role === 'employee') {
+                // If not an admin, redirect to the employee dashboard
+                return redirect()->route('employees.dashboard');
+            }
+        }
 
         $credentials = $request->validate([
             'email' => 'required|email',

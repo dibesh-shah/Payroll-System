@@ -136,7 +136,7 @@ class EmployeeController extends Controller
                     $approveEmployee->password = Hash::make($randomPassword);
                     $approveEmployee->save();
 
-                    Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
+                    // Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
                 }
             }
 

@@ -14,7 +14,7 @@
                </div>
        </div>
 
-       <div class="container mx-auto mt-5 bg-white p-6 rounded-lg shadow-lg">
+       <div class="container mx-auto mt-5 p-4 bg-white p-6 rounded-lg shadow-lg">
         @php
             $year = date('Y');
             $month = date('m');
@@ -37,7 +37,8 @@
                 <div class="bg-white p-4 rounded-md shadow-lg " >
                     <h2 class="text-xl font-bold"></h2>
                     <p class="text-gray-500"><strong class="text-lg">Employee Name:</strong> {{$employee->first_name}} {{$employee->last_name}} </p>
-                    <p class="text-gray-500"> <strong class="text-lg">Month:</strong> {{date("F")." ".date("Y")}}</p>
+                    <p class="text-gray-500"> <strong class="text-lg">Month:</strong> {{ now()->subMonth()->format('F Y') }}
+                    </p>
                     <div class="mt-4">
                         <a href="{{ route('payroll.payroll', ['id' => $employee->id]) }}" class="bg-blue-500 text-white py-2 px-4 mr-4">View Details</a>
                     </div>

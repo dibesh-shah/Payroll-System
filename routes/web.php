@@ -17,7 +17,7 @@ use App\Http\Controllers\TaxController;
 use App\Http\Controllers\PayrollController;
 use App\Models\Holiday;
 use App\Models\Leave;
-
+use Illuminate\Support\Facades\Auth;
 
 // middleware(['auth.employee'])->
 
@@ -27,7 +27,7 @@ use App\Models\Leave;
     Route::post('/register', [LoginController::class, 'store'])->name('employees.store');
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
-    Route::prefix('employee')->group(function () {
+    Route::middleware(['auth.employee'])->prefix('employee')->group(function () {
         Route::view('/dashboard', 'employee/dashboard')->name('employees.dashboard');
 
         Route::get('/leave_apply', [LeaveRequestController::class, 'leaveHolidays'])->name('employee.leaveApply');
@@ -56,7 +56,13 @@ use App\Models\Leave;
         Route::get('/attendance', [AttendanceController::class, 'showttendance'])->name('attendance.show');
     });
 
+
+
+
+
+
     Route::prefix('admin')->group(function () {
+        Route::get('/dashboard', [LoginController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::get('/department', [DepartmentController::class, 'index'])->name('departments.index');
     Route::post('/department', [DepartmentController::class, 'store'])->name('departments.store');
     Route::post('/department/edit', [DepartmentController::class,'edit'])->name('departments.edit');
@@ -67,7 +73,6 @@ use App\Models\Leave;
     Route::post('/leave', [LeaveController::class, 'store'])->name('leave.store');
     Route::post('/leave/edit', [LeaveController::class,'edit'])->name('leave.edit');
     Route::delete('/leave/{leave}', [LeaveController::class, 'destroy'])->name('leave.destroy');
-    Route::get('/dashboard', [LoginController::class, 'adminDashboard'])->name('admin.dashboard');
     // Approve  routes
     Route::get('approve', [EmployeeController::class, 'index'])->name('employees.index');
     Route::post('/approve/approve/{id}', [EmployeeController::class, 'approveEmployee'])->name('employees.approve');
