@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\Auth;
         Route::get('/inbox', [InboxController::class, 'indexEmp'])->name('employee.inbox');
         Route::Post('/inbox', [InboxController::class, 'storeEmp']);
         Route::get('/attendance', [AttendanceController::class, 'index'])->name('employee.attendance');
+        Route::get('/payslip/{id}', [PayrollController::class, 'payslip'])->name('employee.payslip');
         Route::get('/tax', [TaxController::class, 'indexEmp'])->name('taxEmp');
 
 
@@ -96,10 +97,14 @@ use Illuminate\Support\Facades\Auth;
     Route::get('/leave_detail/{id}', [LeaveRequestController::class, 'show'])->name('leaveReq.show');
     Route::post('/leave_detail/approve/{id}', [LeaveRequestController::class, 'approveLeave'])->name('leave.approve');
     Route::post('/leave_detail/reject/{id}', [LeaveRequestController::class, 'rejectLeave'])->name('leave.reject');
+
+
     Route::get('/generate', [PayrollController::class, 'show']);
     Route::get('/payroll/{id}', [PayrollController::class, 'payroll'])->name('payroll.payroll');
-    Route::post('/payroll/approve/{id}', [PayrollController::class, 'approve'])->name('payroll.approve');
+    Route::post('/payroll/approve', [PayrollController::class, 'approve'])->name('payroll.approve');
     Route::post('/payroll/reject/{id}', [PayrollController::class, 'reject'])->name('payroll.reject');
+
+
      Route::get('/tax', [TaxController::class, 'index'])->name('tax');
     Route::post('/tax_entry', [TaxController::class, 'store'])->name('tax.store');
 

@@ -56,7 +56,15 @@ class PayrollController extends Controller
         $deductions = $employee->deductions;
         return view('/admin/payroll',compact('employee','allowances','deductions'));
     }
-    public function approve($employeeId, Request $request)
+
+    public function payslip($id){
+
+        $employee = Employee::findOrfail($id);
+        $allowances = $employee->allowances;
+        $deductions = $employee->deductions;
+        return view('/employee/payslip',compact('employee','allowances','deductions'));
+    }
+    public function approve(Request $request)
     {
         $employee = Employee::findOrFail($employeeId);
         $payroll = $employee->latestPayroll();
