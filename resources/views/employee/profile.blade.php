@@ -59,9 +59,12 @@
                 </div>
                 <div>
                     <div class="font-semibold">Department</div>
-                    <div class="font-normal mt-1 mb-2">{{$employee->department_id}}</div>
+                    <div class="font-normal mt-1 mb-2">{{$employee->department->name}}</div>
                 </div>
-
+                <div>
+                    <div class="font-semibold">Document</div>
+                    <div class="font-normal mt-1 mb-2">{{$employee->document}}</div>
+                </div>
                 <!-- Add other fields here -->
             </div>
         </fieldset>
@@ -85,7 +88,7 @@
                 <div>No allowances </div>
             @else
                 @foreach ($allowances as $allowance)
-               
+
                 <div>
                     <div class="font-semibold">{{ $allowance->name }}</div>
                     <div class="font-normal mt-1 mb-2">  {{ $allowance->pivot->value }}

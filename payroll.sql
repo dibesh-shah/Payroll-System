@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2023 at 08:40 AM
+-- Generation Time: Dec 06, 2023 at 07:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -82,7 +82,9 @@ INSERT INTO `attendances` (`id`, `employee_id`, `date`, `clock_in`, `clock_out`,
 (33, 1, '2023-09-29', '10:36 AM', NULL, '2023-09-28 23:06:18', '2023-09-28 23:06:18'),
 (34, 1, '2023-10-01', '1:02 PM', '1:02 PM', '2023-10-01 01:32:31', '2023-10-01 01:32:43'),
 (35, 1, '2023-10-02', '11:34 AM', '11:34 AM', '2023-10-02 00:04:16', '2023-10-02 00:04:24'),
-(36, 1, '2023-11-07', '1:23 PM', '1:23 PM', '2023-11-07 01:53:20', '2023-11-07 01:53:23');
+(36, 1, '2023-11-07', '1:23 PM', '1:23 PM', '2023-11-07 01:53:20', '2023-11-07 01:53:23'),
+(37, 1, '2023-11-10', '12:32 PM', '12:32 PM', '2023-11-10 01:02:01', '2023-11-10 01:02:03'),
+(38, 1, '2023-12-06', '12:29 PM', '12:29 PM', '2023-12-06 00:59:03', '2023-12-06 00:59:05');
 
 -- --------------------------------------------------------
 
@@ -173,7 +175,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `first_name`, `last_name`, `email`, `phone`, `date_of_birth`, `permanent_address`, `mailing_address`, `bank_account_number`, `bank_name`, `gender`, `tax_payer_id`, `tax_filing_status`, `document`, `department_id`, `status`, `password`, `created_at`, `updated_at`, `date_of_joining`, `hiring_date`, `salary`, `role`) VALUES
-(1, 'Bimal', 'Paudel', 'hello@gmail.com', '9843563423', '2023-08-16', 'Balaju', 'baneshwor', '16723525252525', 'NIC Asia', 'male', 'jsnmcsn12', 'single', 'documents/Khc9Wf8tPmOpLkQj1AH5wYlk6lS1sU0hsJw56tJS.pdf', 1, 'approved', '$2y$10$L0PHWFffHfo6PJcojsK2qe/i.u.hhLNM5W/ChNinx5F35Twyedsj6', '2023-08-14 03:36:10', '2023-08-15 02:55:07', '2023-08-18', '2023-08-14', 70000.00, 'employee'),
+(1, 'Bimal', 'Paudel', 'hello@gmail.com', '9843563423', '2023-08-16', 'Balaju', 'baneshwor', '16723525252525', 'NIC Asia', 'female', 'jsnmcsn12', 'single', 'documents/Khc9Wf8tPmOpLkQj1AH5wYlk6lS1sU0hsJw56tJS.pdf', 1, 'approved', '$2y$10$L0PHWFffHfo6PJcojsK2qe/i.u.hhLNM5W/ChNinx5F35Twyedsj6', '2023-08-14 03:36:10', '2023-12-06 00:58:50', '2023-08-18', '2023-08-14', 70000.00, 'employee'),
 (2, 'dibesh', 'shah', 'admin@gmail.com', '9843563423', '2023-08-03', 'Balaju', 'baneshwor', '16723525252525', 'NIC Asia', 'male', 'jsnmcsn12', 'single', 'documents/eKfhUhsw1sDRGtzy6Ndy56wE7iEQqXf4uO9aeEql.pdf', 1, 'approved', '$2y$10$Ri9KS2YfgvNsOxqzyjg7oumPz0UxyBurW721i6EsNdJwmdChIy/Li', '2023-08-15 02:59:56', '2023-08-15 03:06:15', '2023-08-18', '2023-08-14', 60000.00, 'admin'),
 (5, 'Bimala', 'shyam', 'minusking2002@gmail.com', '9843563423', '2023-08-02', 'Balaju1', 'baneshwor', '16723525252524', 'NIC Asian', 'female', 'jsnmcsn123', 'married', 'documents/rHkK0sNPzXSXIXAkOzOWGYdP9h9zSZUiArISI87w.pdf', 3, 'approved', '$2y$10$RJaQQea3ooUqDBNKg.pMxegJ4dA0rq3JZzRa0JyU5YrfIe8uZjeNG', '2023-08-26 04:38:39', '2023-08-28 03:18:28', '2023-08-18', '2023-08-14', 50000.00, 'employee');
 
@@ -368,7 +370,9 @@ INSERT INTO `inboxes` (`id`, `senderId`, `receiverId`, `dateTime`, `message`, `c
 (79, '1', '2', 'September 30, 12:55 PM', 'i dont like the way you are talking okay please mind your language there is something worng with you;l:L;\'', '1', '2023-09-30 07:10:49', '2023-09-30 07:10:49'),
 (80, '2', '1', 'September 30, 12:56 PM', 'oh okay dear', '1', '2023-09-30 07:11:07', '2023-09-30 07:11:07'),
 (81, '2', '1', 'October 1, 1:09 PM', 'hello bimal how are you doing', '1', '2023-10-01 07:24:35', '2023-10-01 07:24:35'),
-(82, '1', '2', 'October 1, 1:09 PM', 'doing great', '1', '2023-10-01 07:24:45', '2023-10-01 07:24:45');
+(82, '1', '2', 'October 1, 1:09 PM', 'doing great', '1', '2023-10-01 07:24:45', '2023-10-01 07:24:45'),
+(83, '1', '2', 'December 6, 12:30 PM', 'hello', '1', '2023-12-06 06:45:17', '2023-12-06 06:45:17'),
+(84, '2', '1', 'December 6, 12:30 PM', 'hi', '1', '2023-12-06 06:45:31', '2023-12-06 06:45:31');
 
 -- --------------------------------------------------------
 
@@ -426,7 +430,9 @@ INSERT INTO `leave_requests` (`id`, `employee_id`, `leave_type`, `start_date`, `
 (4, 1, '4', '2023-09-09', '2023-09-16', 'approved', 'i want to take a leave', 'okay i am granting you a leave', '2023-09-30 11:24:43', '2023-09-30 11:25:40'),
 (5, 1, '5', '2023-10-20', '2023-10-27', 'approved', 'hkjjkjhkj', 'kdljfj', '2023-09-30 23:36:55', '2023-09-30 23:37:28'),
 (6, 1, '3', '2023-10-12', '2023-10-13', 'approved', 'khjkjhjk', 'ok', '2023-09-30 23:45:59', '2023-10-01 01:17:52'),
-(7, 1, '1', '2023-10-01', '2023-10-01', 'approved', NULL, NULL, '2023-10-02 00:05:29', '2023-10-02 00:07:15');
+(7, 1, '1', '2023-10-01', '2023-10-01', 'approved', NULL, NULL, '2023-10-02 00:05:29', '2023-10-02 00:07:15'),
+(8, 1, '1', '2023-11-11', '2023-11-13', 'approved', 'dfghj', NULL, '2023-11-10 01:42:38', '2023-11-10 02:04:52'),
+(9, 1, '1', '2023-12-06', '2023-12-08', 'pending', 'fgvhbjn', NULL, '2023-12-06 00:59:37', '2023-12-06 00:59:37');
 
 -- --------------------------------------------------------
 
@@ -462,6 +468,24 @@ CREATE TABLE `password_reset_tokens` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payrolls`
+--
+
+CREATE TABLE `payrolls` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `basicSalary` varchar(255) DEFAULT NULL,
+  `totalAllowances` varchar(255) DEFAULT NULL,
+  `totalDeductions` varchar(255) DEFAULT NULL,
+  `netPay` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `status` varchar(255) DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -663,6 +687,13 @@ ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
+-- Indexes for table `payrolls`
+--
+ALTER TABLE `payrolls`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `employee_id` (`employee_id`);
+
+--
 -- Indexes for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -685,7 +716,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `attendances`
 --
 ALTER TABLE `attendances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT for table `deductions`
+--
+ALTER TABLE `deductions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `departments`
+--
+ALTER TABLE `departments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -703,19 +746,25 @@ ALTER TABLE `holidays`
 -- AUTO_INCREMENT for table `inboxes`
 --
 ALTER TABLE `inboxes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `payrolls`
+--
+ALTER TABLE `payrolls`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -728,6 +777,16 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `payrolls`
+--
+ALTER TABLE `payrolls`
+  ADD CONSTRAINT `payrolls_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

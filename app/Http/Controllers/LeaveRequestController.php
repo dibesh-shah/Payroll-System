@@ -27,10 +27,10 @@ class LeaveRequestController extends Controller
     public function index(){
         // Retrieve "pending" leave requests and eager load the "leaveType" and "employee" relationships
         $leaveRequests = LeaveRequest::where('status', 'pending')->with('leaveType', 'employee')->get();
-    
+
         return view('admin.leave_request', compact('leaveRequests'));
     }
-    
+
     public function show($id){
         $now = now();
         $todayDate = now()->format('Y-m-d');
@@ -128,14 +128,32 @@ class LeaveRequestController extends Controller
         return view('employee.leave_apply', compact('leaves', 'employee', 'publicHolidays', 'otherHolidays'));
     }
 
-    public function store(Request $request)
-    {
 
-        LeaveRequest::create($request->all());
 
-        return redirect()->route('employee.leaveApply')->with('success', 'Leave request submitted successfully.');
-        // echo "hello";
-    }
+        public function store(Request $request)
+        {
+            // Validation rules
+            $validationRules = [
+                'start_date' => 'required|date|after_or_equal:' . now()->format('Y-m-d'),
+                'end_date' => 'required|date|after:start_date',
+                // Add other validation rules as needed
+            ];
+
+            // Custom validation messages
+            $validationMessages = [
+                'start_date.after_or_equal' => 'The start date must be today or a future date.',
+                'end_date.after' => 'The end date must be after the start date.',
+                // Add other custom messages as needed
+            ];
+
+            // Validate the request
+            $request->validate($validationRules, $validationMessages);
+
+            // Create the leave request
+            LeaveRequest::create($request->all());
+
+            return redirect()->route('employee.leaveApply')->with('success', 'Leave request submitted successfully.');
+        }
 
     public function approveLeave($id, Request $request)
     {
@@ -215,12 +233,12 @@ class LeaveRequestController extends Controller
                 $leaveRequest->leave_name = $leave_name->name ;
             }
         }
-        
+
         $leaveRequestsByMonth = $leaveRequests->groupBy(function ($leaveRequest) {
             return Carbon::parse($leaveRequest->start_date)->format('F Y');
         });
 
         return view('/employee/leave_history', ['leaveRequestsByMonth' => $leaveRequestsByMonth]);
-    
+
     }
 }

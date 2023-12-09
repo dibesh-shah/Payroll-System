@@ -17,6 +17,15 @@
                             <form class="bg-white shadow-md rounded-md p-6" method="POST" action="{{route('leaveReq.store')}}">
                                 @csrf
                                 <h2 class="text-xl font-semibold mb-4">Leave Detail</h2>
+                                @if ($errors->any())
+                                    <div class="text-red-500 text-xl bold">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
 
 
                                 <div class="grid grid-cols-2 gap-4">

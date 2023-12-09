@@ -13,6 +13,11 @@
               </svg>
 
               <h2 class="text-xl font-semibold "> User Filled details</h2>
+                 @if(session('error'))
+                    <div class="text-red-500 text-2xl font-bold ">
+                        {{ session('error') }}
+                    </div>
+                @endif
           </div>
           <div class="grid grid-cols-2 gap-2  bg-white shadow-md rounded-md p-6">
             <div>
@@ -63,6 +68,15 @@
                 <div class="font-semibold">Tax_Filing_Status:</div>
                 <div class="font-normal mt-1 mb-2">{{$employee->tax_filing_status}}</div>
             </div>
+            <div>
+                @if ($employee->document)
+                <div class="font-semibold">Employee Document</div>
+
+                <a href="{{ route('employee.document', $employee->document) }}" target="_blank">{{$employee->document}}</a>
+            </div>
+
+            @endif
+
 
 
             <!-- Add other fields here -->
@@ -77,12 +91,11 @@
 
         <form action="{{ route('employees.approve', $employee->id) }}" method="POST" id="my_form">
             @csrf
-            {{-- <label for="date_of_joining">Date of Joining:</label>
-            <input type="date" id="date_of_joining" name="date_of_joining" required> --}}
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
             <div class="mb-4">
-                <label class="block font-bold mb-1" for="date_of_hiring">Date of Hiring:</label>
-                <input type="date" id="date_of_hiring" name="date_of_hiring" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
+                <label class="block font-bold mb-1" for="hiring_date">Date of Hiring:</label>
+                <input type="date" id="hiring_date" name="hiring_date" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
             <div class="mb-4">
                 <label class="block font-bold mb-1" for="date_of_joining">Date of Joining:</label>

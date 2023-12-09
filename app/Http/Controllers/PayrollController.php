@@ -35,6 +35,7 @@ class PayrollController extends Controller
                 'totalAllowances' => $totalAllowances,
                 'totalDeductions' => $totalDeductions,
                 'netPay' => $netPay,
+                'status' => "pending",
             ]);
         }
 

@@ -52,6 +52,14 @@
                    <label class="block mb-2">Tax Identification Number:</label>
                    <input type="text" class="w-full bg-white py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" value="{{$employee->tax_payer_id}}" required disabled>
                  </div>
+                 <div>
+                    <label class="block mb-2">Basic Salary </label>
+                    <input type="text" class="w-full bg-white py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" value="{{$employee->salary}}" required disabled>
+                  </div>
+                  <div>
+                    <label class="block mb-2">Department</label>
+                    <input type="text" class="w-full bg-white py-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" value="{{$employee->department->name}}" required disabled>
+                  </div>
                  <div class="col-span-1 sm:col-span-2 flex justify-end">
                    <button class="text-white bg-blue-800 hover:bg-blue-600 px-6 py-3 rounded-md"  id="editButton">Edit</button>
                    <button class="text-white bg-blue-800 hover:bg-blue-600 px-6 py-3 rounded-md hidden" type="submit" id="updateButton">Update</button>
@@ -59,7 +67,7 @@
                </form>
           </div>
           @endforeach
-          {{ $employees->links() }}
+
       </div>
     </div>
  </div>

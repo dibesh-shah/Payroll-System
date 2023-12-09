@@ -9,8 +9,13 @@
             <!-- Clock In/Out Button -->
             <!-- Clock In/Out Button -->
             <div class="flex items-center space-x-4">
-                <button id="clockInButton" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">Clock In</button>
-                <button id="clockOutButton" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg" disabled>Clock Out</button>
+                <button id="clockInButton" class="px-4 py-2 @if($todayAttendance && $todayAttendance->clock_in) bg-gray-300 cursor-not-allowed @else bg-blue-500 hover:bg-blue-600 text-white @endif rounded-lg" @if($todayAttendance && $todayAttendance->clock_in) disabled @endif>Clock In</button>
+                <button id="clockOutButton" class="px-4 py-2 @if(!$todayAttendance || !$todayAttendance->clock_in || $todayAttendance->clock_out) bg-gray-300 cursor-not-allowed @else bg-red-500 hover:bg-red-600 text-white @endif rounded-lg" @if(!$todayAttendance || !$todayAttendance->clock_in || $todayAttendance->clock_out) disabled @endif>Clock Out</button>
+                @if(session('success'))
+                    <div class="text-green-500 mb-4">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 @if(session('success'))
                 <div class="text-green-500 mb-4">
                     {{ session('success') }}
