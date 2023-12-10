@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Payroll;
-use App\Models\Salary;
+use App\Models\Attendance;
+use App\Models\Holiday;
 use Illuminate\Http\Request;
 
 class PayrollController extends Controller
@@ -54,7 +55,24 @@ class PayrollController extends Controller
         $employee = Employee::findOrfail($id);
         $allowances = $employee->allowances;
         $deductions = $employee->deductions;
-        return view('/admin/payroll',compact('employee','allowances','deductions'));
+
+        $employeeId = $id;
+        $now = now();
+        $year = $now->year;
+        $month = $now->subMonth()->month; // Get the previous month
+
+        $startDate = "{$year}-{$month}-01";
+        $endDate = $now->format('Y-m-t');
+
+        $attendanceData = Attendance::where('employee_id', $employeeId)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->count();
+
+        $holidays = Holiday::where('holiday_date', 'like', $year . '-' . $month . '-%')->pluck('holiday_date')->toArray();
+        $holidaysString = implode(', ', $holidays);
+
+
+        return view('/admin/payroll',compact('employee','allowances','deductions','attendanceData','holidaysString'));
     }
 
     public function payslip($id){
