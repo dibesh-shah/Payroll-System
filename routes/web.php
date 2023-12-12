@@ -105,8 +105,12 @@ use Illuminate\Support\Facades\Auth;
     Route::post('/payroll/reject/{id}', [PayrollController::class, 'reject'])->name('payroll.reject');
 
 
-     Route::get('/tax', [TaxController::class, 'index'])->name('tax');
+    Route::get('/tax', [TaxController::class, 'index'])->name('tax');
     Route::post('/tax_entry', [TaxController::class, 'store'])->name('tax.store');
+    Route::get('/tax_entry', [TaxController::class, 'show'])->name('tax.show');
+    Route::get('/tax/{year}/{next}/{status}',  [TaxController::class, 'update']);
+    Route::post('/tax_updateEntry', [TaxController::class, 'updateTax'])->name('tax.update');
+
 
 
    Route::get('/calendar', [HolidayController::class, 'getHolidays'])->name('admin.calendar');

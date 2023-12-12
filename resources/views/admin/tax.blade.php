@@ -88,7 +88,8 @@
 
                  <div class="grid grid-cols-1">
                      <div class="flex justify-end mt-10">
-                         <button id="updateButton" class="bg-blue-500 text-white py-2 px-4 rounded-md">Update</button>
+                         <button id="updateSingle" class="bg-blue-500 text-white py-2 px-4 rounded-md mr-6">Update Single</button>
+                         <button id="updateCouple" class="bg-blue-500 text-white py-2 px-4 rounded-md">Update Couple</button>
                      </div>
                  </div>
              </div>
@@ -100,9 +101,15 @@
  <script>
      const updateButton = document.getElementById('updateButton');
 
-     updateButton.addEventListener('click', function() {
+     updateSingle.addEventListener('click', function() {
          const currentYear = "2080/81";
-         const url = `http://127.0.0.1:8000/admin/tax?year=${currentYear}`;
+         const url = `http://127.0.0.1:8000/admin/tax/${currentYear}/single`;
+         window.location.href = url;
+     });
+
+     updateCouple.addEventListener('click', function() {
+         const currentYear = "2080/81";
+         const url = `http://127.0.0.1:8000/admin/tax/${currentYear}/couple`;
          window.location.href = url;
      });
 
