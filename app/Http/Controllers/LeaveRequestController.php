@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Holiday;
 use App\Models\Leave;
 use App\Models\LeaveRequest;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -26,12 +27,13 @@ class LeaveRequestController extends Controller
 
     public function index(){
         // Retrieve "pending" leave requests and eager load the "leaveType" and "employee" relationships
-        $leaveRequests = LeaveRequest::where('status', 'pending')->with('leaveType', 'employee')->get();
+        $leaveRequests = LeaveRequest::where('status', 'pending')->with('leave', 'employee')->get();
 
         return view('admin.leave_request', compact('leaveRequests'));
     }
 
     public function show($id){
+
         $now = now();
         $todayDate = now()->format('Y-m-d');
         $year = $now->year;
@@ -85,7 +87,11 @@ class LeaveRequestController extends Controller
     public function leaveHolidays(){
         $employeeId = session('employee_id');
         $employee = Employee::find($employeeId);
-        $leaves = Leave::all();
+        $assignedLeaves = Leave::whereHas('employees', function ($query) use ($employeeId) {
+            $query->where('employees.id', $employeeId); // Use the table alias to specify 'id' column
+        })->get();
+
+
 
 
         $now = now();
@@ -125,34 +131,30 @@ class LeaveRequestController extends Controller
         }
 
         // Pass the data to the 'admin.calendar' view
-        return view('employee.leave_apply', compact('leaves', 'employee', 'publicHolidays', 'otherHolidays'));
+        return view('employee/leave_apply', compact('employee', 'publicHolidays', 'otherHolidays', 'assignedLeaves'));
     }
 
 
 
         public function store(Request $request)
         {
-            // Validation rules
-            $validationRules = [
-                'start_date' => 'required|date|after_or_equal:' . now()->format('Y-m-d'),
-                'end_date' => 'required|date|after:start_date',
-                // Add other validation rules as needed
-            ];
 
-            // Custom validation messages
-            $validationMessages = [
-                'start_date.after_or_equal' => 'The start date must be today or a future date.',
-                'end_date.after' => 'The end date must be after the start date.',
-                // Add other custom messages as needed
-            ];
+            $request->validate([
+                'employee_id' => 'required|exists:employees,id',
+                'leave_id' => 'required|exists:leaves,id',
+                'start_date' => 'required|date',
+                'end_date' => 'required|date',
+                'message' => 'nullable|string',
+            ]);
+            LeaveRequest::create([
+                'employee_id' => $request->input('employee_id'),
+                'leave_id' => $request->input('leave_id'),
+                'start_date' => $request->input('start_date'),
+                'end_date' => $request->input('end_date'),
+                'message' => $request->input('message'),
+            ]);
 
-            // Validate the request
-            $request->validate($validationRules, $validationMessages);
-
-            // Create the leave request
-            LeaveRequest::create($request->all());
-
-            return redirect()->route('employee.leaveApply')->with('success', 'Leave request submitted successfully.');
+            return redirect()->back()->with('success', 'Leave request submitted successfully.');
         }
 
     public function approveLeave($id, Request $request)
@@ -219,26 +221,28 @@ class LeaveRequestController extends Controller
         return view('/employee/leave_balance', ['remainingBalances' => $remainingBalances]);
     }
 
-    public function empHistory(){
 
-        $employeeId = session('employee_id');
-        $leaveRequests = LeaveRequest::where('employee_id', $employeeId)
-            ->orderBy('id','desc')
-            ->get();
+        public function empHistory(Request $request)
+        {
+            $employeeId = session('employee_id');
 
-        foreach($leaveRequests as $leaveRequest){
-            $leave_name = Leave::find($leaveRequest->leave_type);
+            // Use eager loading to load associated leave models
+            $leaveRequests = LeaveRequest::with('leave')
+                ->where('employee_id', $employeeId)
+                ->orderBy('id', 'desc')
+                ->get();
 
-            if ($leave_name) {
-                $leaveRequest->leave_name = $leave_name->name ;
+            // Use pluck method to retrieve the leave name
+            foreach ($leaveRequests as $leaveRequest) {
+                $leaveRequest->leave_name = optional($leaveRequest->leave)->name;
             }
+
+            // Group by month directly using Carbon::parse
+            $leaveRequestsByMonth = $leaveRequests->groupBy(function ($leaveRequest) {
+                return Carbon::parse($leaveRequest->start_date)->format('F Y');
+            });
+
+            return view('/employee/leave_history', ['leaveRequestsByMonth' => $leaveRequestsByMonth]);
         }
 
-        $leaveRequestsByMonth = $leaveRequests->groupBy(function ($leaveRequest) {
-            return Carbon::parse($leaveRequest->start_date)->format('F Y');
-        });
-
-        return view('/employee/leave_history', ['leaveRequestsByMonth' => $leaveRequestsByMonth]);
-
-    }
 }

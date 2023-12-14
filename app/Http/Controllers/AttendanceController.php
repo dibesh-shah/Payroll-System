@@ -18,24 +18,24 @@ class AttendanceController extends Controller
         $employeeId = Session::get('employee_id');
         // dd($employeeId);
         $now = now();
-    $todayDate = now()->format('Y-m-d');
-    $year = $now->year;
-    $month = $now->month;
+        $todayDate = now()->format('Y-m-d');
+        $year = $now->year;
+        $month = $now->month;
 
-    $startDate = "{$year}-{$month}-01";
-    $endDate = $now->format('Y-m-t');
+        $startDate = "{$year}-{$month}-01";
+        $endDate = $now->format('Y-m-t');
 
-    // Get today's attendance for the employee
-    $todayAttendance = Attendance::where('employee_id', $employeeId)
-        ->whereDate('date', today())
-        ->first();
-    $attendanceData = Attendance::where('employee_id', $employeeId)
-        ->whereBetween('date', [$startDate, $endDate])
-        ->orderBy('date', 'desc')
-        ->get();
+        // Get today's attendance for the employee
+        $todayAttendance = Attendance::where('employee_id', $employeeId)
+            ->whereDate('date', today())
+            ->first();
+        $attendanceData = Attendance::where('employee_id', $employeeId)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->orderBy('date', 'desc')
+            ->get();
 
-    return view('employee.attendance', compact('todayAttendance','attendanceData', 'year', 'month'));
-}
+        return view('employee.attendance', compact('todayAttendance', 'attendanceData', 'year', 'month'));
+    }
     public function clockIn(Request $request)
     {
         $data = $request->validate([
@@ -49,8 +49,8 @@ class AttendanceController extends Controller
         $employee = Employee::find($employeeId);
 
         $attendance = Attendance::where('employee_id',  $data['employee_id'])
-        ->where('date', $data['date'])
-        ->first();
+            ->where('date', $data['date'])
+            ->first();
         if ($attendance && $attendance->clock_out) {
             return response()->json(['error' => 'You have already clocked out for the day.']);
         }
@@ -69,7 +69,7 @@ class AttendanceController extends Controller
             'clock_in' => $attendance->clock_in,
 
         ]);
-     }
+    }
 
     public function clockOut(Request $request)
     {
@@ -85,13 +85,13 @@ class AttendanceController extends Controller
         $attendance = Attendance::where('employee_id', $data['employee_id'])
             ->where('date', $data['date'])
             ->first();
-            if ($attendance && $attendance->clock_out) {
-                return response()->json(['error' => 'You have already clocked out for the day.']);
-            }
+        if ($attendance && $attendance->clock_out) {
+            return response()->json(['error' => 'You have already clocked out for the day.']);
+        }
 
-            if(!$attendance->clock_in){
-                return response()->json(['error' =>' you have not clocked in yet']);
-            }
+        if (!$attendance->clock_in) {
+            return response()->json(['error' => ' you have not clocked in yet']);
+        }
 
         if ($attendance) {
             $attendance->clock_out = $data['clock_out'];
@@ -120,6 +120,35 @@ class AttendanceController extends Controller
 
     //     return view('employee.monthly_attendance', compact('attendanceData', 'year', 'month'));
     // }
+            public function showAttendanceForm()
+        {
+            return view('admin.show_attendance');
+        }
 
+    public function showAttendance(Request $request)
 
+    {
+
+        $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'month' => 'required|date_format:Y-m',
+        ]);
+
+        $employeeId = $request->input('employee_id');
+        $month = Carbon::parse($request->input('month'));
+
+        $attendances = Attendance::where('employee_id', $employeeId)
+            ->whereYear('date', $month->year)
+            ->whereMonth('date', $month->month)
+            ->get();
+
+        // Optionally, you can group the attendance by date or any other criteria
+        $attendancesByDate = $attendances->groupBy('date');
+
+        return response()->json([
+            'employeeId' => $employeeId,
+            'month' => $month,
+            'attendancesByDate' => $attendancesByDate,
+        ]);
+    }
 }

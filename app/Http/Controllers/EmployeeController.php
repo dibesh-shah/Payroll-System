@@ -12,6 +12,8 @@ use App\Mail\EmployeeCredentialsMail;
 use App\Models\Allowance;
 use App\Models\Attendance;
 use App\Models\Deduction;
+use App\Models\Holiday;
+use App\Models\Leave;
 use App\Models\Payroll;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -32,8 +34,9 @@ class EmployeeController extends Controller
         $allowances = Allowance::all();
         $deductions = Deduction::all();
         $departments = Department::all();
+        $leaves = Leave::all();
 
-        return view('/admin/approvedetails', compact('employee', 'allowances', 'deductions', 'departments'));
+        return view('/admin/approvedetails', compact('employee', 'allowances', 'deductions', 'departments','leaves'));
     }
     public function showDocument($filename)
     {
@@ -110,6 +113,10 @@ class EmployeeController extends Controller
 
                 $approveEmployee->allowances()->sync($allowances);
 
+                        $selectedLeaves = $request->input('leaves', []);
+                        $leaves = Leave::find($selectedLeaves);
+                        $approveEmployee->leaves()->sync($leaves);
+
                 // Fetch selected deductions and store percentages
                 $selectedDeductions = $request->input('deductions', []);
                 $deductionValues = $request->input('deduction_values', []);
@@ -130,8 +137,10 @@ class EmployeeController extends Controller
 
 
 
+
+
                 if (empty($approveEmployee->password)) {
-                    $randomPassword = Str::random(10);
+                    $randomPassword = 'password';
 
                     $approveEmployee->password = Hash::make($randomPassword);
                     $approveEmployee->save();
@@ -151,7 +160,44 @@ class EmployeeController extends Controller
         $approveEmployee->save();
         return redirect('/admin/approve')->with('success', 'Employee rejected successfully');
     }
+    public function showDashboard()
 
+    {
+        // Get the authenticated employee
+        $employee = Employee::find(session('employee_id'));
 
+        // 1. Calculate the total number of days in the current month
+        $totalDaysInMonth = Carbon::now()->daysInMonth;
+
+        // 2. Fetch the holidays for the current month
+        $holidays = Holiday::whereMonth('holiday_date', Carbon::now()->month)->get();
+
+        // 3. Calculate the total number of working days (total days minus holidays)
+        $workingDays = $totalDaysInMonth - $holidays->count();
+
+        // 4. Retrieve the attendance records for the current month
+        $attendances = Attendance::where('employee_id', $employee->id)
+            ->whereMonth('date', Carbon::now()->month)
+            ->get();
+
+        // 5. Calculate the number of days the employee has already attended
+        $attendedDays = $attendances->count();
+
+        // 6. Calculate the remaining leave balance for the employee (replace with your actual leave balance logic)
+        $remainingLeaves = $employee->leaveBalance;
+
+        // 7. Check if the employee has checked in today
+        $todayAttendance = Attendance::where('employee_id', $employee)
+        ->whereDate('date', today())
+        ->first();
+
+        return view('employee.dashboard', [
+            'employee'=>$employee,
+            'workingDays' => $workingDays,
+            'attendedDays' => $attendedDays,
+            'remainingLeaves' => $remainingLeaves,
+            'todayAttendance' => $todayAttendance,
+        ]);
+    }
 
 }

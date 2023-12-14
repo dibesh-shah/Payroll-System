@@ -15,7 +15,7 @@ class LoginController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.employee')->except('showLoginForm', 'welcome', 'createWithDepartment', 'store', 'login', 'login.submit', 'admin.login','employees.approve','employees.reject');
+        $this->middleware('auth.employee')->except('showLoginForm', 'welcome', 'createWithDepartment', 'store', 'login', 'login.submit', 'admin.login', 'employees.approve', 'employees.reject');
     }
     // Method to validate employee data
     protected function validateEmployee(Request $request)
@@ -164,4 +164,5 @@ class LoginController extends Controller
 
         return view('admin.dashboard', compact('totalEmployees', 'totalDepartments', 'checkedInToday'));
     }
+
 }

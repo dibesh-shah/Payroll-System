@@ -68,7 +68,7 @@
                 @endforeach
                 @endforeach
             </div>
-            
+
             <!-- Add more months and their leave entries -->
         </div>
 

@@ -225,6 +225,21 @@ calendarDivs.forEach((div) => {
 // Add change event listener to the holiday type select
 holidayTypeSelect.addEventListener('change', () => {
   selectedHolidayType = holidayTypeSelect.value;
+  if (selectedHolidayType === 'Public Holiday') {
+    holidayTypeSelect.options[3].disabled = true;
+    holidayTypeSelect.options[2].disabled = true;
+    holidayTypeSelect.options[0].disabled = true;
+    } else if (selectedHolidayType === 'Weekend') {
+      holidayTypeSelect.options[1].disabled = true;
+      holidayTypeSelect.options[3].disabled = true;
+      holidayTypeSelect.options[0].disabled = true;
+
+    } else if (selectedHolidayType === 'Other') {
+      holidayTypeSelect.options[1].disabled = true;
+      holidayTypeSelect.options[2].disabled = true;
+      holidayTypeSelect.options[0].disabled = true;
+
+    }
   toggleSaveButton();
 });
 </script>
@@ -252,6 +267,10 @@ holidayTypeSelect.addEventListener('change', () => {
         cache:false,
         success:function(data){
             alert("data inserted ")
+            var holidayTypeSelect = document.getElementById('holidayType');
+            for (var i = 0; i < holidayTypeSelect.options.length; i++) {
+              holidayTypeSelect.options[i].disabled = false;
+            }
         },
         error: function(xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");

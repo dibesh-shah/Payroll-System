@@ -10,7 +10,7 @@ class LeaveRequest extends Model
     use HasFactory;
     protected $fillable = [
         'employee_id',
-        'leave_type',
+        'leave_id',
         'start_date',
         'end_date',
         'status',
@@ -22,9 +22,10 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
-    public function leaveType()
+    public function leave()
     {
-        return $this->belongsTo(Leave::class, 'leave_type');
+        return $this->belongsTo(Leave::class, 'leave_id');
     }
+
 
 }

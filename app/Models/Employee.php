@@ -53,6 +53,10 @@ class Employee extends Model
         ->withPivot(['value', 'type'])
         ->withTimestamps();
     }
+    public function leaves()
+    {
+        return $this->belongsToMany(Leave::class, 'employee_leave')->withTimestamps();
+    }
     public function payrolls()
     {
         return $this->hasMany(Payroll::class);

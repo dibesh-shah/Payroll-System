@@ -34,9 +34,9 @@
                                         <p class="w-full  rounded p-2 " > {{$employee->first_name}} {{$employee->last_name}}</p>
                                     </div>
                                     <div>
-                                        <label for="leaveType" class="block font-semibold mb-2">Leave Type:</label>
-                                        <select id="leaveType" name="leave_type" class="w-full border rounded p-2">
-                                            @foreach($leaves as $leave)
+                                        <label for="leave_id" class="block font-semibold mb-2">AVailable Leave Type:</label>
+                                        <select id="leave_id" name="leave_id" class="w-full border rounded p-2 ">
+                                            @foreach($assignedLeaves as $leave)
 
                                             <option value="{{$leave->id}}">{{$leave->name}}</option>
                                             @endforeach

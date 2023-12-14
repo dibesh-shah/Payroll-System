@@ -102,10 +102,12 @@
                 <input type="date" id="date_of_joining" name="date_of_joining" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
             <!-- Basic Salary -->
+
             <div class="mb-4">
-                <label class="block font-bold mb-1" for="basic_salary">Basic Salary:</label>
-                <input type="text" id="basic_salary" name="basic_salary" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
+                <label class="block font-bold mb-1" for="basic_salary">Designation:</label>
+                <input type="text" id="designation" name="designation" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
+
             <div class="mb-4">
                 <label class="block font-bold mb-1" for="basic_salary">Department</label>
                 <select name="department_id" id="" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50">
@@ -114,6 +116,10 @@
                     @endforeach
                 </select>
 
+            </div>
+            <div class="mb-4">
+                <label class="block font-bold mb-1" for="basic_salary">Basic Salary:</label>
+                <input type="text" id="basic_salary" name="basic_salary" class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-opacity-50" required>
             </div>
             </div>
 
@@ -161,6 +167,19 @@
                             <option value="percentage">%</option>
                             <option value="amount">Rs</option>
                         </select>
+                    </div>
+                    @endforeach
+                </div>
+
+                <div class="border p-4 rounded-md bg-white shadow-md">
+
+                    <h3 class="font-bold">Leave Types </h3>
+                    @foreach ($leaves as $leave)
+                    <div class="flex items-center mt-2 mb-2 gap-2">
+                        <div class="w-1/3 flex justify-between">
+                            <label for="leave_{{ $leave->id }}" class="flex items-center pr-4 font-semibold">{{ $leave->name }}</label>
+                            <input class="h-5 w-5" type="checkbox" id="leave_{{ $leave->id }}" name="leaves[]" value="{{ $leave->id }}">
+                        </div>
                     </div>
                     @endforeach
                 </div>

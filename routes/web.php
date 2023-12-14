@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Auth;
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
     Route::middleware(['auth.employee'])->prefix('employee')->group(function () {
-        Route::view('/dashboard', 'employee/dashboard')->name('employees.dashboard');
+        Route::get('/dashboard', [EmployeeController::class, 'showDashboard'])->name('employees.dashboard');
 
         Route::get('/leave_apply', [LeaveRequestController::class, 'leaveHolidays'])->name('employee.leaveApply');
         Route::post('/leave_apply', [LeaveRequestController::class, 'store'])->name('leaveReq.store');
@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\Auth;
         Route::get('/inbox', [InboxController::class, 'indexEmp'])->name('employee.inbox');
         Route::Post('/inbox', [InboxController::class, 'storeEmp']);
         Route::get('/attendance', [AttendanceController::class, 'index'])->name('employee.attendance');
+        Route::get('/payslip/{id}', [PayrollController::class, 'payslip'])->name('employee.payslip');
         Route::get('/tax', [TaxController::class, 'indexEmp'])->name('taxEmp');
 
 
@@ -75,7 +76,7 @@ use Illuminate\Support\Facades\Auth;
     Route::delete('/leave/{leave}', [LeaveController::class, 'destroy'])->name('leave.destroy');
     // Approve  routes
     Route::get('approve', [EmployeeController::class, 'index'])->name('employees.index');
-    Route::post('/approve/approve/{id}', [EmployeeController::class, 'approveEmployee'])->name('employees.approve');
+    Route::post('/approve/{id}', [EmployeeController::class, 'approveEmployee'])->name('employees.approve');
     Route::post('/approve/reject/{id}', [EmployeeController::class, 'rejectEmployee'])->name('employees.reject');
     Route::get('/approve/{id}', [EmployeeController::class, 'show'])->name('employees.show');
     Route::get('/employee/document/{filename}',[EmployeeController::class,'showDocument'])->name('employee.document');
@@ -98,7 +99,8 @@ use Illuminate\Support\Facades\Auth;
     Route::post('/leave_detail/reject/{id}', [LeaveRequestController::class, 'rejectLeave'])->name('leave.reject');
     Route::get('/generate', [PayrollController::class, 'show']);
     Route::get('/payroll/{id}', [PayrollController::class, 'payroll'])->name('payroll.payroll');
-    Route::post('/payroll/approve/{id}', [PayrollController::class, 'approve'])->name('payroll.approve');
+    // Route::post('/payroll/approve/{id}', [PayrollController::class, 'approve'])->name('payroll.approve');
+    Route::post('/payroll/approve', [PayrollController::class, 'approve'])->name('payroll.approve');
     Route::post('/payroll/reject/{id}', [PayrollController::class, 'reject'])->name('payroll.reject');
      Route::get('/tax', [TaxController::class, 'index'])->name('tax');
     Route::post('/tax_entry', [TaxController::class, 'store'])->name('tax.store');
@@ -114,6 +116,8 @@ use Illuminate\Support\Facades\Auth;
     Route::Post('/inbox', [InboxController::class, 'store']);
 
     Route::Post('/inbox/search', [InboxController::class, 'search']);
+    Route::get('/show_attendance', [AttendanceController::class, 'showAttendanceForm'])->name('admin.attendance');
+    Route::Post('/show_attendance', [AttendanceController::class, 'showAttendance'])->name('admin.showAttendance');
 
     });
 

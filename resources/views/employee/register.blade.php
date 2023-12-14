@@ -56,7 +56,7 @@
           <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
         @enderror
         </label>
-        <input type="email" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your email address" name="email" required>
+        <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your email address" name="email" required>
       </div>
 
       <div>
@@ -65,7 +65,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
         </label>
-        <input type="tel" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your phone number" name="phone" required>
+        <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your phone number" name="phone" required>
       </div>
 
       <div>
@@ -74,7 +74,8 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
         </label>
-        <input type="date" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="date_of_birth" required>
+        <input type="date" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="date_of_birth" required max="{{ date('Y-m-d', strtotime('-18 years')) }}">
+
       </div>
 
       <div>
@@ -143,7 +144,8 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
             </label>
-            <input type="file" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  name="document" required>
+            <input type="file" accept=".pdf, .doc, .docx" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="document" required>
+
           </div>
 
       <div class="col-span-2 flex justify-end">
@@ -153,5 +155,65 @@
   </div>
 
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.querySelector("form");
+
+      // Add event listeners to input fields
+      const inputs = form.querySelectorAll("input, select");
+      inputs.forEach((input) => {
+        input.addEventListener("blur", validateField);
+      });
+
+      function validateField(event) {
+        const input = event.target;
+        const fieldName = input.getAttribute("name");
+        const value = input.value;
+
+        // Reset previous error messages
+        const errorMessage = input.parentElement.querySelector(".text-red-400");
+        if (errorMessage) {
+          errorMessage.textContent = "";
+        }
+
+        // Validate based on field name
+        switch (fieldName) {
+          case "email":
+            if (!isValidEmail(value)) {
+              displayErrorMessage(input, "Invalid email format");
+            }
+            break;
+
+          case "phone":
+            if (!isValidPhone(value)) {
+              displayErrorMessage(input, "Invalid phone format");
+            }
+            break;
+
+          // Add more cases for other fields...
+
+          default:
+            break;
+        }
+      }
+
+      function isValidEmail(email) {
+        const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+        return emailRegex.test(email);
+      }
+
+      function isValidPhone(phone) {
+        const phoneRegex = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
+        return phoneRegex.test(phone);
+      }
+
+      function displayErrorMessage(inputElement, message) {
+        const errorMessage = document.createElement("span");
+        errorMessage.className = "ml-4 text-red-400 text-sm";
+        errorMessage.textContent = message;
+        inputElement.parentElement.appendChild(errorMessage);
+      }
+    });
+  </script>
 
 </html>

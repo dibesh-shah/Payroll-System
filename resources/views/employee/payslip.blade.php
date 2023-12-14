@@ -25,7 +25,7 @@
     @endphp
 
        <div class="container mx-auto mt-5 p-4 bg-white p-6 rounded-lg shadow-lg">
-           <h1 class="text-3xl font-bold mb-4"> Payroll {{$attendanceDays}} </h1>
+           <h1 class="text-3xl font-bold mb-4"> Payroll</h1>
 
             <div class="bg-white p-4 rounded shadow">
                 <div class="text-center">
@@ -275,14 +275,7 @@
                                 </tr>
 
                             </table>
-                            <div class="mt-4">
-                                {{-- <input type="text" name="allowanceString" value="{{$allowanceString}}">
-                                <input type="text" name="deductionString" value="{{$deductionString}}">
-                                <input type="text" name="basicSalary" value="{{}}"> --}}
 
-                                <button class="bg-green-500 text-white py-2 px-4 mr-4">Approve</button>
-                                <button class="bg-red-500 text-white py-2 px-4">Reject</button>
-                            </div>
                         </form>
 
                     </div>
