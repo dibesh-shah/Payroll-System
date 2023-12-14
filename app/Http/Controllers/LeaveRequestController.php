@@ -26,10 +26,42 @@ class LeaveRequestController extends Controller
 
     public function index(){
         // Retrieve "pending" leave requests and eager load the "leaveType" and "employee" relationships
-        $leaveRequests = LeaveRequest::where('status', 'pending')->with('leaveType', 'employee')->get();
+        $leaveRequests = LeaveRequest::where('status', 'pending')->with('leave', 'employee')->get();
 
         return view('admin.leave_request', compact('leaveRequests'));
+        // dd($request->all());
+
     }
+    
+    public function idSearch(Request $request){
+        $id = $request->leave_id;
+        // Retrieve "pending" leave requests and eager load the "leaveType" and "employee" relationships
+        // $leaveSearch = LeaveRequest::where('id', $id)->with('leave', 'employee')->get();
+        $leaveSearch = LeaveRequest::where('id', $id)->get();
+
+
+        
+        $leaveRequest = LeaveRequest::findOrFail($id);
+        // Retrieve the associated employee
+        $employee = Employee::find($leaveRequest->employee_id);
+        $leave_name = Leave::find($leaveRequest->leave_type);
+
+        // If the employee is found, concatenate the first name and last name
+        if ($employee) {
+            $leaveRequest->employee_name = $employee->first_name . ' ' . $employee->last_name;
+        }
+
+        if ($leave_name) {
+            $leaveRequest->leave_name = $leave_name->name ;
+        }
+
+        return view('admin.leave_request', compact('leaveSearch','leaveRequest'));
+        // dd($request->all());
+        // dd($leaveSearch->all());
+        // dd($id);
+
+    }
+
 
     public function show($id){
         $now = now();
@@ -85,7 +117,9 @@ class LeaveRequestController extends Controller
     public function leaveHolidays(){
         $employeeId = session('employee_id');
         $employee = Employee::find($employeeId);
-        $leaves = Leave::all();
+        $assignedLeaves = Leave::whereHas('employees', function ($query) use ($employeeId) {
+            $query->where('employees.id', $employeeId); // Use the table alias to specify 'id' column
+        })->get();
 
 
         $now = now();
@@ -125,35 +159,31 @@ class LeaveRequestController extends Controller
         }
 
         // Pass the data to the 'admin.calendar' view
-        return view('employee.leave_apply', compact('leaves', 'employee', 'publicHolidays', 'otherHolidays'));
+        return view('employee.leave_apply', compact('assignedLeaves', 'employee', 'publicHolidays', 'otherHolidays'));
     }
 
 
 
-        public function store(Request $request)
-        {
-            // Validation rules
-            $validationRules = [
-                'start_date' => 'required|date|after_or_equal:' . now()->format('Y-m-d'),
-                'end_date' => 'required|date|after:start_date',
-                // Add other validation rules as needed
-            ];
+    public function store(Request $request)
+    {
 
-            // Custom validation messages
-            $validationMessages = [
-                'start_date.after_or_equal' => 'The start date must be today or a future date.',
-                'end_date.after' => 'The end date must be after the start date.',
-                // Add other custom messages as needed
-            ];
+        $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'leave_id' => 'required|exists:leaves,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'message' => 'nullable|string',
+        ]);
+        LeaveRequest::create([
+            'employee_id' => $request->input('employee_id'),
+            'leave_type' => $request->input('leave_id'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'message' => $request->input('message'),
+        ]);
 
-            // Validate the request
-            $request->validate($validationRules, $validationMessages);
-
-            // Create the leave request
-            LeaveRequest::create($request->all());
-
-            return redirect()->route('employee.leaveApply')->with('success', 'Leave request submitted successfully.');
-        }
+        return redirect()->back()->with('success', 'Leave request submitted successfully.');
+    }
 
     public function approveLeave($id, Request $request)
     {
@@ -164,7 +194,7 @@ class LeaveRequestController extends Controller
             $approveLeave->admin_response = $request->input('admin_response');
             $approveLeave->save();
         }
-        return redirect('/admin/leave_request')->with('success', 'Leave approved successfully.');
+        return redirect('/admin/leave_request')->with('success', 'Leave Request approved ');
     }
     public function viewLeave(Request $request)
     {
@@ -185,7 +215,7 @@ class LeaveRequestController extends Controller
         $rejectLeave = LeaveRequest::findOrFail($id);
         $rejectLeave->status = 'rejected';
         $rejectLeave->save();
-        return redirect('/admin/leave_request')->with('success', 'Leave rejected successfully');
+        return redirect('/admin/leave_request')->with('error', 'Leave Request rejected ');
     }
 
     public function balance()
@@ -239,6 +269,8 @@ class LeaveRequestController extends Controller
         });
 
         return view('/employee/leave_history', ['leaveRequestsByMonth' => $leaveRequestsByMonth]);
+        // dd($leaveRequests->all());
+        // dd($employeeId);
 
     }
 }

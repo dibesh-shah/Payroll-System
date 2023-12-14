@@ -68,7 +68,7 @@ class TaxController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Data inserted successfully');
+        return redirect()->back()->with('success', 'Tax Slab stored');
 
     }
 
@@ -92,7 +92,7 @@ class TaxController extends Controller
         // dd($request->all());
 
 
-        return redirect()->back()->with('success', 'Data updated successfully');
+        return redirect()->back()->with('success', 'Tax Slab updated');
 
     }
 

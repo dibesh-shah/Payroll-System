@@ -46,6 +46,7 @@
  <script>
     const publicHoli = [];
     const otherHoli = [];
+    const weekHoli = [];
 
     @foreach ($publicHolidays as  $publicHoliday)
 
@@ -58,6 +59,12 @@
         @foreach ($otherHolidays as  $otherHoliday)
         @foreach ($otherHoliday['holiday_dates'] as $date)
                    otherHoli.push('{{ $date }}')
+                @endforeach
+        @endforeach
+
+        @foreach ($weekends as  $weekend)
+        @foreach ($weekend['holiday_dates'] as $date)
+                   weekHoli.push('{{ $date }}')
                 @endforeach
         @endforeach
 
@@ -131,6 +138,9 @@
                     }else if(otherHoli.includes(d)){
                         otherHoliday++;
                         divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-purple-400 pointer-events-none text-white"
+                    }else if(weekHoli.includes(d)){
+                      weekend++;
+                        divcell.className=" shadow-md rounded-full px-2 py-4 m-1 text-center bg-red-400 pointer-events-none text-white"
                     }
                     if(j==6){
                         weekend++;
@@ -162,6 +172,17 @@
     document.getElementById('publicHoliday').textContent=publicHoliday;
     document.getElementById('otherHoliday').textContent=otherHoliday;
 </script>
+
+
+<script>
+  toastr.options = {
+      "positionClass": "toast-bottom-right",
+      "progressBar": true,
+      "timeOut": 5000, // Duration in milliseconds
+  }
+</script>
+
+
 
 <script>
 // JavaScript code for handling holiday selection
@@ -255,7 +276,6 @@ holidayTypeSelect.addEventListener('change', () => {
         if (holiday_date.endsWith(',')) {
             holiday_date = holiday_date.slice(0, -1);
         }
-        alert(holiday_date)
       $.ajax({
         type:"POST",
         url:"save-holidays",
@@ -266,7 +286,7 @@ holidayTypeSelect.addEventListener('change', () => {
         },
         cache:false,
         success:function(data){
-            alert("data inserted ")
+          toastr.success(selectedHolidayType + " stored successfully");
             var holidayTypeSelect = document.getElementById('holidayType');
             for (var i = 0; i < holidayTypeSelect.options.length; i++) {
               holidayTypeSelect.options[i].disabled = false;

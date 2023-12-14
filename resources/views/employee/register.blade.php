@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registration - Payroll Management System</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Include Toastr CSS and JS files -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
   <style>
     .custom-blue {
       --color-primary: #3B82F6;
@@ -23,13 +29,8 @@
 
   <div  class="container mx-auto mt-4 px-4 py-6 sm:px-8 md:px-16 lg:px-24 bg-white shadow-md rounded-lg">
     <h1 class="text-3xl font-bold mb-6">Employee Registration</h1>
-    @if(session('success'))
-    <div class="text-green-500 mb-4">
-        {{ session('success') }}
-    </div>
 
-@endif
-    <form class="grid grid-cols-2 gap-6" action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="grid grid-cols-2 gap-6" action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
         @csrf
       <div>
         <label class="block mb-2">First Name:
@@ -37,7 +38,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
         </label>
-        <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your first name" name="first_name" required >
+        <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your first name" name="first_name"  pattern="[A-Za-z]{3,}" title="Please enter valid First name" required >
 
       </div>
 
@@ -47,7 +48,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
         </label>
-        <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your last name" name="last_name" required>
+        <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your last name" name="last_name"  pattern="[A-Za-z]{3,}" title="Please enter valid Last name" required>
       </div>
 
       <div>
@@ -56,7 +57,8 @@
           <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
         @enderror
         </label>
-        <input type="email" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your email address" name="email" required>
+        <input type="email" id="email" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your email address" name="email" title="Please enter valid Email Address" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" oninvalid="setCustomValidity('Please enter a valid email address')"
+        oninput="setCustomValidity('')" required>
       </div>
 
       <div>
@@ -65,7 +67,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
         </label>
-        <input type="tel" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your phone number" name="phone" required>
+        <input type="tel" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your phone number" name="phone" pattern="98\d{8}" title="Please enter a valid 10-digit phone number "  required>
       </div>
 
       <div>
@@ -90,7 +92,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
           </label>
-          <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank account number" name="bank_name" required>
+          <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank name" name="bank_name" pattern="[A-Za-z\s]+" title="Please enter valid Bank" required>
         </div>
 
         <div>
@@ -99,7 +101,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
             </label>
-            <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank account number" name="bank_account_number" required>
+            <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your bank account number" name="bank_account_number" pattern="\d+" title="Please enter valid account number" required>
         </div>
 
         <div>
@@ -108,7 +110,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
             </label>
-            <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your tax identification number"  name="tax_payer_id" required>
+            <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter your tax identification number"  name="tax_payer_id" pattern="\d+" title="Please enter valid Pan number" required>
         </div>
 
         <div>
@@ -125,7 +127,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
           </label>
-          <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  placeholder="Enter your address" name="permanent_address" required/>
+          <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  placeholder="Enter your address" name="permanent_address" pattern="[A-Za-z0-9\s]+" title="Please enter valid address" required/>
         </div>
 
         <div>
@@ -134,7 +136,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
           </label>
-          <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  placeholder="Enter your address" name="mailing_address" required/>
+          <input type="text" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue"  placeholder="Enter your address" name="mailing_address" pattern="[A-Za-z0-9\s]+" title="Please enter valid address" required/>
         </div>
 
         <div>
@@ -151,6 +153,46 @@
       </div>
     </form>
   </div>
+
+  <script>
+    function validateForm() {
+        var emailInput = document.getElementById('email');
+        var isValidEmail = validateEmail(emailInput.value);
+
+        if (!isValidEmail) {
+            setCustomEmailValidity('Please enter a valid email address');
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
+
+    function validateEmail(email) {
+        // Your email validation regex
+        var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
+    function setCustomEmailValidity(message) {
+        var emailInput = document.getElementById('email');
+        emailInput.setCustomValidity(message);
+    }
+</script>
+
+<script>
+  toastr.options = {
+      "positionClass": "toast-bottom-right",
+      "progressBar": true,
+      "timeOut": 5000, // Duration in milliseconds
+  }
+</script>
+
+@if(session('success'))
+    <script>
+        // Display Toastr success message
+        toastr.success("{{ session('success') }}");
+    </script>
+@endif
 
 </body>
 

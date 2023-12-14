@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2023 at 07:51 AM
+-- Generation Time: Dec 14, 2023 at 04:22 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -68,23 +68,26 @@ CREATE TABLE `attendances` (
 --
 
 INSERT INTO `attendances` (`id`, `employee_id`, `date`, `clock_in`, `clock_out`, `created_at`, `updated_at`) VALUES
-(17, 2, '2023-08-20', '3:21 PM', '3:35 PM', '2023-08-25 03:51:38', '2023-08-25 04:05:44'),
-(18, 2, '2023-08-21', '12:04 PM', '06:54 PM', NULL, NULL),
-(22, 2, '2023-08-22', '10:12 AM', '05:32 PM', NULL, NULL),
-(23, 2, '2023-08-23', '10:12 AM', '05:32 PM', NULL, NULL),
-(25, 2, '2023-08-24', '10:12 AM', '05:32 PM', NULL, NULL),
-(27, 1, '2023-08-24', '10:12 AM', '05:32 PM', NULL, NULL),
-(28, 2, '2023-08-25', '3:54 PM', '3:54 PM', '2023-08-25 04:24:39', '2023-08-25 04:24:42'),
-(29, 1, '2023-08-26', '8:28 AM', '8:28 AM', '2023-08-25 20:58:54', '2023-08-25 20:58:56'),
-(30, 5, '2023-08-28', '12:08 PM', '12:08 PM', '2023-08-28 00:38:17', '2023-08-28 00:38:18'),
-(31, 5, '2023-08-29', '10:45 AM', NULL, NULL, NULL),
-(32, 5, '2023-08-29', '10:40 AM', NULL, NULL, NULL),
-(33, 1, '2023-09-29', '10:36 AM', NULL, '2023-09-28 23:06:18', '2023-09-28 23:06:18'),
-(34, 1, '2023-10-01', '1:02 PM', '1:02 PM', '2023-10-01 01:32:31', '2023-10-01 01:32:43'),
-(35, 1, '2023-10-02', '11:34 AM', '11:34 AM', '2023-10-02 00:04:16', '2023-10-02 00:04:24'),
-(36, 1, '2023-11-07', '1:23 PM', '1:23 PM', '2023-11-07 01:53:20', '2023-11-07 01:53:23'),
-(37, 1, '2023-11-10', '12:32 PM', '12:32 PM', '2023-11-10 01:02:01', '2023-11-10 01:02:03'),
-(38, 1, '2023-12-06', '12:29 PM', '12:29 PM', '2023-12-06 00:59:03', '2023-12-06 00:59:05');
+(38, 7, '2023-11-08', '2:03 PM', '2:03 PM', '2023-12-09 02:33:01', '2023-12-09 02:33:03'),
+(39, 7, '2023-11-10', '10:00 PM', '5:00 PM', NULL, NULL),
+(40, 7, '2023-11-11', '10:00 PM', '5:00 PM', NULL, NULL),
+(41, 7, '2023-11-12', '10:00 PM', '5:00 PM', NULL, NULL),
+(42, 7, '2023-11-13', '10:00 PM', '5:00 PM', NULL, NULL),
+(43, 7, '2023-11-14', '10:00 PM', '5:00 PM', NULL, NULL),
+(44, 7, '2023-11-15', '10:00 PM', '5:00 PM', NULL, NULL),
+(45, 7, '2023-11-16', '10:00 PM', '5:00 PM', NULL, NULL),
+(46, 7, '2023-11-17', '10:00 PM', '5:00 PM', NULL, NULL),
+(47, 7, '2023-11-18', '10:00 PM', '5:00 PM', NULL, NULL),
+(48, 7, '2023-11-19', '10:00 PM', '5:00 PM', NULL, NULL),
+(49, 7, '2023-11-20', '10:00 PM', '5:00 PM', NULL, NULL),
+(50, 7, '2023-11-21', '10:00 PM', '5:00 PM', NULL, NULL),
+(51, 7, '2023-11-22', '10:00 PM', '5:00 PM', NULL, NULL),
+(52, 7, '2023-11-23', '10:00 PM', '5:00 PM', NULL, NULL),
+(53, 7, '2023-11-24', '10:00 PM', '5:00 PM', NULL, NULL),
+(54, 7, '2023-11-25', '10:00 PM', '5:00 PM', NULL, NULL),
+(55, 7, '2023-11-26', '10:00 PM', '5:00 PM', NULL, NULL),
+(56, 7, '2023-11-27', '10:00 PM', '5:00 PM', NULL, NULL),
+(64, 1, '2023-12-14', '5:53 PM', '5:53 PM', '2023-12-14 06:23:13', '2023-12-14 06:23:20');
 
 -- --------------------------------------------------------
 
@@ -156,6 +159,7 @@ CREATE TABLE `employees` (
   `bank_account_number` varchar(255) NOT NULL,
   `bank_name` varchar(255) NOT NULL,
   `gender` enum('male','female') NOT NULL,
+  `designation` varchar(255) DEFAULT NULL,
   `tax_payer_id` varchar(255) NOT NULL,
   `tax_filing_status` enum('single','married') NOT NULL,
   `document` varchar(255) DEFAULT NULL,
@@ -174,10 +178,16 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `first_name`, `last_name`, `email`, `phone`, `date_of_birth`, `permanent_address`, `mailing_address`, `bank_account_number`, `bank_name`, `gender`, `tax_payer_id`, `tax_filing_status`, `document`, `department_id`, `status`, `password`, `created_at`, `updated_at`, `date_of_joining`, `hiring_date`, `salary`, `role`) VALUES
-(1, 'Bimal', 'Paudel', 'hello@gmail.com', '9843563423', '2023-08-16', 'Balaju', 'baneshwor', '16723525252525', 'NIC Asia', 'female', 'jsnmcsn12', 'single', 'documents/Khc9Wf8tPmOpLkQj1AH5wYlk6lS1sU0hsJw56tJS.pdf', 1, 'approved', '$2y$10$L0PHWFffHfo6PJcojsK2qe/i.u.hhLNM5W/ChNinx5F35Twyedsj6', '2023-08-14 03:36:10', '2023-12-06 00:58:50', '2023-08-18', '2023-08-14', 70000.00, 'employee'),
-(2, 'dibesh', 'shah', 'admin@gmail.com', '9843563423', '2023-08-03', 'Balaju', 'baneshwor', '16723525252525', 'NIC Asia', 'male', 'jsnmcsn12', 'single', 'documents/eKfhUhsw1sDRGtzy6Ndy56wE7iEQqXf4uO9aeEql.pdf', 1, 'approved', '$2y$10$Ri9KS2YfgvNsOxqzyjg7oumPz0UxyBurW721i6EsNdJwmdChIy/Li', '2023-08-15 02:59:56', '2023-08-15 03:06:15', '2023-08-18', '2023-08-14', 60000.00, 'admin'),
-(5, 'Bimala', 'shyam', 'minusking2002@gmail.com', '9843563423', '2023-08-02', 'Balaju1', 'baneshwor', '16723525252524', 'NIC Asian', 'female', 'jsnmcsn123', 'married', 'documents/rHkK0sNPzXSXIXAkOzOWGYdP9h9zSZUiArISI87w.pdf', 3, 'approved', '$2y$10$RJaQQea3ooUqDBNKg.pMxegJ4dA0rq3JZzRa0JyU5YrfIe8uZjeNG', '2023-08-26 04:38:39', '2023-08-28 03:18:28', '2023-08-18', '2023-08-14', 50000.00, 'employee');
+INSERT INTO `employees` (`id`, `first_name`, `last_name`, `email`, `phone`, `date_of_birth`, `permanent_address`, `mailing_address`, `bank_account_number`, `bank_name`, `gender`, `designation`, `tax_payer_id`, `tax_filing_status`, `document`, `department_id`, `status`, `password`, `created_at`, `updated_at`, `date_of_joining`, `hiring_date`, `salary`, `role`) VALUES
+(1, 'Bimal', 'Paudel', 'hello@gmail.com', '9854545454', '2001-01-02', 'Balaju', 'baneshwor', '16723525878767', 'NIC Asia', 'male', 'Software Engineer', '314256', 'married', 'documents/Khc9Wf8tPmOpLkQj1AH5wYlk6lS1sU0hsJw56tJS.pdf', 1, 'approved', '$2y$10$L0PHWFffHfo6PJcojsK2qe/i.u.hhLNM5W/ChNinx5F35Twyedsj6', '2023-08-14 03:36:10', '2023-12-14 06:00:49', '2023-08-18', '2023-08-14', 70000.00, 'employee'),
+(2, 'dibesh', 'shah', 'admin@gmail.com', '9843563423', '2023-08-03', 'Balaju', 'baneshwor', '16723525252525', 'NIC Asia', 'male', NULL, 'jsnmcsn12', 'single', 'documents/eKfhUhsw1sDRGtzy6Ndy56wE7iEQqXf4uO9aeEql.pdf', 1, 'approved', '$2y$10$Ri9KS2YfgvNsOxqzyjg7oumPz0UxyBurW721i6EsNdJwmdChIy/Li', '2023-08-15 02:59:56', '2023-08-15 03:06:15', '2023-08-18', '2023-08-14', 60000.00, 'admin'),
+(5, 'Bimala', 'shyam', 'minusking2002@gmail.com', '9843563423', '2023-08-02', 'Balaju1', 'baneshwor', '16723525252524', 'NIC Asian', 'female', NULL, 'jsnmcsn123', 'married', 'documents/rHkK0sNPzXSXIXAkOzOWGYdP9h9zSZUiArISI87w.pdf', 3, 'approved', '$2y$10$RJaQQea3ooUqDBNKg.pMxegJ4dA0rq3JZzRa0JyU5YrfIe8uZjeNG', '2023-08-26 04:38:39', '2023-08-28 03:18:28', '2023-08-18', '2023-08-14', 50000.00, 'employee'),
+(6, 'Sujan', 'Bista', 'sujan@gmail.com', '9898989898', '2023-12-06', 'lumbini', 'kathmandu', '280546745565655', 'Kumari Bank', 'female', NULL, '6598952', 'single', 'documents/hnZO9Bvenys6lO14j3xXZVVsCsG1oJJ2FrJGhd8A.pdf', 2, 'approved', NULL, '2023-12-08 23:01:19', '2023-12-08 23:02:44', '2023-12-09', NULL, 100000.00, 'employee'),
+(7, 'Joeh', 'Harry', 'harryprince69@gmail.com', '9898989898', '1997-06-10', 'lumbini', 'kathmandu', '280546745565655', 'Kumari Bank', 'male', 'hr', '6598952', 'single', 'documents/d0QOG2oxJGro13quCUfIEs2FASsDPJ4bJWA7NrzG.pdf', 1, 'approved', '$2y$10$AI.NAw/pzuiCc2RXF5pEr.6K3L7Jf292m6OXCj0dXRyhRZTPLCpiq', '2023-12-09 02:24:20', '2023-12-13 10:04:14', '2023-12-14', '2023-12-12', 100000.00, 'employee'),
+(8, 'dfjdk', 'jldfj', 'dfjl@dkfj.ch', '9898989988', '2023-12-05', 'djlfkdf', 'dlfkjfl', '656556', 'dkfjfd', 'male', NULL, '5454545', 'single', 'documents/XFnXR6G56xsCn47pg6DdZZ4Qn7dWnOVOv803Dvko.pdf', NULL, 'pending', NULL, '2023-12-13 02:53:41', '2023-12-13 02:53:41', '2023-12-13', '2023-12-13', NULL, 'employee'),
+(9, 'Sujan', 'Bista', 'dbex7502@gmail.com', '9898989898', '2023-11-30', 'lumbini', 'kathmandu', '280546745565655', 'Kumari Bank', 'male', 'hdfkfdj', '6598952', 'married', 'documents/uWQzssnDqDkQXamCkTmjpbyukBUi0N6UxgpQ4EIu.pdf', 1, 'approved', '$2y$10$R/ef4AJVDy6m3ebqqFYuxeiX7vGZv3nY0fMd3O8tkHfA8AINKldbK', '2023-12-13 08:13:33', '2023-12-13 21:46:57', '2023-12-14', '2023-12-14', 100000.00, 'employee'),
+(10, 'Sujan', 'Giri', 'deepakgiri23@gmail.com', '9878457868', '2023-12-08', 'lumbini', 'kathmandu', '46656454114', 'Kumari Bank', 'male', NULL, '6598952', 'single', 'documents/OKCOMOMigSi5q1jN8U65oHywRfXZMt8nVesfoq5S.pdf', 1, 'approved', '$2y$10$BBcsaTFkTavw7RN9fMCmJeg4mKSnWsPZ8qGVZN.DIMqRfNg/.XdMW', '2023-12-13 08:15:49', '2023-12-13 10:01:12', '2023-12-13', '2023-12-12', 70000.00, 'employee'),
+(11, 'Sujan', 'Bista', 'company@example.comm', '9878457868', '2023-12-06', 'lumbini', 'kathmandu', '280546745565655', 'Kumari Bank', 'male', NULL, '6598952', 'single', 'documents/OZmn1WKWgFP0gOeHaZ3AKzE1UQ6yBWKDlLSl4F88.pdf', NULL, 'rejected', NULL, '2023-12-13 08:26:25', '2023-12-13 09:05:30', '2023-12-13', '2023-12-13', NULL, 'employee');
 
 -- --------------------------------------------------------
 
@@ -200,7 +210,9 @@ CREATE TABLE `employee_allowance` (
 
 INSERT INTO `employee_allowance` (`employee_id`, `allowance_id`, `value`, `type`, `created_at`, `updated_at`) VALUES
 (1, 1, 1200.00, 'amount', '2023-08-14 21:10:07', '2023-08-14 21:10:07'),
-(1, 2, 1500.00, 'amount', '2023-08-14 21:10:07', '2023-08-14 21:10:07');
+(1, 2, 1500.00, 'amount', '2023-08-14 21:10:07', '2023-08-14 21:10:07'),
+(6, 1, 3000.00, 'amount', '2023-12-08 23:02:45', '2023-12-08 23:02:45'),
+(6, 2, 10.00, 'percentage', '2023-12-08 23:02:45', '2023-12-08 23:02:45');
 
 -- --------------------------------------------------------
 
@@ -224,6 +236,28 @@ CREATE TABLE `employee_deduction` (
 INSERT INTO `employee_deduction` (`employee_id`, `deduction_id`, `value`, `type`, `created_at`, `updated_at`) VALUES
 (1, 1, 2000.00, 'amount', '2023-08-14 21:10:07', '2023-08-14 21:10:07'),
 (1, 2, 10.00, 'percentage', '2023-08-14 21:10:07', '2023-08-14 21:10:07');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_leave`
+--
+
+CREATE TABLE `employee_leave` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `leave_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee_leave`
+--
+
+INSERT INTO `employee_leave` (`id`, `employee_id`, `leave_id`, `created_at`, `updated_at`) VALUES
+(1, 9, 2, '2023-12-13 21:43:04', '2023-12-13 21:43:04'),
+(2, 9, 5, '2023-12-13 21:43:04', '2023-12-13 21:43:04');
 
 -- --------------------------------------------------------
 
@@ -265,7 +299,21 @@ INSERT INTO `holidays` (`id`, `holiday_date`, `holiday_type`, `created_at`, `upd
 (3, '0000-00-00', 'Public Holiday', '2023-09-27 03:17:20', '2023-09-27 03:17:20'),
 (4, '2023-9-24,2023-9-25', 'Public Holiday', '2023-09-29 09:06:07', '2023-09-29 09:06:07'),
 (5, '2023-10-15,2023-10-20', 'Weekend', '2023-10-02 00:08:05', '2023-10-02 00:08:05'),
-(6, '2023-10-15,2023-10-20,2023-10-17,2023-10-4', 'Other', '2023-10-02 00:08:37', '2023-10-02 00:08:37');
+(6, '2023-10-15,2023-10-20,2023-10-17,2023-10-4', 'Other', '2023-10-02 00:08:37', '2023-10-02 00:08:37'),
+(7, '2023-11-29', 'Public Holiday', '2023-12-10 10:00:17', '2023-12-10 10:00:17'),
+(8, '2023-11-30', 'Other', '2023-12-10 10:08:57', '2023-12-10 10:08:57'),
+(9, '2023-11-25', 'Public Holiday', '2023-12-10 10:09:51', '2023-12-10 10:09:51'),
+(11, '2023-11-18,2023-11-17', 'Public Holiday', '2023-12-10 10:11:21', '2023-12-10 10:11:21'),
+(12, '2023-12-31', 'Public Holiday', '2023-12-14 08:02:09', '2023-12-14 08:02:09'),
+(13, '2023-12-24', 'Public Holiday', '2023-12-14 08:05:19', '2023-12-14 08:05:19'),
+(14, '2023-12-17', 'Public Holiday', '2023-12-14 08:06:18', '2023-12-14 08:06:18'),
+(15, '2023-12-10', 'Public Holiday', '2023-12-14 08:08:17', '2023-12-14 08:08:17'),
+(16, '2023-12-25', 'Weekend', '2023-12-14 08:09:53', '2023-12-14 08:09:53'),
+(17, '2023-12-25', 'Weekend', '2023-12-14 08:10:11', '2023-12-14 08:10:11'),
+(18, '2023-12-26', 'Other', '2023-12-14 08:11:00', '2023-12-14 08:11:00'),
+(19, '2023-12-25,2023-12-27', 'Weekend', '2023-12-14 08:11:13', '2023-12-14 08:11:13'),
+(20, '2023-12-3', 'Weekend', '2023-12-14 08:22:04', '2023-12-14 08:22:04'),
+(21, '2023-12-28', 'Weekend', '2023-12-14 08:23:23', '2023-12-14 08:23:23');
 
 -- --------------------------------------------------------
 
@@ -371,8 +419,12 @@ INSERT INTO `inboxes` (`id`, `senderId`, `receiverId`, `dateTime`, `message`, `c
 (80, '2', '1', 'September 30, 12:56 PM', 'oh okay dear', '1', '2023-09-30 07:11:07', '2023-09-30 07:11:07'),
 (81, '2', '1', 'October 1, 1:09 PM', 'hello bimal how are you doing', '1', '2023-10-01 07:24:35', '2023-10-01 07:24:35'),
 (82, '1', '2', 'October 1, 1:09 PM', 'doing great', '1', '2023-10-01 07:24:45', '2023-10-01 07:24:45'),
-(83, '1', '2', 'December 6, 12:30 PM', 'hello', '1', '2023-12-06 06:45:17', '2023-12-06 06:45:17'),
-(84, '2', '1', 'December 6, 12:30 PM', 'hi', '1', '2023-12-06 06:45:31', '2023-12-06 06:45:31');
+(83, '2', '7', 'December 12, 8:53 PM', 'hello harry', '7', '2023-12-12 15:08:57', '2023-12-12 15:08:57'),
+(84, '7', '2', 'December 12, 8:55 PM', 'hi admin', '7', '2023-12-12 15:10:07', '2023-12-12 15:10:07'),
+(85, '2', '7', 'December 12, 8:55 PM', 'nice', '7', '2023-12-12 15:10:15', '2023-12-12 15:10:15'),
+(86, '2', '11', 'December 14, 9:23 AM', 'hello', '11', '2023-12-14 03:38:16', '2023-12-14 03:38:16'),
+(87, '2', '1', 'December 14, 6:18 PM', 'hello', '1', '2023-12-14 12:33:17', '2023-12-14 12:33:17'),
+(88, '1', '2', 'December 14, 6:18 PM', 'hello', '1', '2023-12-14 12:33:26', '2023-12-14 12:33:26');
 
 -- --------------------------------------------------------
 
@@ -431,8 +483,11 @@ INSERT INTO `leave_requests` (`id`, `employee_id`, `leave_type`, `start_date`, `
 (5, 1, '5', '2023-10-20', '2023-10-27', 'approved', 'hkjjkjhkj', 'kdljfj', '2023-09-30 23:36:55', '2023-09-30 23:37:28'),
 (6, 1, '3', '2023-10-12', '2023-10-13', 'approved', 'khjkjhjk', 'ok', '2023-09-30 23:45:59', '2023-10-01 01:17:52'),
 (7, 1, '1', '2023-10-01', '2023-10-01', 'approved', NULL, NULL, '2023-10-02 00:05:29', '2023-10-02 00:07:15'),
-(8, 1, '1', '2023-11-11', '2023-11-13', 'approved', 'dfghj', NULL, '2023-11-10 01:42:38', '2023-11-10 02:04:52'),
-(9, 1, '1', '2023-12-06', '2023-12-08', 'pending', 'fgvhbjn', NULL, '2023-12-06 00:59:37', '2023-12-06 00:59:37');
+(8, 1, '2', '2023-12-14', '2023-12-14', 'approved', 'i want leave today', 'ikay', '2023-12-14 06:34:24', '2023-12-14 07:27:53'),
+(9, 1, '2', '2023-12-14', '2023-12-14', 'rejected', 'jkdfjkdjf', NULL, '2023-12-14 06:36:05', '2023-12-14 07:31:39'),
+(10, 9, '5', '2023-12-15', '2023-12-18', 'rejected', 'hjj', 'i am approving it', '2023-12-14 06:53:46', '2023-12-14 09:03:12'),
+(11, 9, '5', '2023-12-15', '2023-12-15', 'pending', NULL, NULL, '2023-12-14 07:42:48', '2023-12-14 07:42:48'),
+(12, 9, '2', '2023-12-15', '2023-12-15', 'rejected', 'dlkjlkfjkl', NULL, '2023-12-14 09:30:14', '2023-12-14 09:30:38');
 
 -- --------------------------------------------------------
 
@@ -468,24 +523,6 @@ CREATE TABLE `password_reset_tokens` (
   `token` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `payrolls`
---
-
-CREATE TABLE `payrolls` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `employee_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `basicSalary` varchar(255) DEFAULT NULL,
-  `totalAllowances` varchar(255) DEFAULT NULL,
-  `totalDeductions` varchar(255) DEFAULT NULL,
-  `netPay` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `status` varchar(255) DEFAULT 'pending'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -551,8 +588,8 @@ CREATE TABLE `taxes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `year` varchar(255) NOT NULL,
   `status` enum('single','couple') NOT NULL,
-  `income` varchar(255) NOT NULL,
-  `tax_rate` int(11) NOT NULL,
+  `income` varchar(255) DEFAULT NULL,
+  `tax_rate` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -562,18 +599,18 @@ CREATE TABLE `taxes` (
 --
 
 INSERT INTO `taxes` (`id`, `year`, `status`, `income`, `tax_rate`, `created_at`, `updated_at`) VALUES
-(4, '2080/81', 'single', '500000', 1, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
-(5, '2080/81', 'single', '200000', 10, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
-(6, '2080/81', 'single', '300000', 20, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
-(7, '2080/81', 'single', '1000000', 30, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
-(8, '2080/81', 'single', '3000000', 36, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
-(9, '2080/81', 'single', '5000000', 39, '2023-09-28 04:26:22', '2023-09-28 04:26:22'),
-(10, '2080/81', 'couple', '600000', 1, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
-(11, '2080/81', 'couple', '200000', 10, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
-(12, '2080/81', 'couple', '300000', 20, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
-(13, '2080/81', 'couple', '900000', 30, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
-(14, '2080/81', 'couple', '3000000', 36, '2023-09-28 04:30:19', '2023-09-28 04:30:19'),
-(15, '2080/81', 'couple', '5000000', 39, '2023-09-28 04:30:19', '2023-09-28 04:30:19');
+(100, '2080/81', 'couple', '600000', 1, '2023-12-14 07:50:21', '2023-12-14 07:50:21'),
+(101, '2080/81', 'couple', '200000', 10, '2023-12-14 07:50:21', '2023-12-14 07:50:21'),
+(102, '2080/81', 'couple', '300000', 20, '2023-12-14 07:50:21', '2023-12-14 07:50:21'),
+(103, '2080/81', 'couple', '900000', 30, '2023-12-14 07:50:21', '2023-12-14 07:50:21'),
+(104, '2080/81', 'couple', '3000000', 36, '2023-12-14 07:50:21', '2023-12-14 07:50:21'),
+(105, '2080/81', 'couple', '5000000', 39, '2023-12-14 07:50:21', '2023-12-14 07:50:21'),
+(112, '2080/81', 'single', '500000', 1, '2023-12-14 07:51:03', '2023-12-14 07:51:03'),
+(113, '2080/81', 'single', '200000', 10, '2023-12-14 07:51:03', '2023-12-14 07:51:03'),
+(114, '2080/81', 'single', '300000', 20, '2023-12-14 07:51:03', '2023-12-14 07:51:03'),
+(115, '2080/81', 'single', '1000000', 30, '2023-12-14 07:51:03', '2023-12-14 07:51:03'),
+(116, '2080/81', 'single', '3000000', 36, '2023-12-14 07:51:03', '2023-12-14 07:51:03'),
+(117, '2080/81', 'single', '5000000', 39, '2023-12-14 07:51:03', '2023-12-14 07:51:03');
 
 -- --------------------------------------------------------
 
@@ -644,6 +681,14 @@ ALTER TABLE `employee_deduction`
   ADD KEY `employee_deduction_deduction_id_foreign` (`deduction_id`);
 
 --
+-- Indexes for table `employee_leave`
+--
+ALTER TABLE `employee_leave`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `employee_id` (`employee_id`),
+  ADD KEY `leave_id` (`leave_id`);
+
+--
 -- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -687,19 +732,18 @@ ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indexes for table `payrolls`
---
-ALTER TABLE `payrolls`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `employee_id` (`employee_id`);
-
---
 -- Indexes for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `taxes`
+--
+ALTER TABLE `taxes`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -716,19 +760,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `attendances`
 --
 ALTER TABLE `attendances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
--- AUTO_INCREMENT for table `deductions`
+-- AUTO_INCREMENT for table `employees`
 --
-ALTER TABLE `deductions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `employees`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `departments`
+-- AUTO_INCREMENT for table `employee_leave`
 --
-ALTER TABLE `departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `employee_leave`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -740,19 +784,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `holidays`
 --
 ALTER TABLE `holidays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `inboxes`
 --
 ALTER TABLE `inboxes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `leave_requests`
 --
 ALTER TABLE `leave_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -761,16 +805,16 @@ ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `payrolls`
---
-ALTER TABLE `payrolls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `taxes`
+--
+ALTER TABLE `taxes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -783,10 +827,11 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `payrolls`
+-- Constraints for table `employee_leave`
 --
-ALTER TABLE `payrolls`
-  ADD CONSTRAINT `payrolls_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
+ALTER TABLE `employee_leave`
+  ADD CONSTRAINT `employee_leave_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`),
+  ADD CONSTRAINT `employee_leave_ibfk_2` FOREIGN KEY (`leave_id`) REFERENCES `leaves` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

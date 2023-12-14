@@ -99,6 +99,10 @@
 
   // Disable clock in and enable clock out
   function clockIn() {
+    clockInButton.classList.add('cursor-not-allowed');
+    clockInButton.classList.remove('bg-blue-500');
+    clockInButton.classList.add('bg-gray-300');
+    clockInButton.classList.remove('hover:bg-blue-600');
     clockInButton.disabled = true;
     clockOutButton.disabled = false;
     clockInTime = getCurrentTime();
@@ -123,7 +127,15 @@
             $("#todayDate").text(data.date);
             $("#clockInTimeToday").text(data.clock_in);
             $("#clockOutTimeToday").text("-");
-        },
+            clockInButton.classList.remove('text-white');
+            clockInButton.classList.add('text-black');
+            clockOutButton.disabled = false;
+            clockOutButton.classList.remove('cursor-not-allowed');
+            clockOutButton.classList.remove('bg-gray-300');
+            clockOutButton.classList.add('bg-red-500');
+            clockOutButton.classList.add('hover:bg-red-600');
+            clockOutButton.classList.add('text-white');
+                },
         error: function(xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");
             console.log(err);
@@ -135,6 +147,12 @@
   // Enable clock in and disable clock out
   function clockOut() {
     clockOutButton.disabled = true;
+    clockOutButton.classList.add('cursor-not-allowed');
+    clockOutButton.classList.remove('bg-red-500');
+    clockOutButton.classList.add('bg-gray-300');
+    clockOutButton.classList.remove('hover:bg-red-600');
+
+
     const clockOutTime = getCurrentTime();
     const currentDate = new Date();
     clockOutDate = currentDate.toISOString().split("T")[0];
@@ -155,6 +173,8 @@
             console.log(data)
 
             $("#clockOutTimeToday").text(data.clock_out);
+            clockOutButton.classList.remove('text-white');
+            clockOutButton.classList.add('text-black');
         },
         error: function(xhr, status, error) {
             var err = eval("(" + xhr.responseText + ")");

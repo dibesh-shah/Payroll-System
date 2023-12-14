@@ -145,7 +145,7 @@
 
                                 @php
                                     if ($pfcount===1) {
-                                        $yearlyIncome = 1000000 +$basicSalary + ($employee->salary)*11 + $monthlyAllowance + $otherAllowance*11 + 0.1*($basicSalary * 12);
+                                        $yearlyIncome = $basicSalary + ($employee->salary)*11 + $monthlyAllowance + $otherAllowance*11 + 0.1*($basicSalary * 12);
                                         $pf = min((1/3)*$yearlyIncome , 300000, 0.2*($basicSalary + $basic * 11));
                                     }else {
                                         $yearlyIncome = $basicSalary + ($employee->salary)*11 + $monthlyAllowance + $otherAllowance*11 ;

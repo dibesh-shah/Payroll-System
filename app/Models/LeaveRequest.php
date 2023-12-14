@@ -22,9 +22,10 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
-    public function leaveType()
+    public function leave()
     {
-        return $this->belongsTo(Leave::class, 'leave_type');
+        // return $this->belongsTo(Leave::class, 'leave_id');
+        return $this->belongsTo(Leave::class, 'leave_type', 'id');
     }
 
 }

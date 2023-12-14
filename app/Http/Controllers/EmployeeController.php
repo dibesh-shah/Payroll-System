@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Http\Controllers\Controller;
+use App\Models\Leave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -22,7 +23,8 @@ class EmployeeController extends Controller
     // Show pending employees for approval
     public function index(Employee $employee)
     {
-        $employees = Employee::where('status', 'pending')->get();
+        $employees = Employee::whereIn('status', ['pending', 'rejected'])->get();
+
         return view('/admin/approve', ['employees' => $employees]);
     }
     // Show employee details
@@ -32,8 +34,9 @@ class EmployeeController extends Controller
         $allowances = Allowance::all();
         $deductions = Deduction::all();
         $departments = Department::all();
+        $leaves = Leave::all();
 
-        return view('/admin/approvedetails', compact('employee', 'allowances', 'deductions', 'departments'));
+        return view('/admin/approvedetails', compact('employee', 'allowances', 'deductions', 'departments','leaves'));
     }
     public function showDocument($filename)
     {
@@ -50,18 +53,38 @@ class EmployeeController extends Controller
     public function viewEmployee(Request $request)
     {
         $search = $request->input('search');
+        $id = $request->input('id');
         $employees = [];
+        $count = 0;
 
-        if ($search) {
-            $employees = Employee::where('status', 'approved')
-                ->where(function ($query) use ($search) {
-                    $query->where('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('email', 'like', '%' . $search . '%');
-                })
-                ->paginate(2);
+        if($search){
+            if ($id != 0) {
+
+                $employee = Employee::find($id);
+                
+                
+                 return view('/admin/view_employee', ['employee' => $employee, 'search' => $search,'count' => 1]);
+                // dd($employee->all());
+    
+    
+            }else{
+                $employees = Employee::where('status', 'approved')
+                    ->where(function ($query) use ($search) {
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('email', 'like', '%' . $search . '%');
+                    })
+                    ->paginate(2);
+                
+                    $count = $employees->count();
+                return view('/admin/view_employee', ['employees' => $employees, 'search' => $search,'count' => $count]);
+    
+            }
+        }else{
+        return view('/admin/view_employee');
         }
 
-        return view('/admin/view_employee', ['employees' => $employees, 'search' => $search]);
+        
+
     }
 
 
@@ -77,9 +100,9 @@ class EmployeeController extends Controller
 
 
             if ($request->input('date_of_joining') <  $request->input('hiring_date')) {
-                return back()->with('error', 'Date of Joining cannot be before Hiring Date.');
+                return back()->with('errorjoin', 'Date of Joining cannot be before Hiring Date.');
             } else if ($dateOfHiring >= $today) {
-                return back()->with('error', 'Date of Hiring must not be a future date.');
+                return back()->with('errorhire', 'Date of Hiring must not be a future date.');
             } else {
                 $approveEmployee->status = 'approved';
                 $approveEmployee->date_of_joining = $request->input('date_of_joining');
@@ -90,6 +113,7 @@ class EmployeeController extends Controller
                 $department_id = $request->input('department_id');
                 $approveEmployee->salary = $basicSalary;
                 $approveEmployee->department_id = $department_id;
+                $approveEmployee->designation = $designation;
 
                 $approveEmployee->save();
 
@@ -110,6 +134,10 @@ class EmployeeController extends Controller
                 }
 
                 $approveEmployee->allowances()->sync($allowances);
+
+                $selectedLeaves = $request->input('leaves', []);
+                $leaves = Leave::find($selectedLeaves);
+                $approveEmployee->leaves()->sync($leaves);
 
                 // Fetch selected deductions and store percentages
                 $selectedDeductions = $request->input('deductions', []);
@@ -134,7 +162,7 @@ class EmployeeController extends Controller
                 if (empty($approveEmployee->password)) {
                     $randomPassword = "password";
 
-                    $approveEmployee->password = Hash::make($randomPassword);
+                    // $approveEmployee->password = Hash::make($randomPassword);
                     $approveEmployee->save();
 
                     // Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
@@ -143,6 +171,7 @@ class EmployeeController extends Controller
 
             return redirect('/admin/approve')->with('success', 'Employee approved successfully. Email with login credentials sent.');
         }
+        // dd($request->all());
     }
 
     public function rejectEmployee($id)
@@ -153,6 +182,19 @@ class EmployeeController extends Controller
         return redirect('/admin/approve')->with('success', 'Employee rejected successfully');
     }
 
+    // app/Http/Controllers/EmployeeController.php
+
+    // public function suggestions(Request $request)
+    // {
+    //     $search = $request->input('search');
+
+    //     // Fetch matching employee names from the database
+    //     $employees = Employee::where('name', 'LIKE', '%' . $search . '%')
+    //         ->limit(5)
+    //         ->get(['name']);
+
+    //     return response()->json($employees);
+    // }
 
 
 }

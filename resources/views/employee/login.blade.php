@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Payroll Management System</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <style>
     .custom-blue {
       --color-primary: #3B82F6;
@@ -24,11 +28,11 @@
   <div class="container mx-auto h-screen flex justify-center items-center ">
     <div class="bg-gray-200 p-8 rounded-md shadow-md w-96">
       <h1 class="text-3xl font-bold mb-6">Login</h1>
-      @if(session('success'))
+      {{-- @if(session('success'))
       <div class="text-green-500 mb-4">
           {{ session('success') }}
       </div>
-        @endif
+        @endif --}}
       <form method="POST" action="{{route('login.submit')}}">
         @csrf
         <div class="mb-4">
@@ -46,6 +50,21 @@
       </p>
     </div>
   </div>
+
+  <script>
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+        "progressBar": true,
+        "timeOut": 5000, // Duration in milliseconds
+    }
+  </script>
+  
+  @if(session('success'))
+      <script>
+          // Display Toastr success message
+          toastr.success("{{ session('success') }}");
+      </script>
+  @endif
 </body>
 
 </html>

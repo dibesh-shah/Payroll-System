@@ -8,15 +8,30 @@
               <h1 class="text-3xl font-bold">Employee Detail</h1>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-1 gap-4 ">
-
+            
              <div class="flex items-center mb-4">
                 <form action="{{ route('employees.viewEmployee') }}" method="GET" class="mb-4 flex flex-wrap">
-                    <input type="text" name="search" class="w-80 px-4 py-2 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500" placeholder="Search by name or empid..." value="{{ $search }}">
+                    <input type="text" name="search" id="search" class="w-80 px-4 py-2 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500" placeholder="Search by name or empid..." @if(isset($search)) value="{{ $search}} @endif">
+                    <input type="hidden" name="id" value=0>
                     <button type="submit" class="ml-4 px-4 py-3 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">View</button>
                 </form>
              </div>
+             @if(isset($count))
+             @if($count > 1)
+              <div id="suggestionList" class="absolute bg-white border rounded-md shadow-lg mt-14 w-80  py-2">
+                @foreach ($employees as $employee)
+                  <a href={{ route('employees.viewEmployee', ['search' => $employee->first_name." ". $employee->last_name, 'id'=>$employee->id]) }} class="block py-2 px-4 no-underline text-black hover:bg-gray-100">{{$employee->first_name}} {{$employee->last_name}}</a>
+                @endforeach
+                
+            </div>
+          
+             @endif
+             @endif
           </div>
-          @foreach ($employees as $employee)
+
+          @if(isset($count))
+        @if($count == 1)
+
 
           <div class="mt-8 bg-white p-6 rounded-lg shadow-lg" id="myDiv">
              <form class="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -66,23 +81,76 @@
                  </div>
                </form>
           </div>
-          @endforeach
+
+          @endif
+          @endif
 
       </div>
     </div>
  </div>
 
  <script>
-     document.getElementById('editButton').addEventListener('click', () => {
+  document.getElementById('editButton').addEventListener('click', () => {
 
-         document.getElementById('updateButton').classList.remove('hidden');
-         document.getElementById('editButton').classList.add('hidden');
+    event.preventDefault(); 
+      document.getElementById('updateButton').classList.remove('hidden');
+      document.getElementById('editButton').classList.add('hidden');
 
-         var inputFields = document.querySelectorAll('#myDiv input');
-         inputFields.forEach((input) => {
-             input.disabled = false;
-             input.classList.add('px-4');
-       });
-     });
- </script>
+      var inputFields = document.querySelectorAll('#myDiv input');
+      inputFields.forEach((input) => {
+          input.disabled = false;
+          input.classList.add('px-4');
+    });
+  });
+</script>
+
+ 
+
+{{-- <script>
+  // Function to fetch suggestions and update the suggestion list
+  function fetchSuggestions() {
+    
+      var searchInput = $('#search');
+      var suggestionList = $('#suggestionList');
+
+      alert(searchInput.val())
+
+      // Clear previous suggestions
+      suggestionList.html('');
+
+      // Fetch suggestions from the backend using jQuery AJAX
+      $.ajax({
+          url: `/api/employees/suggestions?search=${searchInput.val()}`,
+          method: 'GET',
+          dataType: 'json',
+          success: function (data) {
+              // Update the suggestion list
+              data.forEach(employee => {
+                  var suggestionItem = $('<div>').addClass('cursor-pointer py-1 hover:bg-gray-200').text(employee.name);
+
+                  // Handle click event to fill the search input with the selected suggestion
+                  suggestionItem.on('click', function () {
+                      searchInput.val(employee.name);
+                      suggestionList.addClass('hidden');
+                  });
+
+                  suggestionList.append(suggestionItem);
+              });
+
+              // Show the suggestion list
+              if (data.length > 0) {
+                  suggestionList.removeClass('hidden');
+              } else {
+                  suggestionList.addClass('hidden');
+              }
+          },
+          error: function (error) {
+              console.error('Error fetching suggestions:', error);
+          }
+      });
+  }
+
+  // Attach the fetchSuggestions function to the input's input event
+  $('#search').on('input', fetchSuggestions);
+</script> --}}
  @endsection

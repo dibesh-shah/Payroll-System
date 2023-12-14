@@ -116,6 +116,7 @@ class LoginController extends Controller
 
         $employee = Employee::where('email', $credentials['email'])->first();
 
+        // if ($employee && Hash::check($credentials['password'], $employee->password)) {
         if ($employee && Hash::check($credentials['password'], $employee->password)) {
             if ($employee->role === 'employee') {
                 // If the employee has an employee role, redirect to the employee dashboard

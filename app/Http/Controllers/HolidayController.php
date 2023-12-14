@@ -58,6 +58,7 @@ class HolidayController extends Controller
         // Create two separate lists for "Public Holiday" and "Other"
         $publicHolidays = [];
         $otherHolidays = [];
+        $weekends = [];
 
         foreach ($holidays as $holiday) {
             $holidayType = $holiday->holiday_type;
@@ -78,10 +79,17 @@ class HolidayController extends Controller
                     'created_at' => $holiday->created_at,
                     'updated_at' => $holiday->updated_at,
                 ];
+            }else{
+                $weekends[] = [
+                    'id' => $holiday->id,
+                    'holiday_dates' => $holidayDates,
+                    'created_at' => $holiday->created_at,
+                    'updated_at' => $holiday->updated_at,
+                ];
             }
         }
 
-        return view('admin.calendar', compact('publicHolidays', 'otherHolidays'));
+        return view('admin.calendar', compact('publicHolidays', 'otherHolidays','weekends'));
 
     }
     public function showHolidays(){
@@ -98,6 +106,7 @@ class HolidayController extends Controller
         // Create two separate lists for "Public Holiday" and "Other"
         $publicHolidays = [];
         $otherHolidays = [];
+        $weekends = [];
 
         foreach ($holidays as $holiday) {
             $holidayType = $holiday->holiday_type;
@@ -118,11 +127,18 @@ class HolidayController extends Controller
                     'created_at' => $holiday->created_at,
                     'updated_at' => $holiday->updated_at,
                 ];
+            }else{
+                $weekends[] = [
+                    'id' => $holiday->id,
+                    'holiday_dates' => $holidayDates,
+                    'created_at' => $holiday->created_at,
+                    'updated_at' => $holiday->updated_at,
+                ];
             }
         }
 
         // Pass the data to the 'admin.calendar' view
-        return view('employee.calendar', compact('publicHolidays', 'otherHolidays'));
+        return view('employee.calendar', compact('publicHolidays', 'otherHolidays','weekends'));
     }
 
     // public function leaveDetailHolidays(){

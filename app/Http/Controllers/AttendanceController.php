@@ -109,7 +109,7 @@ class AttendanceController extends Controller
     //     $employeeId = Session::get('employee_id');
     //     $now = now();
     //     $year = $now->year;
-    //     $month = $now->month;
+    //     $month = $now->subMonth()->month; // Get the previous month
 
     //     $startDate = "{$year}-{$month}-01";
     //     $endDate = $now->format('Y-m-t');
@@ -119,6 +119,7 @@ class AttendanceController extends Controller
     //         ->get();
 
     //     return view('employee.monthly_attendance', compact('attendanceData', 'year', 'month'));
+
     // }
 
 

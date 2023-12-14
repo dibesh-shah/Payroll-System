@@ -122,7 +122,7 @@
                               
                               <form action="{{route('leave.reject', $leaveRequest->id)}}" method="POST" >
                                 @csrf
-                                <button class="px-4 py-2 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-200" type="submit">Deny</button>
+                                <button class="px-4 py-2 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-200" type="submit">Reject</button>
                               </form>
                             </div>
                           </div>

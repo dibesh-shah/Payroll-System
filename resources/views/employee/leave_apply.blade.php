@@ -5,11 +5,11 @@
    <div class="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
     <div class="container mx-auto mt-5">
         <h1 class="text-3xl font-bold mb-4">Apply for Leave</h1>
-        @if(session('success'))
+        {{-- @if(session('success'))
       <div class="text-green-500 mb-4">
           {{ session('success') }}
       </div>
-        @endif
+        @endif --}}
         <div class="max-w  bg-white p-6 rounded-lg shadow-lg">
                 <div class="grid grid-cols-3 gap-6">
                     <div class="bg-white p-4  col-span-2">
@@ -33,10 +33,11 @@
                                         <label class="block font-semibold mb-2">Employee Name:</label>
                                         <p class="w-full  rounded p-2 " > {{$employee->first_name}} {{$employee->last_name}}</p>
                                     </div>
-                                    <div>
-                                        <label for="leaveType" class="block font-semibold mb-2">Leave Type:</label>
-                                        <select id="leaveType" name="leave_type" class="w-full border rounded p-2">
-                                            @foreach($leaves as $leave)
+
+                                     <div>
+                                        <label for="leave_id" class="block font-semibold mb-2">Available Leave Type:</label>
+                                        <select id="leave_id" name="leave_id" class="w-full border rounded p-2 ">
+                                            @foreach($assignedLeaves as $leave)
 
                                             <option value="{{$leave->id}}">{{$leave->name}}</option>
                                             @endforeach
@@ -45,11 +46,11 @@
                                     </div>
                                     <div>
                                         <label for="startDate" class="block font-semibold mb-2">Start Date:</label>
-                                        <input type="date" name="start_date" id="startDate" class="w-full border rounded p-2">
+                                        <input type="date" name="start_date" id="startDate" class="w-full border rounded p-2"  min="<?php echo date('Y-m-d'); ?>">
                                     </div>
                                     <div>
                                         <label for="endDate" class="block font-semibold mb-2">End Date:</label>
-                                        <input type="date" name="end_date" id="endDate" class="w-full border rounded p-2">
+                                        <input type="date" name="end_date" id="endDate" class="w-full border rounded p-2"  min="<?php echo date('Y-m-d'); ?>">
                                     </div>
                                 </div>
 
@@ -227,5 +228,20 @@
     document.getElementById('otherHoliday').textContent=otherHoliday;
 
 </script>
+
+<script>
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+        "progressBar": true,
+        "timeOut": 5000, // Duration in milliseconds
+    }
+  </script>
+  
+  @if(session('success'))
+      <script>
+          // Display Toastr success message
+          toastr.success("{{ session('success') }}");
+      </script>
+  @endif
 
 @endsection

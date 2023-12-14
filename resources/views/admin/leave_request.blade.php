@@ -7,13 +7,18 @@
         <h1 class="text-3xl font-bold mb-4">Search Leave Request</h1>
         <div class="max-w  bg-white p-6 rounded-lg shadow-lg">
                 <div class="grid grid-cols-2 gap-6">
-                    <div class="flex items-center mb-2">
-                        <input type="text" id="type" name="type" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Leave Id" required>
-                        <button class="ml-4 px-4 py-3 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">View</button>
-                    </div>    
+                    <form action="{{ route('leaveReq.search') }}" method="POST" class="grid grid-cols-2 gap-6">
+                        @csrf
+                        <div class="flex items-center mb-2">
+                            <input type="text" id="type" name="leave_id" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Leave Id" required>
+                            <button class="ml-4 px-4 py-3 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50" type="submit">View</button>
+                        </div>
+                    </form>
+                      
                 </div>
         </div>
 
+        @if (isset($leaveSearch))
         <div class="container mx-auto mt-5 p-4 bg-white p-6 rounded-lg shadow-lg">
             <h1 class="text-3xl font-bold mb-4">Leave Requests</h1>
             @if(session('success'))
@@ -23,21 +28,65 @@
             @endif
             <!-- Sample leave div containers -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4  ">
-                @foreach($leaveRequests as $leaveRequest)
+                @foreach($leaveSearch as $leaveRequest)
                 <a href="{{ route('leaveReq.show', ['id' => $leaveRequest->id]) }}">
                     <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
                         <h2 class="text-xl font-bold">Leave Request #{{$leaveRequest->id}}</h2>
                         <p class="text-gray-500">Employee: {{ $leaveRequest->employee->first_name }} {{ $leaveRequest->employee->last_name }}</p>
-                        <p class="text-gray-500">Leave Type: {{ $leaveRequest->leaveType->name }}</p>
+                        <p class="text-gray-500">Leave Type: {{ $leaveRequest->leave->name }}</p>
                     </div>
                 </a>
                 @endforeach
                     
             </div>
         </div>
+
+        @else
+        <div class="container mx-auto mt-5 p-4 bg-white p-6 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold mb-4">Leave Requests</h1>
+            
+            <!-- Sample leave div containers -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4  ">
+                @foreach($leaveRequests as $leaveRequest)
+                <a href="{{ route('leaveReq.show', ['id' => $leaveRequest->id]) }}">
+                    <div class="bg-white p-4 rounded-md shadow-lg cursor-pointer" onclick="viewLeaveDetail(1)">
+                        <h2 class="text-xl font-bold">Leave Request #{{$leaveRequest->id}}</h2>
+                        <p class="text-gray-500">Employee: {{ $leaveRequest->employee->first_name }} {{ $leaveRequest->employee->last_name }}</p>
+                        <p class="text-gray-500">Leave Type: {{ $leaveRequest->leave->name }}</p>
+                    </div>
+                </a>
+                @endforeach
+                    
+            </div>
+        </div>
+
+        @endif
+
     </div>
     
    </div>
 </div>
+
+<script>
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+        "progressBar": true,
+        "timeOut": 5000, // Duration in milliseconds
+    }
+  </script>
+  
+  @if(session('success'))
+      <script>
+          // Display Toastr success message
+          toastr.success("{{ session('success') }}");
+      </script>
+  @endif
+
+  @if(session('error'))
+      <script>
+          // Display Toastr success message
+          toastr.error("{{ session('error') }}");
+      </script>
+  @endif
 
 @endsection
