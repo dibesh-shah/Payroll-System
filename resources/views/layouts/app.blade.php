@@ -1,3 +1,14 @@
+@php
+    session_start();
+@endphp
+
+@if (!session()->has('admin_id'))
+    @php
+        header("Location: /admin"); // Replace "/login" with the actual login page route
+        die();
+    @endphp
+@endif
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,10 +65,7 @@
       <div class="flex items-center">
           <div class="flex items-center ml-3">
             <div>
-              <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                <span class="sr-only">Open user menu</span>
-                <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
-              </button>
+              
             </div>
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
               <div class="px-4 py-3" role="none">
@@ -164,6 +172,9 @@
 
                   <li>
                      <a href="/admin/leave_history" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">View Leave History</a>
+                  </li>
+                  <li>
+                     <a href="/admin/leave_assign" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Assign Leave</a>
                   </li>
 
             </ul>

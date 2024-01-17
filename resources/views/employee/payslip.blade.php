@@ -9,12 +9,37 @@
      $Deductions =0; 
      $totalDeductions = 0; 
      $monthlyAllowance = 0;
-     $basicSalary = $employee->salary;
+     $otherAllowance = 0;
+     $totalMonthDays = date("t", strtotime("last month"));
+     $basic= $employee->salary;
      $pfcount = 0;
+     $allowanceString = "";
+     $deductionString = "";
+     $attendanceDays = $attendanceData;
+     $holidayString = "{{$holidaysString}}";
+     $datesArray = explode(', ', $holidayString);
+     $holidayCount = count($datesArray);
+
+     $yearlyIncome = 0;
+     $basicSalary = ($basic / $totalMonthDays) * ($attendanceDays + $holidayCount);
     @endphp
 
+    
+
+    @php
+        if($attendanceDays == 0){
+            if (true)
+            echo'
+           <h1 class="text-3xl font-bold mb-4"> Nothing to show here  </h1>';
+           
+            die();
+        }
+    @endphp
+        
+  
+
        <div class="container mx-auto mt-5 p-4 bg-white p-6 rounded-lg shadow-lg">
-           <h1 class="text-3xl font-bold mb-4"> Payroll</h1>
+           <h1 class="text-3xl font-bold mb-4"> Payroll  </h1>
 
             <div class="bg-white p-4 rounded shadow">
                 <div class="text-center">
@@ -44,29 +69,43 @@
                                 </tr>
                                 <tr>
                                     <td class="w-2/3 py-2">Basic Salary</td>
-                                    <td class="w-2/3 py-2">{{$employee->salary}}</td>
+                                    <td class="w-2/3 py-2">{{ number_format($basicSalary, 2)}}</td>
                                     @php
                                         
-                                        $totalEarnings+=$employee->salary;
+                                        $totalEarnings+=$basicSalary;
                                     @endphp
                                 </tr>
                                 @foreach ($allowances as $allowance )
                                     <tr>
                                         <td class="w-1/3 py-2">{{ $allowance->name }}</td>
-                                        
+                                        @php
+                                            $allowanceString .= $allowance->name ."-"; 
+                                        @endphp
                                         @if($allowance->pivot->type == 'amount')
-                                            <td class="w-2/3 py-2">{{ $allowance->pivot->value }}</td>
+                                            {{-- <td class="w-2/3 py-2">{{ $allowance->pivot->value }}</td> --}}
                                             @php
-                                                $totalEarnings += $allowance->pivot->value;
-                                                $monthlyAllowance += $allowance->pivot->value;
+                                                $totalEarnings +=  ($allowance->pivot->value / $totalMonthDays) * $attendanceDays;
+                                                $monthlyAllowance += ($allowance->pivot->value / $totalMonthDays) * $attendanceDays;
+
+                                                $otherAllowance += $allowance->pivot->value ;
+
+                                                $allowanceString .= $allowance->pivot->value .","; 
+
                                             @endphp
+                                            <td class="w-2/3 py-2">{{ number_format(($allowance->pivot->value / $totalMonthDays) * $attendanceDays, 2)}}</td>
+
                                         @else
                                         @php
                                             $earnings = ($allowance->pivot->value / 100) * $employee->salary;
-                                            $totalEarnings += $earnings;
-                                            $monthlyAllowance += $allowance->pivot->value;
+                                            $totalEarnings += ($earnings/ $totalMonthDays) * $attendanceDays;
+                                            $monthlyAllowance += ($earnings/ $totalMonthDays) * $attendanceDays;
+
+                                            $otherAllowance += $earnings ;
+
+                                            $allowanceString .= $earnings .","; 
+
                                         @endphp
-                                            <td class="w-2/3 py-2">{{ $earnings }}</td>
+                                            <td class="w-2/3 py-2">{{ number_format(($earnings / $totalMonthDays) * $attendanceDays, 2)}}</td>
                                         @endif
                                     </tr>
                                 @endforeach
@@ -82,7 +121,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td class="w-1/3 py-2 "><strong class="border-black border-b">DEDUCTIONS</strong></td>
+                                    <td class="w-1/3 py-2 "><strong class="border-black border-b">DEDUCTIONS </strong></td>
                                 </tr>
                                 @foreach ($deductions as $deduction )
                                 <tr>
@@ -98,15 +137,20 @@
                                      @endif
 
                                      <td class="w-1/3 py-2">{{ $deduction->name }}</td>
+                                     @php
+                                            $deductionString .= $deduction->name ."-"; 
+                                        @endphp
                                     @if($deduction->pivot->type == 'amount')
                                         <td class="w-2/3 py-2">{{ $deduction->pivot->value }}</td>
                                         @php
                                             $Deductions += $deduction->pivot->value;
+                                            $deductionString .= $deduction->pivot->value .","; 
                                         @endphp
                                     @else
                                     @php
                                         $value = ($deduction->pivot->value / 100) * $employee->salary;
                                         $Deductions += $value;
+                                        $deductionString .= $value .","; 
                                     @endphp
                                         <td class="w-2/3 py-2">{{ $value }}</td>
                                     @endif
@@ -115,10 +159,10 @@
 
                                 @php
                                     if ($pfcount===1) {
-                                        $yearlyIncome = $basicSalary*12 + $monthlyAllowance*12 + 0.1*($basicSalary * 12);
-                                        $pf = min((1/3)*$yearlyIncome , 300000, 0.2*($basicSalary * 12));
+                                        $yearlyIncome = $basicSalary + ($employee->salary)*11 + $monthlyAllowance + $otherAllowance*11 + 0.1*($basicSalary * 12);
+                                        $pf = min((1/3)*$yearlyIncome , 300000, 0.2*($basicSalary + $basic * 11));
                                     }else {
-                                        $yearlyIncome = $basicSalary*12 + $monthlyAllowance*12 ;
+                                        $yearlyIncome = $basicSalary + ($employee->salary)*11 + $monthlyAllowance + $otherAllowance*11 ;
                                         $pf = 0;
                                     }
                                     
@@ -150,12 +194,12 @@
                                         @php
                                             $sst = $firstSlab*0.01;
                                         @endphp
-                                        <td class="w-2/3 py-2">{{ number_format($firstSlab*0.01, 2)}}</td>
+                                        <td class="w-2/3 py-2">{{ number_format($firstSlab*0.01/12, 2)}}</td>
                                     @else
                                         @php
                                             $sst = $taxableIncome*0.01;
                                         @endphp
-                                        <td class="w-2/3 py-2">{{ $taxableIncome*0.01}}</td>
+                                        <td class="w-2/3 py-2">{{ ($taxableIncome*0.01)/12}}</td>
                                     @endif
                                   
                                 </tr>
@@ -234,6 +278,17 @@
                                     <td class="w-1/3 py-2">TDS</td>
                                     <td class="w-2/3 py-2">{{ number_format($tds, 2)}}</td>
                                 </tr>
+                                @if($employee->gender =="female")
+                                <tr>
+                                    <td class="w-1/3 py-2">Rebate</td>
+                                        @php
+                                            
+                                            $rebate = $sst*0.1 + $tds *0.1;
+                                            $totalDeductions = $totalDeductions-$rebate;
+                                        @endphp 
+                                    <td class="w-2/3 py-2">{{ number_format($rebate, 2)}}</td>
+                                </tr>
+                                @endif
                                 
                                 <tr>
                                     <td class="w-1/3 py-2"><strong>Total Deductions (B):</strong></td>
@@ -245,10 +300,14 @@
                                 </tr>
                                
                             </table>
-                            {{-- <div class="mt-4">
-                                <button class="bg-green-500 text-white py-2 px-4 mr-4">Approve</button>
-                                <button class="bg-red-500 text-white py-2 px-4">Reject</button>
-                            </div> --}}
+                            <div class="mt-4">
+                                {{-- <input type="text" name="allowanceString" value="{{$allowanceString}}">
+                                <input type="text" name="deductionString" value="{{$deductionString}}">
+                                <input type="text" name="basicSalary" value="{{}}"> --}}
+
+                                {{-- <button class="bg-green-500 text-white py-2 px-4 mr-4">Approve</button>
+                                <button class="bg-red-500 text-white py-2 px-4">Reject</button> --}}
+                            </div>
                         </form>
                         
                     </div>

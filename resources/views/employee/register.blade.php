@@ -76,7 +76,7 @@
             <span class="ml-4 text-red-400 text-sm">{{ $message }}</span>
           @enderror
         </label>
-        <input type="date" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="date_of_birth" required>
+        <input type="date" class="w-full px-4 py-2 border rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" name="date_of_birth"  max="{{ \Carbon\Carbon::now()->subYears(18)->format('Y-m-d') }}" required onchange="validateAge()" id="dob">
       </div>
 
       <div>
@@ -195,5 +195,25 @@
 @endif
 
 </body>
+
+<script>
+  function validateAge() {
+      var dobInput = document.getElementById('dob');
+      var updateButton = document.getElementById('updateButton');
+
+      var selectedDate = new Date(dobInput.value);
+      var currentDate = new Date();
+      var minAgeDate = new Date(currentDate.getFullYear() - 18, currentDate.getMonth(), currentDate.getDate());
+
+      if (selectedDate > minAgeDate) {
+          // alert('You must be at least 18 years old.');
+          toastr.info("You must be at least 18 years old.");
+          dobInput.value = ''; // Clear the input
+          updateButton.classList.add('cursor-not-allowed');
+      }else {
+              updateButton.classList.remove('cursor-not-allowed');
+          }
+  }
+</script>
 
 </html>

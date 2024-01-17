@@ -13,12 +13,12 @@
                   <div class="grid grid-cols-2 gap-6">
                       <div>
                           <label for="type" class="block text-gray-700 font-semibold mb-2">Department Name</label>
-                          <input type="text" id="name" name="name" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter department name" required>
+                          <input type="text" id="name" name="name" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter department name" required pattern="[A-Za-z\s]+" title="Please enter valid name">
                       </div>
                       <div>
                           <label for="number" class="block text-gray-700 font-semibold mb-2">Description</label>
                           <input id="leavedays"
-                          type="text" name="description" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="description" required>
+                          type="text" name="description" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="description" required pattern="[A-Za-z0-9\s]+" >
                       </div>
 
                   </div>
@@ -31,12 +31,12 @@
 
          <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
              <h2 class="text-xl font-bold mb-4">Leave List</h2>
-             @if(session('success'))
+             {{-- @if(session('success'))
                  <div class="text-green-500 mb-4">
                      {{ session('success') }}
                  </div>
 
-             @endif
+             @endif --}}
              <table class="w-full border-collapse">
                  <thead>
                      <tr>
@@ -58,8 +58,8 @@
                          <td class="py-2 px-4 text-center">{{ $department->created_at }}</td>
                          <td class="py-2 px-4 text-center">{{ $department->updated_at }}</td>
                          <td class="py-2 px-4 text-center flex flex-wrap">
-                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
-                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
+                             <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn"><i class="text-blue-500 hover:text-blue-600">te</i>Edit<i class="text-blue-500 hover:text-blue-600">tt</i></button>
+                             <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 mr-2 rounded update-btn" style="display:none;">Update</button>
                              <form action="{{ route('departments.destroy', $department->id) }}" method="POST">
                                  @csrf
                                  @method('DELETE')
@@ -100,6 +100,7 @@
                     previousDepartment = field.value;
                  } else if (index === 1) {
                     previousDescription = field.value;
+                    alert(previousDescription)
                  }
 
              } else {
@@ -109,10 +110,8 @@
                  if (index === 0) {
                     newDepartment = field.value;
                  } else if (index === 1) {
-                     newDays = field.value;
-                 } else if (index === 2) {
-                     newDescription = field.value;
-                 }
+                    newDescription = field.value;
+                 } 
 
 
              }
@@ -151,7 +150,7 @@
                      };
                      $.ajax({
                          type:"POST",
-                         url:'departments/edit',
+                         url:'department/edit',
                          headers:customHeaders,
                          data:{
                              id:id,
@@ -162,6 +161,7 @@
                          cache:false,
                          success:function(data){
                              console.log(data)
+                             toastr.success(data.message);
                          },
                          error:function(){
 
@@ -181,5 +181,18 @@
      // });
  </script>
 
-
+<script>
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+        "progressBar": true,
+        "timeOut": 5000, // Duration in milliseconds
+    }
+  </script>
+  
+  @if(session('success'))
+      <script>
+          // Display Toastr success message
+          toastr.success("{{ session('success') }}");
+      </script>
+  @endif
 @endsection

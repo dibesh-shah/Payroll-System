@@ -30,14 +30,14 @@
                   @endphp
 
                   @foreach($inboxes as $inbox)
-                    @if ($inbox->senderId == $inbox->conversationId)
+                    @if ($inbox['senderId'] == $inbox['conversationId'])
                     <div class="flex items-end justify-end mb-2">
                       <div class="bg-gray-100 p-2 rounded-lg">
                         <p class="font-bold">You ({{$employee->first_name}} {{$employee->last_name}})</p>
-                        <p class="max-w-lg">{{$inbox->message}}</p>
-                        <p class="text-xs text-gray-400 text-right"> {{$inbox->dateTime}}</p>
+                        <p class="max-w-lg">{{ $inbox['decrypted_message'] }}</p>
+                        <p class="text-xs text-gray-400 text-right"> {{ $inbox['dateTime'] }}</p>
                         @if ($val == 1)
-                          <p class="hidden " id="lastId">{{ $inbox->id }}</p>
+                          <p class="hidden " id="lastId">{{ $inbox['id'] }}</p>
                       @endif
                       
                       </div>
@@ -54,10 +54,10 @@
                       </div>
                       <div class="bg-blue-100 p-2 rounded-lg">
                         <p class="font-bold ">Admin</p>
-                        <p class="max-w-lg">{{$inbox->message}}</p>
-                        <p class="text-xs text-gray-400 text-right">{{$inbox->dateTime}}</p>
+                        <p class="max-w-lg">{{ $inbox['decrypted_message'] }}</p>
+                        <p class="text-xs text-gray-400 text-right">{{ $inbox['dateTime'] }}</p>
                         @if ($val == 1)
-                          <p class="hidden " id="lastId">{{ $inbox->id }}</p>
+                          <p class="hidden" id="lastId">{{ $inbox['id'] }}</p>
                       @endif
                       </div>
                     </div>
@@ -215,7 +215,7 @@
       // Create the user message div
       const userMessageDiv = $('<div class="bg-blue-100 p-2 rounded-lg"></div>');
       const userName = $(`<p class="font-bold ">Admin</p>`);
-      const userMessage = $(`<p class="max-w-lg">${user.message}</p>`);
+      const userMessage = $(`<p class="max-w-lg">${user.decrypted_message}</p>`);
       const time = $(`<p class="text-xs text-gray-400 text-right">${user.dateTime}</p>`);
 
       // Append the user image and details div to the user div
@@ -232,7 +232,7 @@
 
 
 
-  setInterval(getMessage, 5000);
+  setInterval(getMessage, 2000);
 </script>
 @endsection
 

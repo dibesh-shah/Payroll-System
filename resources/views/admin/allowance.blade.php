@@ -26,12 +26,7 @@
 
          <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
              <h2 class="text-xl font-bold mb-4">Allowance List</h2>
-             @if(session('success'))
-             <div class="text-green-500 mb-4">
-                 {{ session('success') }}
-             </div>
-
-         @endif
+             
              <table class="w-full border-collapse">
                  <thead>
                      <tr>
@@ -155,7 +150,7 @@
                          },
                          cache:false,
                          success:function(data){
-                             console.log(data)
+                            toastr.success("Allowance updated");
                          },
                          error:function(){
 
@@ -165,4 +160,19 @@
          });
      });
  </script>
+
+<script>
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+        "progressBar": true,
+        "timeOut": 5000, // Duration in milliseconds
+    }
+  </script>
+  
+  @if(session('success'))
+      <script>
+          // Display Toastr success message
+          toastr.success("{{ session('success') }}");
+      </script>
+  @endif
  @endsection

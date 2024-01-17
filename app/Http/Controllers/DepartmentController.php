@@ -61,8 +61,8 @@ class DepartmentController extends Controller
         // Find the user by ID and update the data
         $user = Department::findOrFail($id);
         $user->update($dataToUpdate);
-
-        return response()->json(['message' => 'Data updated successfully']);
+        // dd($request->all());
+        return response()->json(['message' => 'Department updated successfully']);
     }
 
     /**

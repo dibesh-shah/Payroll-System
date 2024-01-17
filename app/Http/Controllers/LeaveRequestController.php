@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\Department;
 use App\Models\Holiday;
 use App\Models\Leave;
 use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+
 
 class LeaveRequestController extends Controller
 {
@@ -77,6 +80,7 @@ class LeaveRequestController extends Controller
         // Create two separate lists for "Public Holiday" and "Other"
         $publicHolidays = [];
         $otherHolidays = [];
+        $weekends = [];
 
         foreach ($holidays as $holiday) {
             $holidayType = $holiday->holiday_type;
@@ -97,6 +101,13 @@ class LeaveRequestController extends Controller
                     'created_at' => $holiday->created_at,
                     'updated_at' => $holiday->updated_at,
                 ];
+            }else{
+                $weekends[] = [
+                    'id' => $holiday->id,
+                    'holiday_dates' => $holidayDates,
+                    'created_at' => $holiday->created_at,
+                    'updated_at' => $holiday->updated_at,
+                ];
             }
         }
         $leaveRequest = LeaveRequest::findOrFail($id);
@@ -112,7 +123,7 @@ class LeaveRequestController extends Controller
           if ($leave_name) {
               $leaveRequest->leave_name = $leave_name->name ;
           }
-        return view('admin.leave_detail',compact('leaveRequest', 'publicHolidays', 'otherHolidays'));
+        return view('admin.leave_detail',compact('leaveRequest', 'publicHolidays', 'otherHolidays','weekends'));
     }
     public function leaveHolidays(){
         $employeeId = session('employee_id');
@@ -135,6 +146,7 @@ class LeaveRequestController extends Controller
         // Create two separate lists for "Public Holiday" and "Other"
         $publicHolidays = [];
         $otherHolidays = [];
+        $weekends = [];
 
         foreach ($holidays as $holiday) {
             $holidayType = $holiday->holiday_type;
@@ -155,11 +167,18 @@ class LeaveRequestController extends Controller
                     'created_at' => $holiday->created_at,
                     'updated_at' => $holiday->updated_at,
                 ];
+            }else{
+                $weekends[] = [
+                    'id' => $holiday->id,
+                    'holiday_dates' => $holidayDates,
+                    'created_at' => $holiday->created_at,
+                    'updated_at' => $holiday->updated_at,
+                ];
             }
         }
 
         // Pass the data to the 'admin.calendar' view
-        return view('employee.leave_apply', compact('assignedLeaves', 'employee', 'publicHolidays', 'otherHolidays'));
+        return view('employee.leave_apply', compact('assignedLeaves', 'employee', 'publicHolidays', 'otherHolidays', 'weekends'));
     }
 
 
@@ -219,35 +238,36 @@ class LeaveRequestController extends Controller
     }
 
     public function balance()
-    {
-        $employeeId = session('employee_id');
+{
+    $employeeId = session('employee_id');
 
-        $approvedLeaveCounts = LeaveRequest::select('leave_type', DB::raw('COUNT(id) as approved_count'))
-            ->where('employee_id', $employeeId)
-            ->where('status', 'approved')
-            ->groupBy('leave_type')
-            ->get();
+    $approvedLeaveCounts = LeaveRequest::select('leave_type', DB::raw('SUM(DATEDIFF(end_date, start_date) + 1) as approved_days'))
+        ->where('employee_id', $employeeId)
+        ->where('status', 'approved')
+        ->groupBy('leave_type')
+        ->get();
 
-        $balances = Leave::select('name', 'days', 'id')->get();
+    $balances = Leave::select('name', 'days', 'id')->get();
 
-        $remainingBalances = [];
-        foreach ($balances as $balance) {
-            $id = $balance->id;
-            $leaveType = $balance->name;
-            $days = $balance->days;
-            $approvedCount = $approvedLeaveCounts->where('leave_type', $id)->first()->approved_count ?? 0;
-            $remainingDays = $days - $approvedCount;
+    $remainingBalances = [];
+    foreach ($balances as $balance) {
+        $id = $balance->id;
+        $leaveType = $balance->name;
+        $days = $balance->days;
+        $approvedDays = $approvedLeaveCounts->where('leave_type', $id)->first()->approved_days ?? 0;
+        $remainingDays = $days - $approvedDays;
 
-            $remainingBalances[] = [
-                'name' => $leaveType,
-                'days' => $days,
-                'remaining_days' => $remainingDays,
-                'id' => $id,
-            ];
-        }
-
-        return view('/employee/leave_balance', ['remainingBalances' => $remainingBalances]);
+        $remainingBalances[] = [
+            'name' => $leaveType,
+            'days' => $days,
+            'remaining_days' => $remainingDays,
+            'id' => $id,
+        ];
     }
+
+    return view('/employee/leave_balance', ['remainingBalances' => $remainingBalances]);
+}
+
 
     public function empHistory(){
 
@@ -271,6 +291,127 @@ class LeaveRequestController extends Controller
         return view('/employee/leave_history', ['leaveRequestsByMonth' => $leaveRequestsByMonth]);
         // dd($leaveRequests->all());
         // dd($employeeId);
+        // dd(Str::random(32));
 
+    }
+
+    public function adminHistory(){
+
+        $now = now();
+        $todayDate = now()->format('Y-m-d');
+        $year = $now->year;
+        $month = $now->month;
+    
+        $startDate = "{$year}-{$month}-01";
+        $endDate = $now->format('Y-m-t');
+
+        $leaveRequests = LeaveRequest::whereBetween('start_date', [$startDate, $endDate])
+            ->orWhereBetween('end_date', [$startDate, $endDate])
+            ->orderBy('id','desc')
+            ->get();
+
+        foreach($leaveRequests as $leaveRequest){
+            $leave_name = Leave::find($leaveRequest->leave_type);
+            $employee_name = Employee::find($leaveRequest->employee_id);
+
+            if ($leave_name) {
+                $leaveRequest->leave_name = $leave_name->name ;
+            }
+            if ($employee_name) {
+                $leaveRequest->employee_name = $employee_name->first_name." ".$employee_name->last_name ;
+            }
+        }
+
+        
+
+        return view('/admin/leave_history', ['leaveRequests' => $leaveRequests]);
+        // dd($leaveRequests->all());
+        // dd($employeeId);
+
+    }
+
+    public function leaveAssign(){
+        // return view('admin.leave_assign');
+        $designations = Employee::distinct()->pluck('designation');
+        $departments = Department::all();
+        $leaves = Leave::all();
+
+        return view('admin.leave_assign', compact('designations','departments','leaves'));
+    }
+
+    public function assignLeave(Request $request){
+        // // return view('admin.leave_assign');
+        // $designations = Employee::distinct()->pluck('designation');
+        // $departments = Department::all();
+        // $leaves = Leave::all();
+
+        // return view('admin.leave_assign', compact('designations','departments','leaves'));
+        $assignBy = $request->assignBy;
+        $leaveTypes = $request->input('leaveTypes', []);
+
+        if($assignBy == "employeeId"){
+            $employee_id =$request->employeeId;
+            $this->assignLeaveByEmployeeId($employee_id, $leaveTypes);
+        }elseif($assignBy == "designation"){
+            $designation = $request->designation;
+                $this->assignLeaveByDesignation($designation, $leaveTypes);
+        }elseif($assignBy == "department"){
+            $department = $request->department;
+                $this->assignLeaveByDepartment($department, $leaveTypes);
+        }else{
+
+        }
+        // switch ($assignBy) {
+        //     case 'employeeId':
+        //         $employee_id =$request->employeeId;
+        //         $this->assignLeaveByEmployeeId($employee_id, $leaveTypes);
+        //         break;
+        //     case 'designation':
+        //         $designation = $request->designation;
+        //         $this->assignLeaveByDesignation($designation, $leaveTypes);
+        //         break;
+        //     case 'department':
+        //         $department = $request->department;
+        //         $this->assignLeaveByDepartment($department, $leaveTypes);
+        //         break;
+        //     default:
+        //         return response()->json(['error' => 'Invalid assignment criteria.']);
+        // }
+        // dd($request->all());
+        return redirect('/admin/leave_assign')->with('success', 'Leaves have been assigned');
+        // dd($assignBy);
+    }
+
+    public function assignLeaveByEmployeeId($employeeId, $leaveTypes)
+    {
+        foreach ($leaveTypes as $leaveType) {
+            DB::table('employee_leave')->updateOrInsert(
+                ['employee_id' => $employeeId, 'leave_id' => $leaveType],
+                ['created_at' => now(), 'updated_at' => now()]
+            );
+        }
+        // dd($employeeId);
+    }
+
+    public function assignLeaveByDesignation($designation, $leaveTypes)
+    {
+        // Get all employee IDs with the given designation
+        $employeeIds = Employee::where('designation', $designation)->pluck('id');
+
+        // Assign leave for each employee
+        foreach ($employeeIds as $employeeId) {
+            $this->assignLeaveByEmployeeId($employeeId, $leaveTypes);
+        }
+    }
+
+    public function assignLeaveByDepartment($department, $leaveTypes)
+    {
+        // Get all employee IDs with the given department
+        $employeeIds = Employee::where('department_id', $department)->pluck('id');
+
+        // Assign leave for each employee
+        foreach ($employeeIds as $employeeId) {
+            $this->assignLeaveByEmployeeId($employeeId, $leaveTypes);
+        }
     }
 }

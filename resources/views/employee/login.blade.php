@@ -59,10 +59,10 @@
     }
   </script>
   
-  @if(session('success'))
+  @if(session('message'))
       <script>
           // Display Toastr success message
-          toastr.success("{{ session('success') }}");
+          toastr.success("{{ session('message') }}");
       </script>
   @endif
 </body>

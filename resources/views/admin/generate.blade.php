@@ -34,6 +34,9 @@
          <div class="grid grid-cols-1 md:grid-cols-2 gap-4  ">
              
              @foreach ($employees as $employee)
+                @if ($employee->role == "admin")
+                    @continue;
+                @endif
                 <div class="bg-white p-4 rounded-md shadow-lg " >
                     <h2 class="text-xl font-bold"></h2>
                     <p class="text-gray-500"><strong class="text-lg">Employee Name:</strong> {{$employee->first_name}} {{$employee->last_name}} </p>
@@ -56,5 +59,31 @@
    
   </div>
 </div>
+
+
+<script>
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+        "progressBar": true,
+        "timeOut": 5000, // Duration in milliseconds
+    }
+  </script>
+  
+      
+  @if(request()->has('success') && request('success') == 'true')
+  <script>
+      // Display Toastr success message
+      toastr.success("Payroll Approved");
+  </script>
+
+  @endif
+
+  @if(request()->has('success') && request('success') == 'false')
+  <script>
+      // Display Toastr success message
+      toastr.success("Payroll Rejected");
+  </script>
+  
+  @endif
 
 @endsection

@@ -84,9 +84,19 @@ class ProfileController extends Controller
     public function logout(Request $request)
     {
         $request->session()->forget('employee_id');
+        $request->session()->forget('role');
         $request->session()->regenerate();
 
         return redirect()->route('login')->with('success', 'Logged out successfully.');
+    }
+
+    public function logoutAdmin(Request $request)
+    {
+        $request->session()->forget('admin_id');
+        $request->session()->forget('role');
+        $request->session()->regenerate();
+
+        return redirect()->route('admin.login')->with('success', 'Logged out successfully.');
     }
 
 }

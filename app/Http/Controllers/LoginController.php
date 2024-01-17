@@ -83,31 +83,37 @@ class LoginController extends Controller
         //     }
         // }
 
+        if (session()->has('employee_id')) {
+            $employee = Employee::find(session('employee_id'));
+
+            // Check if the employee has the 'admin' role
+            if ($employee && $employee->role === 'employee') {
+                // If not an admin, redirect to the employee dashboard
+                return redirect()->route('employees.dashboard');
+            }
+        }
+
         return view('employee.login');
     }
     public function showAdminLoginForm()
     {
-        // if (session()->has('employee_id')) {
-        //     $employee = Employee::find(session('employee_id'));
-        //     if ($employee && $employee->role === 'admin') {
-        //         return redirect()->route('admin.dashboard');
-        //     }
-        // }
+    
+
+        if (session()->has('admin_id')) {
+            $employee = Employee::find(session('admin_id'));
+
+            // Check if the employee has the 'admin' role
+            if ($employee && $employee->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+        }
         return view('/admin/login');
     }
 
     public function login(Request $request)
     {
         // Check if the user is already logged in
-        // if (session()->has('employee_id')) {
-        //     $employee = Employee::find(session('employee_id'));
-
-        //     // Check if the employee has the 'admin' role
-        //     if ($employee && $employee->role === 'employee') {
-        //         // If not an admin, redirect to the employee dashboard
-        //         return redirect()->route('employees.dashboard');
-        //     }
-        // }
+        
 
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -116,31 +122,26 @@ class LoginController extends Controller
 
         $employee = Employee::where('email', $credentials['email'])->first();
 
-        // if ($employee && Hash::check($credentials['password'], $employee->password)) {
         if ($employee && Hash::check($credentials['password'], $employee->password)) {
-            if ($employee->role === 'employee') {
+            // if ($employee->role === 'employee') {
                 // If the employee has an employee role, redirect to the employee dashboard
                 session(['employee_id' => $employee->id]);
+                session(['role' => $employee->role]);
                 return redirect()->route('employees.dashboard')->with('success', 'Logged in Successfully!');
-            } else {
-                // Handle other roles or unexpected situations
-                return back()->withErrors(['message' => 'Invalid credentials']);
-            }
+            // }else {
+            //     // Handle other roles or unexpected situations
+            //     return back()->with('message', 'Invalid credentials');
+            //     // dd("hello");
+            // }
         } else {
-            return back()->withErrors(['message' => 'Invalid credentials']);
+            return back()->with('message' , 'Invalid credentials');
+            // dd(Hash::make("admin"));
         }
     }
 
     public function adminLogin(Request $request)
     {
-        if (session()->has('employee_id')) {
-            $employee = Employee::find(session('employee_id'));
-
-            // Check if the employee has the 'admin' role
-            if ($employee && $employee->role === 'admin') {
-                return redirect()->route('admin.dashboard');
-            }
-        }
+        
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -152,8 +153,17 @@ class LoginController extends Controller
             if ($employee->role === 'admin') {
                 // If the employee has an admin role, redirect to the admin dashboard
                 session(['admin_id' => $employee->id]);
+                session(['employee_id' => $employee->id]);
+                session(['role' => $employee->role]);
                 return redirect()->route('admin.dashboard')->with('success', 'Logged in Successfully!');
             }
+            else {
+                return back()->with('message' , 'Invalid credentials');
+                // dd("helldfljo");
+            }
+        }else {
+            return back()->with('message' , 'Invalid credentials');
+            // dd("helldfljo");
         }
     }
     public function adminDashboard()

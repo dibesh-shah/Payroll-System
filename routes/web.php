@@ -15,6 +15,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\MailController;
 use App\Models\Holiday;
 use App\Models\Leave;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +55,6 @@ use Illuminate\Support\Facades\Auth;
     Route::middleware(['auth.employee'])->group(function(){
         Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
         Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
-        Route::get('/attendance', [AttendanceController::class, 'showttendance'])->name('attendance.show');
     });
 
 
@@ -80,8 +80,13 @@ use Illuminate\Support\Facades\Auth;
     Route::post('/approve/reject/{id}', [EmployeeController::class, 'rejectEmployee'])->name('employees.reject');
     Route::get('/approve/{id}', [EmployeeController::class, 'show'])->name('employees.show');
     Route::get('/employee/document/{filename}',[EmployeeController::class,'showDocument'])->name('employee.document');
-    Route::get('/view_employees', [EmployeeController::class, 'viewEmployees'])->name('employees.viewEmployees');
+
+    // Route::get('/view_employees', [EmployeeController::class, 'viewEmployees'])->name('employees.viewEmployees');
     Route::get('/view_employee', [EmployeeController::class, 'viewEmployee'])->name('employees.viewEmployee');
+
+    Route::get('/attendance', [AttendanceController::class, 'showAttendance'])->name('attendance.show');
+    Route::post('/attendance', [AttendanceController::class, 'addAttendance'])->name('attendance.add');
+
     // Allowance  routes
     Route::get('/allowance', [AllowanceController::class, 'index'])->name('allowance.index');
     Route::get('/allowance/create', [AllowanceController::class, 'create'])->name('allowance.create');
@@ -97,6 +102,9 @@ use Illuminate\Support\Facades\Auth;
     Route::get('/leave_request', [LeaveRequestController::class, 'index'])->name('leaveReq.index');
     Route::get('/leave_detail/{id}', [LeaveRequestController::class, 'show'])->name('leaveReq.show');
     Route::post('/leave_request', [LeaveRequestController::class, 'idSearch'])->name('leaveReq.search');
+    Route::get('/leave_history', [LeaveRequestController::class, 'adminHistory']);
+    Route::get('/leave_assign', [LeaveRequestController::class, 'leaveAssign']);
+    Route::post('/assign_leave', [LeaveRequestController::class, 'assignLeave']);
 
     Route::post('/leave_detail/approve/{id}', [LeaveRequestController::class, 'approveLeave'])->name('leave.approve');
     Route::post('/leave_detail/reject/{id}', [LeaveRequestController::class, 'rejectLeave'])->name('leave.reject');
@@ -127,6 +135,10 @@ use Illuminate\Support\Facades\Auth;
 
     Route::Post('/inbox/search', [InboxController::class, 'search']);
 
+    // Route::view('/dashboard', 'admin/dashboard')->name('admin.dashboard');
+
+    Route::get('/logout', [ProfileController::class, 'logoutAdmin'])->name('adminLogout');
+
     });
 
 
@@ -146,7 +158,7 @@ Route::Post('/admin/inbox/employeeMssgFetch', [InboxController::class, 'getMessa
 
 // Route::get('/api/employees/suggestions', 'EmployeeController@suggestions');
 
-
+// Route::get('send-mail',[MailController::class, 'index']);
 
 
 

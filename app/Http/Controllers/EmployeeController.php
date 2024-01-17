@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 
+
 class EmployeeController extends Controller
 {
     // Show pending employees for approval
@@ -105,6 +106,7 @@ class EmployeeController extends Controller
                 return back()->with('errorhire', 'Date of Hiring must not be a future date.');
             } else {
                 $approveEmployee->status = 'approved';
+                $approveEmployee->chatKey = Str::random(32);
                 $approveEmployee->date_of_joining = $request->input('date_of_joining');
                 $approveEmployee->hiring_date = $request->input('hiring_date');
 
@@ -160,13 +162,16 @@ class EmployeeController extends Controller
 
 
                 if (empty($approveEmployee->password)) {
-                    $randomPassword = "password";
+                    $randomPassword = Str::random(10);
 
-                    // $approveEmployee->password = Hash::make($randomPassword);
+                    $approveEmployee->password = Hash::make($randomPassword);
                     $approveEmployee->save();
 
-                    // Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
+                    Mail::to($approveEmployee->email)->send(new EmployeeCredentialsMail($randomPassword, $approveEmployee->email, $approveEmployee->first_name));
                 }
+
+                // dd($approveEmployee->password, $randomPassword);
+
             }
 
             return redirect('/admin/approve')->with('success', 'Employee approved successfully. Email with login credentials sent.');

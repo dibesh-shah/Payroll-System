@@ -10,65 +10,41 @@
       @endif
    </div>
 
-    <!-- Header Section -->
-    <div class="header">
-        <h2>Welcome, [Employee Name]!</h2>
-        <p>Employee ID: [Employee ID]</p>
+   <div class="grid grid-cols-3 gap-4 mb-4">
+    <div class="flex items-center justify-center h-60 bg-white rounded-lg shadow-md">
+       <p class="text-2xl  dark:text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 font-semibold text-purple-700">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+            </svg>
+       </p>
+          <div class="block px-4 py-1">
+              <p class="font-bold text-xl">Current Date </p>
+              <p  class="font-semibold text-xl">{{ date('Y-m-d') }}</p>
+          </div>
     </div>
-
-    <!-- Current Payroll Information -->
-    <div class="current-payroll">
-        <h3>Payroll for November 2023</h3>
-        <p>Net Pay: $X,XXX</p>
-
-        <!-- Earnings and Deductions Overview -->
-        <div class="overview">
-            <div class="earnings">
-                <h4>Earnings</h4>
-                <ul>
-                    <li>Basic Salary: $X,XXX</li>
-                    <li>Overtime: $XXX</li>
-                    <li>Bonus: $XXX</li>
-                </ul>
-            </div>
-
-            <div class="deductions">
-                <h4>Deductions</h4>
-                <ul>
-                    <li>Income Tax: $XXX</li>
-                    <li>Health Insurance: $XXX</li>
-                </ul>
-            </div>
+    <div class="flex items-center justify-center h-60 bg-white rounded-lg shadow-md">
+          <p class="text-2xl dark:text-gray-500">
+              <svg class="w-8 h-8 font-semibold text-purple-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">                <path d="M3 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h3v-3.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V16h3a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H3Zm1 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5Z"/>
+              </svg>
+          </p>
+          <div class="block px-4 py-1 items-center justify-center">
+              <p class="font-bold text-xl">Leave Taken  </p>
+              <p  class="font-semibold text-xl">2</p>
         </div>
 
-        <!-- Status and Approval Information -->
-        <div class="status">
-            <p>Payroll Status: Approved</p>
-            <p>Approval Date: [Date]</p>
-            <p>Reason for Rejection: [Reason, if applicable]</p>
-        </div>
-
-        <!-- Download/Print Options -->
-        <div class="actions">
-            <button class="download-button">Download Payroll Statement</button>
-            <button class="print-button">Print Payroll</button>
-        </div>
     </div>
-
-    <!-- Historical Payroll Information -->
-    <div class="historical-payrolls">
-        <h3>Historical Payrolls</h3>
-        <ul>
-            <li>October 2023: Approved</li>
-            <li>September 2023: Approved</li>
-            <!-- Add more historical payroll entries as needed -->
-        </ul>
+    <div class="flex items-center justify-center h-60 bg-white rounded-lg shadow-md">
+       <p class="text-2xl dark:text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 font-semibold text-purple-700">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+       </p>
+          <div class="block px-4 py-1 items-center justify-center" >
+                  <p class="font-bold text-xl">Department</p>
+                  <p  class="font-semibold text-xl">Information Technology</p>
+          </div>
     </div>
-
-    <!-- Notification or Alert -->
-    <div class="notification">
-        <p>[Notification: Your payroll for November 2023 has been approved.]</p>
-    </div>
+ </div>
 </div>
 
 @endsection

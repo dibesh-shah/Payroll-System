@@ -11,7 +11,7 @@
             
              <div class="flex items-center mb-4">
                 <form action="{{ route('employees.viewEmployee') }}" method="GET" class="mb-4 flex flex-wrap">
-                    <input type="text" name="search" id="search" class="w-80 px-4 py-2 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500" placeholder="Search by name or empid..." @if(isset($search)) value="{{ $search}} @endif">
+                    <input type="text" name="search" id="search" class="w-80 px-4 py-2 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500" placeholder="Search by name " @if(isset($search)) value="{{ $search}} @endif">
                     <input type="hidden" name="id" value=0>
                     <button type="submit" class="ml-4 px-4 py-3 rounded-md bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">View</button>
                 </form>

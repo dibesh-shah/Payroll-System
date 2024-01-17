@@ -155,7 +155,7 @@
                          },
                          cache:false,
                          success:function(data){
-                             console.log(data)
+                            toastr.success("Deduction updated");
                          },
                          error:function(){
 
@@ -174,5 +174,20 @@
      //     });
      // });
  </script>
+
+<script>
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+        "progressBar": true,
+        "timeOut": 5000, // Duration in milliseconds
+    }
+  </script>
+  
+  @if(session('success'))
+      <script>
+          // Display Toastr success message
+          toastr.success("{{ session('success') }}");
+      </script>
+  @endif
 
  @endsection

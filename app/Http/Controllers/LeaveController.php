@@ -35,15 +35,25 @@ class LeaveController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:leaves',
-            'days' => 'required|integer',
-            'type' => 'required|in:paid,unpaid',
-        ]);
-        Leave::create($request->all());
-        return redirect()->route('leave.index')->with('success', 'Leave Type created successfully.');
+{
+    $request->validate([
+        'name' => 'required|string|max:255|unique:leaves',
+        'days' => 'required|integer',
+        'type' => 'required|in:paid,unpaid',
+    ]);
+
+    // Check uniqueness manually before creating the record
+    $nameExists = Leave::where('name', $request->name)->exists();
+
+    if ($nameExists) {
+        return redirect()->route('leave.index')->with('error', 'Leave Type with this name already exists.');
     }
+
+    Leave::create($request->all());
+
+    return redirect()->route('leave.index')->with('success', 'Leave Type created successfully.');
+}
+
 
     /**
      * Display the specified resource.
@@ -65,7 +75,7 @@ class LeaveController extends Controller
         $user = Leave::findOrFail($id);
         $user->update($dataToUpdate);
 
-        return response()->json(['message' => 'Data updated successfully']);
+        return response()->json(['message' => 'Leave updated successfully']);
     }
 
     /**

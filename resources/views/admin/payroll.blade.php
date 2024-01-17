@@ -21,7 +21,7 @@
      $holidayCount = count($datesArray);
 
      $yearlyIncome = 0;
-     $basicSalary = ($basic / $totalMonthDays) * $attendanceDays;
+     $basicSalary = ($basic / $totalMonthDays) * ($attendanceDays + $holidayCount);
     @endphp
 
        <div class="container mx-auto mt-5 p-4 bg-white p-6 rounded-lg shadow-lg">
@@ -159,10 +159,10 @@
                                 @endphp
 
                                 
-                                <tr>
+                                {{-- <tr>
                                     <td class="w-2/3 py-2">yearly income  {{ $yearlyIncome }}, {{$taxableIncome}}</td>
                                     <td class="w-2/3 py-2">pf  {{ $pf }}</td>
-                                </tr>
+                                </tr> --}}
 
                                 <tr>
                                     <td class="w-1/3 py-2">SST</td>
@@ -180,12 +180,12 @@
                                         @php
                                             $sst = $firstSlab*0.01;
                                         @endphp
-                                        <td class="w-2/3 py-2">{{ number_format($firstSlab*0.01, 2)}}</td>
+                                        <td class="w-2/3 py-2">{{ number_format($firstSlab*0.01/12, 2)}}</td>
                                     @else
                                         @php
                                             $sst = $taxableIncome*0.01;
                                         @endphp
-                                        <td class="w-2/3 py-2">{{ $taxableIncome*0.01}}</td>
+                                        <td class="w-2/3 py-2">{{ ($taxableIncome*0.01)/12}}</td>
                                     @endif
                                   
                                 </tr>
@@ -264,6 +264,17 @@
                                     <td class="w-1/3 py-2">TDS</td>
                                     <td class="w-2/3 py-2">{{ number_format($tds, 2)}}</td>
                                 </tr>
+                                @if($employee->gender =="female")
+                                <tr>
+                                    <td class="w-1/3 py-2">Rebate</td>
+                                        @php
+                                            
+                                            $rebate = $sst*0.1 + $tds *0.1;
+                                            $totalDeductions = $totalDeductions-$rebate;
+                                        @endphp 
+                                    <td class="w-2/3 py-2">{{ number_format($rebate, 2)}}</td>
+                                </tr>
+                                @endif
                                 
                                 <tr>
                                     <td class="w-1/3 py-2"><strong>Total Deductions (B):</strong></td>
@@ -280,8 +291,8 @@
                                 <input type="text" name="deductionString" value="{{$deductionString}}">
                                 <input type="text" name="basicSalary" value="{{}}"> --}}
 
-                                <button class="bg-green-500 text-white py-2 px-4 mr-4">Approve</button>
-                                <button class="bg-red-500 text-white py-2 px-4">Reject</button>
+                                <button class="bg-green-500 text-white py-2 px-4 mr-4"><a href="/admin/generate?success=true"> Approve </a></button>
+                                <button class="bg-red-500 text-white py-2 px-4"><a href="/admin/generate?success=false"> Reject</a></button>
                             </div>
                         </form>
                         

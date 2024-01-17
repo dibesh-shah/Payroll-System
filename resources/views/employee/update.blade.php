@@ -58,7 +58,7 @@
             </div>
             <div>
                 <label class="block mb-2 font-semibold">Bank Account Number:</label>
-                <input type="text" class="w-full bg-white py-2 border p-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter bank account number" value="{{$employee->bank_account_number}}" name="bank_account_number" pattern="\d+" title="Please enter valid account number" required>
+                <input type="number" class="w-full bg-white py-2 border p-2 rounded-md border-gray-300 focus:border-custom-blue focus:ring-custom-blue" placeholder="Enter bank account number" value="{{$employee->bank_account_number}}" name="bank_account_number" pattern="\d+" title="Please enter valid account number" required min="1">
             </div>
 
 

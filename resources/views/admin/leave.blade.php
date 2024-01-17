@@ -11,11 +11,11 @@
                  <div class="grid grid-cols-3 gap-6">
                      <div>
                          <label for="type" class="block text-gray-700 font-semibold mb-2">Leave Type:</label>
-                         <input type="text" id="type" name="name" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Leave type" required>
+                         <input type="text" id="type" name="name" class="form-input w-full p-4 border-zinc-800 border-2" placeholder="Enter Leave type" required pattern="[A-Za-z\s]+" title="Please enter valid Leave Type">
                      </div>
                      <div>
                          <label for="number" class="block text-gray-700 font-semibold mb-2">No. of Days:</label>
-                         <input id="leavedays" name="days" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="Enter no. of leave days" required>
+                         <input type="number" id="leavedays" name="days" class="form-input w-full p-4  border-zinc-800 border-2" placeholder="Enter no. of leave days" min="1" >
                      </div>
                      <div>
                          <label for="paid" class="block text-gray-700 font-semibold mb-2">Paid:</label>
@@ -35,12 +35,7 @@
 
         <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-xl font-bold mb-4">Leave List</h2>
-            @if(session('success'))
-                <div class="text-green-500 mb-4">
-                    {{ session('success') }}
-                </div>
-
-            @endif
+          
             <table class="w-full border-collapse">
                 <thead>
                     <tr>
@@ -58,8 +53,8 @@
                     @foreach($leaves as $leave)
                     <tr>
                         <td class="py-2 px-4 text-center"><span>{{$leave->id}}</span></td>
-                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="{{$leave->name}}" disabled name="name"></td>
-                        <td class="py-2 px-4"><input type="text" class="w-full p-4 bg-white text-center" value="{{$leave->days}}" disabled name="days"></td>
+                        <td class="py-2 px-4 "><input type="text" class="w-full p-4 bg-white text-center" value="{{$leave->name}}" disabled name="name" required pattern="[A-Za-z\s]+" title="Please enter valid Leave Type"></td>
+                        <td class="py-2 px-4"><input type="number" class="w-full p-4 bg-white text-center" value="{{$leave->days}}" disabled name="days"  min="1"></td>
                         <td class="py-2 px-4">
                             <select class="w-full p-4 bg-white text-center"  disabled name="type">
                                 <option value="paid" @if($leave->type === 'paid') selected @endif>Paid</option>
@@ -71,8 +66,8 @@
                         <td class="py-2 px-4 text-center">{{ $leave->created_at }}</td>
                         <td class="py-2 px-4 text-center">{{ $leave->updated_at }}</td>
                         <td class="py-2 px-4 text-center flex flex-wrap">
-                            <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn">Edit</button>
-                            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded update-btn" style="display:none;">Update</button>
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded mr-2 edit-btn"><i class="text-blue-500">te</i>Edit<i class="text-blue-500">tt</i></button>
+                            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 mr-2 rounded update-btn" style="display:none;">Update</button>
                             <form action="{{ route('leave.destroy', $leave->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -183,6 +178,7 @@
                         cache:false,
                         success:function(data){
                             console.log(data)
+                            toastr.success(data.message);
                         },
                         error:function(){
 
@@ -201,5 +197,26 @@
     //     });
     // });
 </script>
+
+<script>
+    toastr.options = {
+        "positionClass": "toast-bottom-right",
+        "progressBar": true,
+        "timeOut": 5000, // Duration in milliseconds
+    }
+  </script>
+  
+  @if(session('success'))
+      <script>
+          // Display Toastr success message
+          toastr.success("{{ session('success') }}");
+      </script>
+  @endif
+  {{-- @if(session('error'))
+      <script>
+          // Display Toastr success message
+          toastr.error("{{ session('error') }}");
+      </script>
+  @endif --}}
 
  @endsection

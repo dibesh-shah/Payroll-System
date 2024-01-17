@@ -80,8 +80,27 @@ class PayrollController extends Controller
         $employee = Employee::findOrfail($id);
         $allowances = $employee->allowances;
         $deductions = $employee->deductions;
-        return view('/employee/payslip',compact('employee','allowances','deductions'));
+
+        $employeeId = $id;
+        $now = now();
+        $year = $now->year;
+        $month = $now->subMonth()->month; // Get the previous month
+
+        $startDate = "{$year}-{$month}-01";
+        $endDate = $now->format('Y-m-t');
+
+        $attendanceData = Attendance::where('employee_id', $employeeId)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->count();
+
+        $holidays = Holiday::where('holiday_date', 'like', $year . '-' . $month . '-%')->pluck('holiday_date')->toArray();
+        $holidaysString = implode(', ', $holidays);
+
+
+        return view('/employee/payslip',compact('employee','allowances','deductions','attendanceData','holidaysString'));
     }
+        // return view('/employee/payslip',compact('employee','allowances','deductions'));
+    
     public function approve(Request $request)
     {
         $employee = Employee::findOrFail($employeeId);

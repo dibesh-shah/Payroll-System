@@ -122,5 +122,46 @@ class AttendanceController extends Controller
 
     // }
 
+    public function showAttendance()
+    {
+        // $employeeId = Session::get('employee_id');
+        // dd($employeeId);
+    $now = now();
+    $todayDate = now()->format('Y-m-d');
+    $year = $now->year;
+    $month = $now->month;
+
+    $startDate = "{$year}-{$month}-01";
+    $endDate = $now->format('Y-m-t');
+
+    // Get today's attendance for the employee
+    $todayAttendance = Attendance::select('attendances.*', 'employees.first_name', 'employees.last_name','employees.id')
+    ->join('employees', 'attendances.employee_id', '=', 'employees.id')
+    ->whereDate('date', today())
+    ->get();
+
+    // $attendanceData = Attendance::where('employee_id', $employeeId)
+    //     ->whereBetween('date', [$startDate, $endDate])
+    //     ->orderBy('date', 'desc')
+    //     ->get();
+
+    return view('admin.attendance', compact('todayAttendance'));
+}
+
+public function addAttendance(Request $request)
+    {
+        $data = $request->validate([
+            'employee_id' => 'required|exists:employees,id',
+            'date' => 'required|date',
+            'clock_in' => 'required|string',
+            'clock_out' => 'required|string',
+
+        ]);
+
+        $attendance = Attendance::create($data);
+
+        return redirect()->back()->with('success', 'Attendance submitted successfully');
+        // dd($data);
+     }
 
 }
